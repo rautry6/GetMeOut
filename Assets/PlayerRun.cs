@@ -40,7 +40,9 @@ public class PlayerRun : MonoBehaviour
         
         if (!CanMove)
         {
-            playerRigidbody.velocity = Vector2.zero;
+            Debug.Log("Hello");
+            // playerRigidbody.velocity = Vector2.zero;
+            playerAnimator.SetFloat(HorizontalSpeed, 0f);
             return;
         }
 
