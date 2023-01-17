@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerRun : MonoBehaviour
@@ -13,12 +14,13 @@ public class PlayerRun : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     
     [Header("Adjustable Variables")]
-    [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float groundCheckRayLength = 0.1f;
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpPressedRememberTime = 0.2f;
     [SerializeField] private float groundedRememberTime = 0.2f;
+    [Range(0, 1)]
     [SerializeField] private float horizontalDamping;
+    [Range(0, 1)] [SerializeField] private float doubleJumpModifier;
     
     // Member Variables
     private float _horizontal;
@@ -26,16 +28,18 @@ public class PlayerRun : MonoBehaviour
     private static readonly int HorizontalSpeed = Animator.StringToHash("horizontalSpeed"); // efficiency recommendation
     private float _jumpPressedRemember = 0;
     private float _groundedRemember = 0;
-    
+
     // Properties
     public bool CanMove { get; set; } = true;
 
     void Update()
     {
+        Debug.Log(CanMove + ", "+ playerRigidbody.velocity);
         _jumpPressedRemember -= Time.deltaTime;
         
         if (!CanMove)
         {
+            _horizontal = 0f;
             return;
         }
 
@@ -55,6 +59,7 @@ public class PlayerRun : MonoBehaviour
         var playerCurrentHorizontalVelocity = playerRigidbody.velocity.x;
         playerCurrentHorizontalVelocity += _horizontal;
         playerCurrentHorizontalVelocity *= Mathf.Pow(1f - horizontalDamping, Time.deltaTime * 10f);
+        playerRigidbody.velocity = new Vector2(playerCurrentHorizontalVelocity, playerRigidbody.velocity.y);
         playerAnimator.SetFloat(HorizontalSpeed, Mathf.Abs(_horizontal));
         HandleSpriteFlip(_horizontal);
         
@@ -77,15 +82,17 @@ public class PlayerRun : MonoBehaviour
         // if the players y velocity is above 0 then the player is in the middle of a jump and should double jump - need to introduce variable for the second jump power modifier
         if (Input.GetButtonUp("Jump") && playerRigidbody.velocity.y > 0f)
         {
-            playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, playerRigidbody.velocity.y * 0.5f);
+            var playerVelocity = playerRigidbody.velocity;
+            playerVelocity = new Vector2(playerVelocity.x, playerVelocity.y * doubleJumpModifier);
+            playerRigidbody.velocity = playerVelocity;
         }
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         playerRigidbody.velocity =
-            new Vector2(_horizontal * moveSpeed * Time.fixedDeltaTime, playerRigidbody.velocity.y);
-    }
+            new Vector2(_playerCurrentHorizontalVelocity * moveSpeed * Time.fixedDeltaTime, playerRigidbody.velocity.y);
+    }*/
 
     private void HandleSpriteFlip(float horizontal)
     {
