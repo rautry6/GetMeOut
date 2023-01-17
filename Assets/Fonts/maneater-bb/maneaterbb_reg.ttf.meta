@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 8b589c71642cfa84ab25d4a8ee4c542e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - ManEater BB
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 178f24bc7d6c89c4896c130a4edb0fa0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
