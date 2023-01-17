@@ -40,6 +40,7 @@ public class PlayerRun : MonoBehaviour
         
         if (!CanMove)
         {
+            playerRigidbody.velocity = Vector2.zero;
             return;
         }
 
