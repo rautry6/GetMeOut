@@ -15925,7 +15925,7 @@ MonoBehaviour:
   jumpForce: 20
   jumpPressedRememberTime: 0.3
   groundedRememberTime: 0.2
-  horizontalDamping: 0.66
+  horizontalDamping: 0.9
   doubleJumpModifier: 0.5
 --- !u!114 &2061538504
 MonoBehaviour:

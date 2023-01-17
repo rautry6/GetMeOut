@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,12 +36,10 @@ public class PlayerRun : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(CanMove + ", "+ playerRigidbody.velocity);
         _jumpPressedRemember -= Time.deltaTime;
         
         if (!CanMove)
         {
-            _horizontal = 0f;
             return;
         }
 

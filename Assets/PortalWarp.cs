@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using DG.Tweening;
 
 public class PortalWarp : MonoBehaviour
 {
@@ -16,7 +17,14 @@ public class PortalWarp : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player"))
         {
-            portalAnimator.SetTrigger(Warp);
+            StartCoroutine(MovePlayerToMiddlePortal(other));
         }
+    }
+
+    private IEnumerator MovePlayerToMiddlePortal(Component other)
+    {
+        other.gameObject.transform.DOMoveX(portalPosition.position.x, 1f);
+        yield return new WaitForSeconds(1.5f);
+        portalAnimator.SetTrigger(Warp);
     }
 }
