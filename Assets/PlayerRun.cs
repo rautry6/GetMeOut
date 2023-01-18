@@ -30,6 +30,7 @@ public class PlayerRun : MonoBehaviour
     private static readonly int HorizontalSpeed = Animator.StringToHash("horizontalSpeed"); // efficiency recommendation
     private float _jumpPressedRemember = 0;
     private float _groundedRemember = 0;
+    [SerializeField] private float airHorizontalDamping;
 
     // Properties
     public bool CanMove { get; set; } = true;
@@ -40,8 +41,7 @@ public class PlayerRun : MonoBehaviour
         
         if (!CanMove)
         {
-            Debug.Log("Hello");
-            // playerRigidbody.velocity = Vector2.zero;
+            playerRigidbody.velocity = Vector2.zero;
             playerAnimator.SetFloat(HorizontalSpeed, 0f);
             return;
         }
@@ -61,8 +61,16 @@ public class PlayerRun : MonoBehaviour
         _horizontal = Input.GetAxisRaw("Horizontal");
         var playerCurrentHorizontalVelocity = playerRigidbody.velocity.x;
         playerCurrentHorizontalVelocity += _horizontal;
-        playerCurrentHorizontalVelocity *= Mathf.Pow(1f - horizontalDamping, Time.deltaTime * 10f);
-        playerRigidbody.velocity = new Vector2(playerCurrentHorizontalVelocity, playerRigidbody.velocity.y);
+        if (!IsGrounded())
+        {
+            playerCurrentHorizontalVelocity *= Mathf.Pow(1f - airHorizontalDamping, Time.deltaTime * 10f);
+            playerRigidbody.velocity = new Vector2(playerCurrentHorizontalVelocity, playerRigidbody.velocity.y);
+        }
+        else
+        {
+            playerCurrentHorizontalVelocity *= Mathf.Pow(1f - horizontalDamping, Time.deltaTime * 10f);
+            playerRigidbody.velocity = new Vector2(playerCurrentHorizontalVelocity, playerRigidbody.velocity.y);
+        }
         playerAnimator.SetFloat(HorizontalSpeed, Mathf.Abs(_horizontal));
         HandleSpriteFlip(_horizontal);
         

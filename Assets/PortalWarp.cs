@@ -23,9 +23,11 @@ public class PortalWarp : MonoBehaviour
 
     private IEnumerator MovePlayerToMiddlePortal(Component other)
     {
+        var playerRun = other.GetComponent<PlayerRun>();
         other.gameObject.transform.DOMoveX(portalPosition.position.x, 1f);
-        other.GetComponent<PlayerRun>().CanMove = false;
+        playerRun.CanMove = false;
         yield return new WaitForSeconds(1f);
         portalAnimator.SetTrigger(Warp);
+        playerRun.CanMove = true;
     }
 }
