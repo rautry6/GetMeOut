@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 300721732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc6d5bf4544f12449890991bed65d09e, type: 3}
+  m_Script: {fileID: 11500000, guid: 944632fbc60264e4089576ce60ea7e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   portalAnimator: {fileID: 300721733}
@@ -15434,7 +15434,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1047945246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36dc7b1bca6a1bf4ba438990db7c702b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ae9408197588ed46ac428dde2640c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1096425026
@@ -20781,7 +20781,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2061538496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3bf5418731da5642b6569d7f0bf1a6c, type: 3}
+  m_Script: {fileID: 11500000, guid: 109dedd22e72ace4584578701279cd45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startPosition: {fileID: 1816162856}
@@ -20792,11 +20792,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundCheck: {fileID: 1855898501}
-  groundCheckRayLength: 0.2
+  groundCheckRayLength: 0.1
   jumpForce: 20
-  jumpPressedRememberTime: 0.3
+  jumpPressedRememberTime: 0.2
   groundedRememberTime: 0.2
-  horizontalDamping: 0.9
+  horizontalDamping: 0.8
   doubleJumpModifier: 0.5
 --- !u!114 &2061538504
 MonoBehaviour:
