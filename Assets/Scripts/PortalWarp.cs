@@ -11,7 +11,9 @@ public class PortalWarp : MonoBehaviour
     [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private Transform portalPosition;
     [SerializeField] private float portalWarpDelay = 1f;
+    [SerializeField] private Animator doorAnimator;
     private static readonly int Warp = Animator.StringToHash("Warp");
+    private static readonly int Open = Animator.StringToHash("Open");
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -30,6 +32,7 @@ public class PortalWarp : MonoBehaviour
         {
             portalAnimator.SetTrigger(Warp);
             playerRun.CanMove = true;
+            doorAnimator.SetTrigger(Open);
         });
     }
 }
