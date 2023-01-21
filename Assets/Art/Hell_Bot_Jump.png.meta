@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fe8a01530bfe3f64580fa74806214159
+guid: b10c73eff14cee6409ff9a6342439a88
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,28 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shoot 92x36_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 180
-        width: 92
-        height: 36
-      alignment: 9
-      pivot: {x: 0.2173913, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 498f9d4f52796e04b81f555991a9d463
-      internalID: 1309329143
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shoot 92x36_1
+      name: Hell_Bot_Jump_0
       rect:
         serializedVersion: 2
         x: 0
@@ -157,41 +136,41 @@ TextureImporter:
         width: 92
         height: 36
       alignment: 9
-      pivot: {x: 0.2173913, y: 0.5}
+      pivot: {x: 0.2793, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 571184bf6bef335459188684ccf693cc
-      internalID: -266011270
+      spriteID: 3fc1e01a98ed7b14dbdd3f9cda0afc75
+      internalID: 507847698
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shoot 92x36_2
+      name: Hell_Bot_Jump_1
       rect:
         serializedVersion: 2
         x: 0
-        y: 109
+        y: 108
         width: 92
         height: 36
       alignment: 9
-      pivot: {x: 0.21793, y: 0.5}
+      pivot: {x: 0.2793, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f661f9cfe53a3084aa8c062f13cbefd0
-      internalID: -748567450
+      spriteID: b2e4ac1ac98ccb9449f2d23d22cb1630
+      internalID: 655845125
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shoot 92x36_3
+      name: Hell_Bot_Jump_2
       rect:
         serializedVersion: 2
         x: 0
@@ -199,20 +178,20 @@ TextureImporter:
         width: 92
         height: 36
       alignment: 9
-      pivot: {x: 0.21793, y: 0.5}
+      pivot: {x: 0.2793, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a6f9244b31ee994ba8f75cf9bb9a2f4
-      internalID: 48667735
+      spriteID: 307592b0335e40c4a97b8bec28d8586e
+      internalID: 1344549636
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shoot 92x36_4
+      name: Hell_Bot_Jump_3
       rect:
         serializedVersion: 2
         x: 0
@@ -220,20 +199,20 @@ TextureImporter:
         width: 92
         height: 36
       alignment: 9
-      pivot: {x: 0.21793, y: 0.5}
+      pivot: {x: 0.2793, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a4c35db56a8f734a9df93321bb47667
-      internalID: -493860960
+      spriteID: 8b40ee2a088a3184880e188d24133093
+      internalID: 356488690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shoot 92x36_5
+      name: Hell_Bot_Jump_4
       rect:
         serializedVersion: 2
         x: 0
@@ -241,14 +220,14 @@ TextureImporter:
         width: 92
         height: 36
       alignment: 9
-      pivot: {x: 0.21793, y: 0.5}
+      pivot: {x: 0.2793, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 906e715087c0f2b4a858b14187ac713b
-      internalID: -1791288257
+      spriteID: 2efbab4e31136fe448d5173716cefecc
+      internalID: 1279851772
       vertices: []
       indices: 
       edges: []
@@ -264,12 +243,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      shoot 92x36_4: -493860960
-      shoot 92x36_0: 1309329143
-      shoot 92x36_2: -748567450
-      shoot 92x36_1: -266011270
-      shoot 92x36_5: -1791288257
-      shoot 92x36_3: 48667735
+      Hell_Bot_Jump_3: 356488690
+      Hell_Bot_Jump_4: 1279851772
+      Hell_Bot_Jump_2: 1344549636
+      Hell_Bot_Jump_1: 655845125
+      Hell_Bot_Jump_0: 507847698
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

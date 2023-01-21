@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fe8a01530bfe3f64580fa74806214159
+guid: c4de3d0ca8f9b544980fd9d6a1d5b7c9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,91 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shoot 92x36_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 180
-        width: 92
-        height: 36
-      alignment: 9
-      pivot: {x: 0.2173913, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 498f9d4f52796e04b81f555991a9d463
-      internalID: 1309329143
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shoot 92x36_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 144
-        width: 92
-        height: 36
-      alignment: 9
-      pivot: {x: 0.2173913, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 571184bf6bef335459188684ccf693cc
-      internalID: -266011270
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shoot 92x36_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 109
-        width: 92
-        height: 36
-      alignment: 9
-      pivot: {x: 0.21793, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f661f9cfe53a3084aa8c062f13cbefd0
-      internalID: -748567450
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shoot 92x36_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 72
-        width: 92
-        height: 36
-      alignment: 9
-      pivot: {x: 0.21793, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a6f9244b31ee994ba8f75cf9bb9a2f4
-      internalID: 48667735
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shoot 92x36_4
+      name: Hell_Bot_Fall_0
       rect:
         serializedVersion: 2
         x: 0
@@ -220,20 +136,20 @@ TextureImporter:
         width: 92
         height: 36
       alignment: 9
-      pivot: {x: 0.21793, y: 0.5}
+      pivot: {x: 0.2793, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a4c35db56a8f734a9df93321bb47667
-      internalID: -493860960
+      spriteID: d6671bbd107dc4649bf35b0ed882d4f0
+      internalID: -1691270256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shoot 92x36_5
+      name: Hell_Bot_Fall_1
       rect:
         serializedVersion: 2
         x: 0
@@ -241,14 +157,14 @@ TextureImporter:
         width: 92
         height: 36
       alignment: 9
-      pivot: {x: 0.21793, y: 0.5}
+      pivot: {x: 0.2793, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 906e715087c0f2b4a858b14187ac713b
-      internalID: -1791288257
+      spriteID: 1ab3f20f581fd0f458b455a040687ca5
+      internalID: 978842797
       vertices: []
       indices: 
       edges: []
@@ -264,12 +180,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      shoot 92x36_4: -493860960
-      shoot 92x36_0: 1309329143
-      shoot 92x36_2: -748567450
-      shoot 92x36_1: -266011270
-      shoot 92x36_5: -1791288257
-      shoot 92x36_3: 48667735
+      Hell_Bot_Fall_0: -1691270256
+      Hell_Bot_Fall_1: 978842797
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

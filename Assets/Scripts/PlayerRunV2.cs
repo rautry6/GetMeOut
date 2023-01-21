@@ -19,11 +19,13 @@ public class PlayerRunV2 : MonoBehaviour
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private bool _isGrounded;
     private bool _isTouchingWall;
+    private bool _isFalling;
     private bool _canJump;
     private int _remainingJumps;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask wallLayer;
+    private static readonly int Velocity = Animator.StringToHash("Velocity");
 
     private void Start()
     {
@@ -38,8 +40,25 @@ public class PlayerRunV2 : MonoBehaviour
         CheckInput();
         HandleMovementFacing();
         CheckIfCanJump();
+        CheckIfFalling();
+        if (_isFalling && _isGrounded)
+        {
+            _playerAnimator.SetTrigger("Land");
+        }
     }
-    
+
+    private void CheckIfFalling()
+    {
+        if (_playerRigidbody.velocity.y < 0)
+        {
+            _isFalling = true;
+        }
+        else
+        {
+            _isFalling = false;
+        }
+    }
+
     private void FixedUpdate()
     {
         ApplyMovement();
@@ -48,7 +67,7 @@ public class PlayerRunV2 : MonoBehaviour
 
     private void CheckIfCanJump()
     {
-        if (_isGrounded && _playerRigidbody.velocity.y <= 0)
+        if (_isGrounded && _playerRigidbody.velocity.y < 0.01f)
         {
             _remainingJumps = maxNumberJumps;
         }
@@ -66,7 +85,7 @@ public class PlayerRunV2 : MonoBehaviour
     private void CheckInput()
     {
         _movementInputDirection = Input.GetAxisRaw("Horizontal");
-        
+        _playerAnimator.SetFloat(Velocity, _playerRigidbody.velocity.y);
         if (Input.GetButtonDown("Jump"))
         {
             Jump();
@@ -78,8 +97,8 @@ public class PlayerRunV2 : MonoBehaviour
         if (_canJump)
         {
             _playerRigidbody.velocity = new Vector2(_playerRigidbody.velocity.x, jumpPower);
+            _playerAnimator.SetFloat(Velocity, _playerRigidbody.velocity.y);
             _remainingJumps--;
-
         }
     }
 
@@ -105,11 +124,11 @@ public class PlayerRunV2 : MonoBehaviour
     {
         if (_playerRigidbody.velocity.x != 0)
         {
-            _playerAnimator.SetBool(IsWalking, true);
+            _playerAnimator.SetFloat("Speed", Mathf.Abs(_playerRigidbody.velocity.x));
         }
         else
         {
-            _playerAnimator.SetBool(IsWalking, false);
+            _playerAnimator.SetFloat("Speed", 0);
         }
     }
 
@@ -130,6 +149,8 @@ public class PlayerRunV2 : MonoBehaviour
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         var cachedWallCheckPosition = wallCheck.position;
-        Gizmos.DrawLine(cachedWallCheckPosition, new Vector3(cachedWallCheckPosition.x + wallCheckDistance, cachedWallCheckPosition.y, cachedWallCheckPosition.z));
+        Gizmos.DrawLine(cachedWallCheckPosition,
+            new Vector3(cachedWallCheckPosition.x + wallCheckDistance, cachedWallCheckPosition.y,
+                cachedWallCheckPosition.z));
     }
 }
