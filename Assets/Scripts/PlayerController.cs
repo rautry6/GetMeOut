@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DefaultNamespace
+namespace GetMeOut
 {
     [CreateAssetMenu(fileName = "PlayerController", menuName="InputController/PlayerController")]
     public class PlayerController : InputController

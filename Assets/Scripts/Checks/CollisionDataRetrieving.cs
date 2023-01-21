@@ -1,14 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
-namespace DefaultNamespace.Checks
+namespace GetMeOut.Checks
 {
-    public class Ground : MonoBehaviour
+    public class CollisionDataRetrieving : MonoBehaviour
     {
-        [SerializeField] private float normalY = 0.9f;
-        
-            // Auto Properties with private setters
+        // Auto Properties with private setters
+        public Vector2 ContactNormal { get; private set; }
         public bool OnGround { get; private set; }
+        public bool OnWall { get; private set; }
         public float Friction { get; private set; }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -32,15 +32,17 @@ namespace DefaultNamespace.Checks
         {
             OnGround = false;
             Friction = 0f;
+            OnWall = false;
         }
 
-        void EvaluateCollision(Collision2D collision2D)
+        public void EvaluateCollision(Collision2D collision2D)
         {
             for (var i = 0; i < collision2D.contactCount; i++)
             {
-                Vector2 normal = collision2D.GetContact(i).normal;
+                ContactNormal = collision2D.GetContact(i).normal;
                 // Bitwise OR assignment
-                OnGround |= normal.y >= normalY;
+                OnGround |= ContactNormal.y >= 0.9f;
+                OnWall = Mathf.Abs(ContactNormal.x) >= 0.9f;
             }
         }
 

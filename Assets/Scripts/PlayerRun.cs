@@ -1,5 +1,5 @@
 using UnityEngine;
-using DefaultNamespace.Checks;
+using GetMeOut.Checks;
 
 
 public class PlayerRun : MonoBehaviour
@@ -117,11 +117,11 @@ public class PlayerRun : MonoBehaviour
         var groundCheckHit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckRayLength, groundLayer);
         if (groundCheckHit.collider != null)
         {
-            var foundGround = groundCheckHit.collider.gameObject.GetComponent<Ground>();
+            /*var foundGround = groundCheckHit.collider.gameObject.GetComponent<Ground>();
             if (foundGround != null)
             {
                 return true;
-            }
+            }*/
         }
 
         return false;

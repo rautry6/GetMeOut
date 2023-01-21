@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DefaultNamespace.Checks;
+using GetMeOut.Checks;
 using UnityEngine;
 
 public class Jump : MonoBehaviour
@@ -27,7 +27,7 @@ public class Jump : MonoBehaviour
     private float jumpBuffer = .25f;
 
     private Rigidbody2D _playerRigidbody;
-    private Ground _ground;
+    private CollisionDataRetrieving _ground;
     private Vector2 _velocity;
     private int _jumpPhase;
     private float _defaultGravityScale;
@@ -41,7 +41,7 @@ public class Jump : MonoBehaviour
     private void Awake()
     {
         _playerRigidbody = GetComponent<Rigidbody2D>();
-        _ground = GetComponent<Ground>();
+        _ground = GetComponent<CollisionDataRetrieving>();
         _defaultGravityScale = 1f;
     }
 
