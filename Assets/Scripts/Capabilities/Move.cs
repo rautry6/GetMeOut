@@ -53,6 +53,7 @@ public class Move : MonoBehaviour
 
                 if (inputController.RetrieveMovementInput() == _collisionDataRetrieving.ContactNormal.x)
                 {
+                    Debug.Log("Hello");
                     _wallStickCounter -= Time.deltaTime;
                 }
                 else
