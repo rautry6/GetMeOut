@@ -70,10 +70,10 @@ public class RollerAI : MonoBehaviour
         velocity = rb.velocity;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
-        if(player.position.y > (transform.position.y +1) && canJump)
+        if(player.position.y > (transform.position.y +2) && canJump)
         {
             canJump = false;
-            //Jump();
+            Jump();
         }
 
         rb.velocity = velocity;
