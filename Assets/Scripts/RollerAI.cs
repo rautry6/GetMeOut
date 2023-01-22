@@ -7,7 +7,7 @@ public class RollerAI : MonoBehaviour
     [SerializeField] private float acceleration = 50.0f;
     [SerializeField] private float maxSpeed = 3f;
     [SerializeField] private float maxSpeedChange = 0f;
-    [SerializeField] private float maxAcceleration = 100f;
+    [SerializeField] private float maxAcceleration = 150f;
     [SerializeField] private float minAcceleration = 10.0f;
     [SerializeField] private float jumpHeight = 5f;
     [SerializeField] private Rigidbody2D rb;
@@ -73,7 +73,7 @@ public class RollerAI : MonoBehaviour
         if(player.position.y > (transform.position.y +2) && canJump)
         {
             canJump = false;
-            Jump();
+            //Jump();
         }
 
         rb.velocity = velocity;

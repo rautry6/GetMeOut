@@ -2639,7 +2639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!58 &886145589
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2761,7 +2761,7 @@ MonoBehaviour:
   maxSpeedChange: 0
   maxAcceleration: 150
   minAcceleration: 50
-  jumpHeight: 2
+  jumpHeight: 1
   rb: {fileID: 0}
   direction: 1
   player: {fileID: 2061538499}
@@ -61201,7 +61201,7 @@ GameObject:
   - component: {fileID: 1057653894}
   - component: {fileID: 1057653892}
   - component: {fileID: 1057653896}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Dynamic Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61228,7 +61228,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &1057653894
 SpriteRenderer:
   m_ObjectHideFlags: 0
