@@ -2,6 +2,9 @@ using System;
 using GetMeOut;
 using UnityEngine;
 using GetMeOut.Checks;
+/// <summary>
+/// This class is responsible for handling the players horizontal movement
+/// </summary>
 public class Move : MonoBehaviour
 {
     [SerializeField] private InputController inputController = null;
@@ -44,7 +47,6 @@ public class Move : MonoBehaviour
         _playerRigidbody.velocity = _currentVelocity;
 
         #region Wall Stick
-
         if (_collisionDataRetrieving.OnWall && !_collisionDataRetrieving.OnGround && !_wallInteractor.WallJumping)
         {
             if (_wallStickCounter > 0f)
@@ -53,7 +55,6 @@ public class Move : MonoBehaviour
 
                 if (inputController.RetrieveMovementInput() == _collisionDataRetrieving.ContactNormal.x)
                 {
-                    Debug.Log("Hello");
                     _wallStickCounter -= Time.deltaTime;
                 }
                 else
@@ -65,8 +66,7 @@ public class Move : MonoBehaviour
             {
                 _wallStickCounter = wallStickTime;
             }
-        } 
-
+        }
         #endregion
     }
 }

@@ -1,5 +1,48 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8601308642036378845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d26b8cda2614cfd49b62617c9c17c63c, type: 3}
+  m_Name: CRTRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  shader: {fileID: 4800000, guid: 6f2fcdc189458914eb8a323f19e3a27b, type: 3}
+  preset: 6
+  pixelResolutionX: 320
+  pixelResolutionY: 200
+  screenBend: 4
+  screenOverscan: 1
+  blur: 0
+  bleed: 0
+  smidge: 0
+  scanlinesStrength: 3
+  apertureStrength: 3
+  shadowlines: 8
+  shadowlinesSpeed: -2
+  shadowlinesAlpha: 0.05
+  noiseSize: 75
+  noiseSpeed: 0.02
+  noiseAlpha: 0.05
+  vignetteSize: 10
+  vignetteSmooth: 2
+  vignetteRound: 25
+  brightness: 0
+  contrast: 1
+  gamma: 1
+  red: 1
+  green: 1
+  blue: 1
+  chromaticAberration: 1
+  redOffset: {x: 0.1, y: 0.1}
+  blueOffset: {x: 0, y: -0.14}
+  greenOffset: {x: -0.1, y: 0.1}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10,12 +53,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11145981673336645838492a2d98e247, type: 3}
-  m_Name: 2DRenderer_Renderer
+  m_Name: CRTFilter
   m_EditorClassIdentifier: 
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
-  m_RendererFeatures: []
-  m_RendererFeatureMap: 
+  m_RendererFeatures:
+  - {fileID: -8601308642036378845}
+  m_RendererFeatureMap: 2393ec9b5c03a288
   m_UseNativeRenderPass: 0
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 1, z: 0}

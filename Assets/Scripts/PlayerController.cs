@@ -5,6 +5,7 @@ namespace GetMeOut
     [CreateAssetMenu(fileName = "PlayerController", menuName="InputController/PlayerController")]
     public class PlayerController : InputController
     {
+
         public override float RetrieveMovementInput()
         {
             return Input.GetAxisRaw("Horizontal");
