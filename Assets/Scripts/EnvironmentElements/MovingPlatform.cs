@@ -10,19 +10,26 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private Transform startPosition;
     [SerializeField] private Transform endPosition;
     [SerializeField] private float moveDuration;
+    [SerializeField] private bool isHorizontal;
     private bool _hasArrived = false;
-    private MoveDirection _currentMoveDirection = MoveDirection.Right;
-
-    private delegate void _currentMovementFunction();
+    private MoveDirection _currentMoveDirection;
 
     private enum MoveDirection
     {
         Right,
-        Left
+        Left,
+        Up,
+        Down
     }
     private void Start()
     {
-        MovePlatformRight();
+        _currentMoveDirection = isHorizontal ? MoveDirection.Right : MoveDirection.Up;
+        if(_currentMoveDirection == MoveDirection.Right)
+            MovePlatformRight();
+        else
+        {
+            MovePlatformUp();
+        }
     }
 
     private void MovePlatformRight()
@@ -52,11 +59,37 @@ public class MovingPlatform : MonoBehaviour
             {
                 MovePlatformLeft();
             }
-            else
+            else if(_currentMoveDirection == MoveDirection.Right)
             {
                 MovePlatformRight();
             }
+            else if (_currentMoveDirection == MoveDirection.Up)
+            {
+                MovePlatformUp();
+            }
+            else
+            {
+                MovePlatformDown();
+            }
         }
+    }
+
+    private void MovePlatformUp()
+    {
+        transform.DOMoveY(endPosition.position.y, moveDuration).SetEase(Ease.InOutExpo).OnComplete(() =>
+        {
+            _hasArrived = true;
+            _currentMoveDirection = MoveDirection.Down;
+        });
+    }
+
+    private void MovePlatformDown()
+    {
+        transform.DOMoveY(startPosition.position.y, moveDuration).SetEase(Ease.InOutExpo).OnComplete(() =>
+        {
+            _hasArrived = true;
+            _currentMoveDirection = MoveDirection.Up;
+        });
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -67,7 +100,16 @@ public class MovingPlatform : MonoBehaviour
             other.transform.parent = transform;
         }
     }
-    
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        var playerFound = other.gameObject.GetComponent<Move>();
+        
+        if (playerFound == null) return;
+        
+        other.transform.parent = playerFound.GetComponent<Rigidbody2D>().velocity.x != 0 ? null : transform;
+    }
+
     private void OnCollisionExit2D(Collision2D other)
     {
         var playerFound = other.gameObject.GetComponent<Move>();
