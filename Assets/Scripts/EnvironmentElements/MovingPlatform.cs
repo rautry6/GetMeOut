@@ -11,6 +11,7 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private Transform endPosition;
     [SerializeField] private float moveDuration;
     [SerializeField] private bool isHorizontal;
+    [SerializeField] private Ease easeType;
     private bool _hasArrived = false;
     private MoveDirection _currentMoveDirection;
 
@@ -34,7 +35,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void MovePlatformRight()
     {
-        transform.DOMoveX(endPosition.position.x, moveDuration).SetEase(Ease.InOutSine).OnComplete(() =>
+        transform.DOMoveX(endPosition.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
         {
             _hasArrived = true;
             _currentMoveDirection = MoveDirection.Left;
@@ -43,7 +44,7 @@ public class MovingPlatform : MonoBehaviour
     
     private void MovePlatformLeft()
     {
-        transform.DOMoveX(startPosition.position.x, moveDuration).SetEase(Ease.InOutSine).OnComplete(() =>
+        transform.DOMoveX(startPosition.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
         {
             _hasArrived = true;
             _currentMoveDirection = MoveDirection.Right;
@@ -76,7 +77,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void MovePlatformUp()
     {
-        transform.DOMoveY(endPosition.position.y, moveDuration).SetEase(Ease.InOutExpo).OnComplete(() =>
+        transform.DOMoveY(endPosition.position.y, moveDuration).SetEase(easeType).OnComplete(() =>
         {
             _hasArrived = true;
             _currentMoveDirection = MoveDirection.Down;
@@ -85,7 +86,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void MovePlatformDown()
     {
-        transform.DOMoveY(startPosition.position.y, moveDuration).SetEase(Ease.InOutExpo).OnComplete(() =>
+        transform.DOMoveY(startPosition.position.y, moveDuration).SetEase(easeType).OnComplete(() =>
         {
             _hasArrived = true;
             _currentMoveDirection = MoveDirection.Up;
