@@ -40,9 +40,11 @@ public class CheckForVerticalOneWayPlatform : MonoBehaviour
     {
         _routineStarted = true;
         var platformCollider = raycastHit2D.collider;
-        platformCollider.enabled = false;
+        Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, true);
         yield return new WaitForSeconds(colliderDisableTime);
-        platformCollider.enabled = true;
+        Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, false);
+        /*platformCollider.enabled = false;
+        platformCollider.enabled = true;*/
         _routineStarted = false;
     }
     
