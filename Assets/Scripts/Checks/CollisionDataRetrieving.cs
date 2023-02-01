@@ -41,7 +41,7 @@ namespace GetMeOut.Checks
             {
                 ContactNormal = collision2D.GetContact(i).normal;
                 // Bitwise OR assignment
-                OnGround |= ContactNormal.y >= 0.9f;
+                OnGround |= Mathf.Abs(ContactNormal.y) >= 0.9f;
                 OnWall = Mathf.Abs(ContactNormal.x) >= 0.9f;
             }
         }

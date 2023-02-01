@@ -59,11 +59,13 @@ public class Move : MonoBehaviour
                 }
                 else
                 {
+                    // reset wall stick counter
                     _wallStickCounter = wallStickTime;
                 }
             }
             else
             {
+                // reset wall stick counter
                 _wallStickCounter = wallStickTime;
             }
         }
