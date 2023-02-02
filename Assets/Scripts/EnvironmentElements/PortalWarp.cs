@@ -12,6 +12,7 @@ public class PortalWarp : MonoBehaviour
     [SerializeField] private Transform portalPosition;
     [SerializeField] private float portalWarpDelay = 1f;
     [SerializeField] private Animator doorAnimator;
+    [SerializeField] private AcidManager acidManager;
     private static readonly int Warp = Animator.StringToHash("Warp");
     private static readonly int Open = Animator.StringToHash("Open");
 
@@ -20,6 +21,7 @@ public class PortalWarp : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player"))
         {
+            acidManager.DrainAcid();
             MovePlayerToMiddlePortal(other);
         }
     }

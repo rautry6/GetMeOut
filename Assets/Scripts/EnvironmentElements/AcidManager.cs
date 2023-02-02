@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -5,13 +6,44 @@ using UnityEngine;
 
 public class AcidManager : MonoBehaviour
 {
-    [SerializeField] private Transform endPositon;
-    [SerializeField] private float moveDuration;
-    
+    [SerializeField] private Transform[] endPositions;
+    [SerializeField] private float initialMoveDuration;
+    [SerializeField] private float secondaryMoveDuration;
+    [SerializeField] private float startDelay;
+    [SerializeField] private CameraShake cameraShake;
+
+    private Sequence _acidSequence;
+    private Transform _startingPosition;
+
+    private void Awake()
+    {
+
+        _acidSequence.SetId("acid");
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        transform.DOMoveY(endPositon.position.y, moveDuration, false).SetEase(Ease.Linear);
+        _startingPosition = transform;
+        StartCoroutine(StartDelay());
     }
 
+    private IEnumerator StartDelay()
+    {
+        yield return new WaitForSeconds(startDelay);
+        cameraShake.ShakeCamera();
+        _acidSequence = DOTween.Sequence();
+        _acidSequence.Append(transform.DOMoveY(endPositions[0].position.y, initialMoveDuration).SetEase(Ease.Linear));
+        _acidSequence.Append(transform.DOMoveY(endPositions[1].position.y, secondaryMoveDuration).SetEase(Ease.Linear));
+    }
+
+    public void DrainAcid()
+    {
+        _acidSequence.Kill();
+        transform.DOMoveY(-20, 7.5f).OnComplete(() =>
+        {
+            gameObject.SetActive(false);
+        });
+    }
 }
