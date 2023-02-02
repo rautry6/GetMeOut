@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class AcidManager : MonoBehaviour
 {
-    [SerializeField] private Transform[] endPositions;
+    [SerializeField] private Transform endPositions;
     [SerializeField] private float initialMoveDuration;
     [SerializeField] private float secondaryMoveDuration;
     [SerializeField] private float startDelay;
@@ -34,8 +34,7 @@ public class AcidManager : MonoBehaviour
         yield return new WaitForSeconds(startDelay);
         cameraShake.ShakeCamera();
         _acidSequence = DOTween.Sequence();
-        _acidSequence.Append(transform.DOMoveY(endPositions[0].position.y, initialMoveDuration).SetEase(Ease.Linear));
-        _acidSequence.Append(transform.DOMoveY(endPositions[1].position.y, secondaryMoveDuration).SetEase(Ease.Linear));
+        _acidSequence.Append(transform.DOMoveY(endPositions.position.y, initialMoveDuration).SetEase(Ease.Linear));
     }
 
     public void DrainAcid()
