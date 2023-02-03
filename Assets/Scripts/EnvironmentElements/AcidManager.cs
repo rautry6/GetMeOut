@@ -40,7 +40,7 @@ public class AcidManager : MonoBehaviour
     public void DrainAcid()
     {
         _acidSequence.Kill();
-        transform.DOMoveY(-20, 7.5f).OnComplete(() =>
+        transform.DOMoveY(-20, 12f).OnComplete(() =>
         {
             gameObject.SetActive(false);
         });
