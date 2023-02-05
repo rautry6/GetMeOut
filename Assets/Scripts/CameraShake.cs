@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
@@ -8,7 +5,7 @@ public class CameraShake : MonoBehaviour
 {
     [SerializeField] private float intensity;
     [SerializeField] private float shakeTimerDuration;
-
+    
     private CinemachineVirtualCamera _cinemachineVirtualCamera;
     private CinemachineBasicMultiChannelPerlin _cinemachineBasicMultiChannelPerlin;
     private float _startingIntensity;

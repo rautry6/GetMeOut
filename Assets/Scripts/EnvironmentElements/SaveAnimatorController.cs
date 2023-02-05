@@ -28,7 +28,6 @@ public class SaveAnimatorController : MonoBehaviour
         if (player != null)
         {
             var keyCardManager = player.GetComponentInChildren<KeyCardManager>();
-            Debug.Log(keyCardManager);
             if (keyCardManager.CheckIfManagerHasCorrectCard(doorColor))
             {
                 _saveAnimator.Play(saveStart.name);
@@ -42,13 +41,5 @@ public class SaveAnimatorController : MonoBehaviour
         _saveAnimator.CrossFade(saveIdle.name, .5f);
         doorAnimator.SetTrigger(Open);
     }
-
-    /*private void OnTriggerExit2D(Collider2D other)
-    {
-        var player = other.GetComponent<Move>();
-        if (player != null)
-        {
-            _saveAnimator.Play(saveDown.name);
-        }
-    }*/
+    
 }

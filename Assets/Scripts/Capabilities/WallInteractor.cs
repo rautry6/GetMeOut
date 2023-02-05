@@ -101,7 +101,7 @@ namespace GetMeOut
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            _collisionDataRetrieving.EvaluateCollision(other);
+            
             if (_collisionDataRetrieving.OnWall && !_collisionDataRetrieving.OnGround && WallJumping)
             {
                 _playerRigidbody.velocity = Vector2.zero;

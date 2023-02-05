@@ -4,10 +4,12 @@ using UnityEngine;
 
 public enum KeyCardColors
 {
-    Red,
-    Green,
-    Blue,
-    Yellow
+    Red, // 0
+    Green, // 1
+    Blue, // 2
+    Yellow, // 3
+    Purple,
+    Black,
 }
 
 [CreateAssetMenu(fileName = "KeyCard_COLOR", menuName = "Items/KeyCard")]
