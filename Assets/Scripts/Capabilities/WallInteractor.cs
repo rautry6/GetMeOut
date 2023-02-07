@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using GetMeOut;
 using GetMeOut.Checks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GetMeOut
@@ -11,21 +6,22 @@ namespace GetMeOut
     public class WallInteractor : MonoBehaviour
     {
         public bool WallJumping { get; private set; }
+        public bool HasWallInteractor;
 
         [Header("Wall Slide"), SerializeField, Range(0.1f, 5f), Tooltip("Max speed player can slide down a wall")]
         float wallSlideMaxSpeed = 2f;
 
         [Header("Wall Jump"), SerializeField, Tooltip("Kind of wall jump to perform")]
         Vector2 wallJumpClimb = new Vector2(4f, 12f);
-        
+
         [Header("Wall Bounce"), SerializeField, Tooltip("Kind of wall jump to perform")]
         Vector2 wallJumpBounce = new Vector2(10.7f, 10f);
-        
+
         [Header("Wall Leap"), SerializeField, Tooltip("Kind of wall jump to perform")]
         Vector2 wallJumpLeap = new Vector2(14f, 12f);
-        
+
         [SerializeField] private InputController controller;
-        
+
         private CollisionDataRetrieving _collisionDataRetrieving;
         private Rigidbody2D _playerRigidbody;
         private Vector2 _velocity;
@@ -36,10 +32,13 @@ namespace GetMeOut
         {
             _collisionDataRetrieving = GetComponent<CollisionDataRetrieving>();
             _playerRigidbody = GetComponent<Rigidbody2D>();
+            HasWallInteractor = false;
         }
 
         private void Update()
         {
+            if (!HasWallInteractor) return;
+                
             if (_onWall && !_onGround)
             {
                 _tryingToJump |= controller.RetrieveJumpInput();
@@ -48,10 +47,13 @@ namespace GetMeOut
 
         private void FixedUpdate()
         {
+            if (!HasWallInteractor) return;
+            
             _velocity = _playerRigidbody.velocity;
             _onWall = _collisionDataRetrieving.OnWall;
             _onGround = _collisionDataRetrieving.OnGround;
-            _wallDirectionX = _collisionDataRetrieving.ContactNormal.x; // will be 1 if hitting a wall from left or right
+            _wallDirectionX =
+                _collisionDataRetrieving.ContactNormal.x; // will be 1 if hitting a wall from left or right
 
             #region Wall Slide
 
@@ -64,7 +66,7 @@ namespace GetMeOut
             }
 
             #endregion
-            
+
             #region Wall Jump
 
             if ((_onWall && _velocity.x == 0) || _onGround)
@@ -80,7 +82,8 @@ namespace GetMeOut
                     _velocity = new Vector2(wallJumpClimb.x * _wallDirectionX, wallJumpClimb.y);
                     WallJumping = true;
                     _tryingToJump = false;
-                } else if (controller.RetrieveMovementInput() == 0)
+                }
+                else if (controller.RetrieveMovementInput() == 0)
                 {
                     _velocity = new Vector2(wallJumpBounce.x * _wallDirectionX, wallJumpBounce.y);
                     WallJumping = true;
@@ -93,7 +96,7 @@ namespace GetMeOut
                     _tryingToJump = false;
                 }
             }
-            
+
             #endregion
 
             _playerRigidbody.velocity = _velocity;
@@ -101,6 +104,7 @@ namespace GetMeOut
 
         private void OnCollisionEnter2D(Collision2D other)
         {
+            if (!HasWallInteractor) return;
             
             if (_collisionDataRetrieving.OnWall && !_collisionDataRetrieving.OnGround && WallJumping)
             {

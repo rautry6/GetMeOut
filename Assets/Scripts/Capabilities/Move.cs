@@ -1,7 +1,7 @@
-using System;
 using GetMeOut;
 using UnityEngine;
 using GetMeOut.Checks;
+
 /// <summary>
 /// This class is responsible for handling the players horizontal movement
 /// </summary>
@@ -12,6 +12,7 @@ public class Move : MonoBehaviour
     [SerializeField, Range(0f, 100f)] private float maxGroundAcc = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcc = 20f;
     [SerializeField, Range(0.05f, 0.5f)] private float wallStickTime = .25f;
+
     private Vector2 _direction;
     private Vector2 _desiredVelocity;
     private Vector2 _currentVelocity;
@@ -47,15 +48,24 @@ public class Move : MonoBehaviour
         _playerRigidbody.velocity = _currentVelocity;
 
         #region Wall Stick
-        if (_collisionDataRetrieving.OnWall && !_collisionDataRetrieving.OnGround && !_wallInteractor.WallJumping)
-        {
-            if (_wallStickCounter > 0f)
-            {
-                _currentVelocity.x = 0f;
 
-                if (inputController.RetrieveMovementInput() == _collisionDataRetrieving.ContactNormal.x)
+        if (_wallInteractor.HasWallInteractor)
+        {
+            if (_collisionDataRetrieving.OnWall && !_collisionDataRetrieving.OnGround && !_wallInteractor.WallJumping)
+            {
+                if (_wallStickCounter > 0f)
                 {
-                    _wallStickCounter -= Time.deltaTime;
+                    _currentVelocity.x = 0f;
+
+                    if (inputController.RetrieveMovementInput() == _collisionDataRetrieving.ContactNormal.x)
+                    {
+                        _wallStickCounter -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        // reset wall stick counter
+                        _wallStickCounter = wallStickTime;
+                    }
                 }
                 else
                 {
@@ -63,12 +73,8 @@ public class Move : MonoBehaviour
                     _wallStickCounter = wallStickTime;
                 }
             }
-            else
-            {
-                // reset wall stick counter
-                _wallStickCounter = wallStickTime;
-            }
         }
+
         #endregion
     }
 }
