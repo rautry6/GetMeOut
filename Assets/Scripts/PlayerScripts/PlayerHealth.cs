@@ -23,7 +23,6 @@ public class PlayerHealth : MonoBehaviour
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        TakeDamage();
     }
 
     public void TakeDamage()
@@ -106,9 +105,6 @@ public class PlayerHealth : MonoBehaviour
         {
             sr.enabled = true;
         }
-
-
-        Heal();
     }
 
     public IEnumerator Flash()
