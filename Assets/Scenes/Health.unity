@@ -39611,6 +39611,10 @@ MonoBehaviour:
   - {fileID: 687393082}
   fullSprite: {fileID: 21300000, guid: 0430cf32d382e8f45850165b0ad98177, type: 3}
   depletedSprite: {fileID: 21300000, guid: 8a08743da573a25448067fd07a9692d4, type: 3}
+  invulTime: 1.5
+  flashSpeed: 0.1
+  invulnerable: 0
+  sr: {fileID: 0}
 --- !u!1 &2078549365
 GameObject:
   m_ObjectHideFlags: 0
