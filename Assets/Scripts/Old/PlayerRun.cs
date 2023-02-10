@@ -91,7 +91,7 @@ public class PlayerRun : MonoBehaviour
             }
         }
 
-        // if the players y velocity is above 0 then the player is in the middle of a jump and should double jump - need to introduce variable for the second jump power modifier
+        // if the players y velocity is above 0 then the playerMove is in the middle of a jump and should double jump - need to introduce variable for the second jump power modifier
         if (Input.GetButtonUp("Jump") && playerRigidbody.velocity.y > 0f)
         {
             var playerVelocity = playerRigidbody.velocity;

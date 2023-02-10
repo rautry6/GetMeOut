@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Portal
   - Enemy
+  - Grabber
   layers:
   - Default
   - TransparentFX

@@ -27,7 +27,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage()
     {
-        //Return out if the player is invulnerable
+        //Return out if the playerMove is invulnerable
         if (invulnerable)
         {
             return;
@@ -49,7 +49,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            //Makes player invulnerable
+            //Makes playerMove invulnerable
             StartCoroutine(InvulTime());
         }
 
@@ -117,7 +117,7 @@ public class PlayerHealth : MonoBehaviour
 
         yield return new WaitForSeconds(flashSpeed);
 
-        //Keeps running while the player is invulnerable
+        //Keeps running while the playerMove is invulnerable
         if (invulnerable)
         {
             StartCoroutine(Flash());
