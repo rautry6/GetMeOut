@@ -13,6 +13,7 @@ public class GrabEnemy : MonoBehaviour
     private List<int> inputs = new List<int>();
 
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private GameObject grabbedText;
 
     [Header("Camera Changes")]
     [SerializeField] private CinemachineVirtualCamera virCamera;
@@ -44,13 +45,17 @@ public class GrabEnemy : MonoBehaviour
             escaping = false;
             grabbing = false;
             inputs.Clear();
+
             CinemachineBasicMultiChannelPerlin cm = virCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             cm.m_AmplitudeGain = 0.1f;
             cm.m_FrequencyGain = 0.1f;
 
+            grabbedText.SetActive(false);
+
             playerMove.RegainMovement();
             playerJump.EnableJumping();
             virCamera.m_Lens.OrthographicSize = 8;
+
             Disapear();
         }
     }
@@ -67,6 +72,7 @@ public class GrabEnemy : MonoBehaviour
         playerMove.StopMovement();
         playerJump.DisableJumping();
         virCamera.m_Lens.OrthographicSize = cameraZoomLevel;
+        grabbedText.SetActive(true);
         CinemachineBasicMultiChannelPerlin cm = virCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cm.m_AmplitudeGain = cameraShakeAmplitude;
         cm.m_FrequencyGain = cameraShakeFrequency;
