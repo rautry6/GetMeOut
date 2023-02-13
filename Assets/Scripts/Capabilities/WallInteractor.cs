@@ -32,7 +32,6 @@ namespace GetMeOut
         {
             _collisionDataRetrieving = GetComponent<CollisionDataRetrieving>();
             _playerRigidbody = GetComponent<Rigidbody2D>();
-            HasWallInteractor = false;
         }
 
         private void Update()
