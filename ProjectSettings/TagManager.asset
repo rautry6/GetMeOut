@@ -48,7 +48,7 @@ TagManager:
   - name: Traps
     uniqueID: 28933449
     locked: 0
-  - name: Middleground
+  - name: Player
     uniqueID: 3545025299
     locked: 0
   - name: Default
