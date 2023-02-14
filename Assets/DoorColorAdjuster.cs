@@ -10,6 +10,9 @@ public class DoorColorAdjuster : MonoBehaviour
     [SerializeField] private Color colorVariationTwo;
     [SerializeField] private Color colorVariationThree;
     [SerializeField] private float seconds;
+    [SerializeField] private SpriteRenderer animatedDoor;
+    [SerializeField] private Animator doorAnimator;
+    
     private Light2D _light2D;
     private bool _routineIsRunning = false;
 
@@ -30,7 +33,6 @@ public class DoorColorAdjuster : MonoBehaviour
     // Start is called before the first frame update
     private IEnumerator CycleLights()
     {
-        Debug.Log("hello");
         yield return new WaitForSeconds(seconds);
         _light2D.color = colorVariationOne;
         yield return new WaitForSeconds(seconds);
@@ -47,5 +49,14 @@ public class DoorColorAdjuster : MonoBehaviour
     private void OnDisable()
     {
         StopCoroutine(CycleLights());
+    }
+
+    public void CorrectKeyCardWasScanned()
+    {
+        _light2D.color = colorVariationOne;
+        _light2D.intensity = 3f;
+        animatedDoor.enabled = false;
+        _light2D.enabled = false;
+        doorAnimator.Play("Door_Open_Retro");
     }
 }
