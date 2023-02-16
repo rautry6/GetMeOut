@@ -13,7 +13,7 @@ public class PortalWarp : MonoBehaviour
     [SerializeField] private float moveDuration;
     [SerializeField] private Transform finishPortalTransform;
     [SerializeField] private SpriteRenderer playerSpriteRenderer;
-    [SerializeField] private Rigidbody2D playerRigidbody;
+    [SerializeField] private CapsuleCollider2D playerCollider;
     private static readonly int Warp = Animator.StringToHash("Warp");
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -29,18 +29,11 @@ public class PortalWarp : MonoBehaviour
         other.gameObject.transform.DOMove(portalPosition.position, portalWarpDelay).OnComplete(() =>
         {
             portalAnimator.SetTrigger(Warp);
-            var finishPosition = finishPortalTransform.position;
             playerSpriteRenderer.enabled = false;
-            playerRigidbody.isKinematic = true;
-            Debug.Log(finishPosition);
-            other.gameObject.transform.DOMoveY(finishPosition.y, moveDuration).OnComplete(() =>
+            var finishPosition = finishPortalTransform.position;
+            other.gameObject.transform.DOMove(finishPosition, moveDuration).OnComplete(() =>
             {
-                other.gameObject.transform.DOMoveX(finishPosition.x, moveDuration).OnComplete(() =>
-                {
-                    playerRigidbody.isKinematic = false;
-                    playerSpriteRenderer.enabled = true;
-                });
-
+                playerSpriteRenderer.enabled = true;
             });
         });
     }
