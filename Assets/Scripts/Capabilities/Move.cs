@@ -1,6 +1,7 @@
 using GetMeOut;
 using UnityEngine;
 using GetMeOut.Checks;
+using System.Collections.Generic;
 
 /// <summary>
 /// This class is responsible for handling the players horizontal movement
@@ -24,6 +25,9 @@ public class Move : MonoBehaviour
     private bool _onGround;
     private float _wallStickCounter;
 
+    [SerializeField] private bool canMove = true;
+
+
     private void Awake()
     {
         _playerRigidbody = GetComponent<Rigidbody2D>();
@@ -36,10 +40,16 @@ public class Move : MonoBehaviour
     {
         _direction.x = inputController.RetrieveMovementInput();
         _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(maxSpeed - _collisionDataRetrieving.Friction, 0f);
+
     }
 
     private void FixedUpdate()
     {
+        if (!canMove)
+        {
+            return;
+        }
+
         _onGround = _collisionDataRetrieving.OnGround;
         _currentVelocity = _playerRigidbody.velocity;
         _acceleration = _onGround ? maxGroundAcc : maxAirAcc;
@@ -76,5 +86,18 @@ public class Move : MonoBehaviour
         }
 
         #endregion
+    }
+
+    public void StopMovement()
+    {
+        canMove = false;
+        _playerRigidbody.velocity = new Vector2(0, 0);
+        _playerRigidbody.gravityScale = 0;
+    }
+
+    public void RegainMovement()
+    {
+        canMove = true;
+        _playerRigidbody.gravityScale = 1;
     }
 }
