@@ -32,7 +32,6 @@ public class KeyCardCheck : MonoBehaviour
         {
             Debug.Log(_elapsedTime);
             _light2D.intensity = Mathf.Lerp(_light2D.intensity, targetIntensity, (_elapsedTime / totalTime));
-            Debug.Log(_light2D.intensity);
             _elapsedTime += Time.deltaTime;
             yield return null; // wait for a frame
         }

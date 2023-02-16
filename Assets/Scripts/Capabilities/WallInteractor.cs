@@ -1,3 +1,4 @@
+using System;
 using GetMeOut.Checks;
 using UnityEngine;
 
@@ -53,7 +54,7 @@ namespace GetMeOut
             _onGround = _collisionDataRetrieving.OnGround;
             _wallDirectionX =
                 _collisionDataRetrieving.ContactNormal.x; // will be 1 if hitting a wall from left or right
-
+            
             #region Wall Slide
 
             if (_onWall)
@@ -76,7 +77,7 @@ namespace GetMeOut
             if (_tryingToJump)
             {
                 // -wallDirectionX because the normal is positive and a left wall met with left movement would mean we are on a wall
-                if (-_wallDirectionX == controller.RetrieveMovementInput())
+                if (Math.Abs(-_wallDirectionX - controller.RetrieveMovementInput()) < 0.01f)
                 {
                     _velocity = new Vector2(wallJumpClimb.x * _wallDirectionX, wallJumpClimb.y);
                     WallJumping = true;
