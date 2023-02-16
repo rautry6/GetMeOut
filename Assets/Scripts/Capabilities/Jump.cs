@@ -38,6 +38,8 @@ public class Jump : MonoBehaviour
     private bool _onGround;
     private bool _isJumping;
 
+    [SerializeField] private bool canJump = true;
+
     private void Awake()
     {
         _playerRigidbody = GetComponent<Rigidbody2D>();
@@ -47,6 +49,8 @@ public class Jump : MonoBehaviour
 
     private void Update()
     {
+        if (!canJump) return;
+
         // Bitwise OR assignment operator, tryingToJump will remain set in new updates until manually changed
         _tryingToJump |= inputController.RetrieveJumpInput(); 
     }
@@ -120,5 +124,15 @@ public class Jump : MonoBehaviour
 
             _velocity.y += _jumpSpeed;
         }
+    }
+
+    public void EnableJumping()
+    {
+        canJump = true;
+    }
+
+    public void DisableJumping()
+    {
+        canJump = false;
     }
 }
