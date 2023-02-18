@@ -14,6 +14,7 @@ public class GrabEnemy : MonoBehaviour
 
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject grabbedText;
+    [SerializeField] private Animator tentacleAnimator;
 
     [Header("Camera Changes")]
     [SerializeField] private CinemachineVirtualCamera virCamera;
@@ -24,6 +25,7 @@ public class GrabEnemy : MonoBehaviour
     [Header("Grab Damage")]
     [SerializeField] private bool grabbing = false;
     [SerializeField] private float timeBetweenSqueezes = 1f;
+    private static readonly int Spawn1 = Animator.StringToHash("Spawn");
 
 
     // Update is called once per frame
@@ -63,6 +65,7 @@ public class GrabEnemy : MonoBehaviour
     public void Spawn()
     {
         spriteRenderer.enabled = true;
+        tentacleAnimator.SetTrigger(Spawn1);
         playerMove.transform.position = transform.position;
         GrabPlayer();
     }

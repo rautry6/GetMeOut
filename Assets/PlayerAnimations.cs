@@ -19,7 +19,6 @@ public class PlayerAnimations : MonoBehaviour
 
     public void ChangeAnimationState(AnimationState newState, string desiredAnimation)
     {
-        Debug.Log(newState);
         if (_currentAnimationState == newState) return;
         
         _currentAnimationState = newState;

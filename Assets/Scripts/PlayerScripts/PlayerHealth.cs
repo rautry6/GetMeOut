@@ -20,11 +20,6 @@ public class PlayerHealth : MonoBehaviour
 
     private int healthPoints = 3;
 
-    private void Awake()
-    {
-        sr = GetComponent<SpriteRenderer>();
-    }
-
     public void TakeDamage()
     {
         //Return out if the playerMove is invulnerable

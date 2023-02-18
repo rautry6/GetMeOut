@@ -29,8 +29,6 @@ public class Jump : MonoBehaviour
     [Header("Player Animation Section")]
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerJump = "Player_Jump";
-    [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerIdle = "Player_Idle";
-    [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerRun = "Player_Run";
     
     private Rigidbody2D _playerRigidbody;
     private CollisionDataRetrieving _ground;
@@ -68,6 +66,8 @@ public class Jump : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!canJump) return;
+        
         _onGround = _ground.OnGround;
         _velocity = _playerRigidbody.velocity;
 
