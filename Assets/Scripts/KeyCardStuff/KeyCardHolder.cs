@@ -7,6 +7,7 @@ public class KeyCardHolder : MonoBehaviour
 {
     [SerializeField] private KeyCard keyCard;
     [SerializeField] private KeyCardManager keyCardManager;
+    [SerializeField] private KeyCardUI keyCardUI;
     
     private SpriteRenderer _spriteRenderer;
     private Action _keyCardCollected;
@@ -23,7 +24,9 @@ public class KeyCardHolder : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            keyCardManager.OnKeyCardCollected(keyCard);        
+            Debug.Log(keyCard.CardColor);
+            keyCardManager.OnKeyCardCollected(keyCard);     
+            keyCardUI.AddKeyCardUI(keyCard);
             gameObject.SetActive(false);
         }
     }
