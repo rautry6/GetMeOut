@@ -28,9 +28,9 @@ public class KeyCardCheck : MonoBehaviour
 
     IEnumerator CorrectCardFound()
     {
+        
         while (_elapsedTime < totalTime)
         {
-            Debug.Log(_elapsedTime);
             _light2D.intensity = Mathf.Lerp(_light2D.intensity, targetIntensity, (_elapsedTime / totalTime));
             _elapsedTime += Time.deltaTime;
             yield return null; // wait for a frame

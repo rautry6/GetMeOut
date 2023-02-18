@@ -58,5 +58,6 @@ public class DoorColorAdjuster : MonoBehaviour
         animatedDoor.enabled = false;
         _light2D.enabled = false;
         doorAnimator.Play("Door_Open_Retro");
+        
     }
 }

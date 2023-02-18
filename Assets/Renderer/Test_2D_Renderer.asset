@@ -76,29 +76,29 @@ MonoBehaviour:
   preset: 6
   pixelResolutionX: 640
   pixelResolutionY: 640
-  screenBend: 5
+  screenBend: 1.58
   screenOverscan: 0
   blur: 0
   bleed: 0
   smidge: 0
-  scanlinesStrength: 5
-  apertureStrength: 5
+  scanlinesStrength: 1
+  apertureStrength: 1
   shadowlines: 0
   shadowlinesSpeed: 0
   shadowlinesAlpha: 0
-  noiseSize: 19
-  noiseSpeed: 5
-  noiseAlpha: 0.33
-  vignetteSize: 6
-  vignetteSmooth: 7.2
-  vignetteRound: 50
-  brightness: 0
-  contrast: 1
+  noiseSize: 0
+  noiseSpeed: 0
+  noiseAlpha: 0
+  vignetteSize: 5.7
+  vignetteSmooth: 1.9
+  vignetteRound: 15
+  brightness: -0.15
+  contrast: 0.75
   gamma: 1
   red: 1
   green: 1
   blue: 1
   chromaticAberration: 0
-  redOffset: {x: 0.15, y: 0.15}
-  blueOffset: {x: 0, y: -0.21}
-  greenOffset: {x: -0.15, y: 0.15}
+  redOffset: {x: 0, y: 0}
+  blueOffset: {x: 0, y: 0}
+  greenOffset: {x: 0, y: 0}

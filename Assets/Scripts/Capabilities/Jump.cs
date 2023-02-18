@@ -26,6 +26,12 @@ public class Jump : MonoBehaviour
     [SerializeField, Range(0f, .5f), Tooltip("Detection window for jump input")]
     private float jumpBuffer = .25f;
 
+    [Header("Player Animation Section")]
+    [SerializeField] private PlayerAnimations playerAnimations;
+    [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerJump = "Player_Jump";
+    [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerIdle = "Player_Idle";
+    [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerRun = "Player_Run";
+    
     private Rigidbody2D _playerRigidbody;
     private CollisionDataRetrieving _ground;
     private Vector2 _velocity;
@@ -52,7 +58,12 @@ public class Jump : MonoBehaviour
         if (!canJump) return;
 
         // Bitwise OR assignment operator, tryingToJump will remain set in new updates until manually changed
-        _tryingToJump |= inputController.RetrieveJumpInput(); 
+        _tryingToJump |= inputController.RetrieveJumpInput();
+
+        if (!_onGround)
+        {
+            playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
+        }
     }
 
     private void FixedUpdate()
@@ -135,4 +146,5 @@ public class Jump : MonoBehaviour
     {
         canJump = false;
     }
+    
 }

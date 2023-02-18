@@ -1,3 +1,4 @@
+using System;
 using GetMeOut;
 using UnityEngine;
 using GetMeOut.Checks;
@@ -13,6 +14,11 @@ public class Move : MonoBehaviour
     [SerializeField, Range(0f, 100f)] private float maxGroundAcc = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcc = 20f;
     [SerializeField, Range(0.05f, 0.5f)] private float wallStickTime = .25f;
+    [SerializeField] private PlayerAnimations playerAnimations;
+    [SerializeField] private bool canMove = true;
+    [Header("Strings that must match exactly the animation they represent")]
+    [SerializeField] private string playerRun = "Player_Run";
+    [SerializeField] private string playerIdle = "Player_Idle";
 
     private Vector2 _direction;
     private Vector2 _desiredVelocity;
@@ -24,8 +30,6 @@ public class Move : MonoBehaviour
     private float _acceleration;
     private bool _onGround;
     private float _wallStickCounter;
-
-    [SerializeField] private bool canMove = true;
 
 
     private void Awake()
@@ -40,7 +44,30 @@ public class Move : MonoBehaviour
     {
         _direction.x = inputController.RetrieveMovementInput();
         _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(maxSpeed - _collisionDataRetrieving.Friction, 0f);
+    }
 
+    private void LateUpdate()
+    {
+        if(_onGround)
+            RunningAnimationCheck();
+    }
+
+    private void RunningAnimationCheck()
+    {
+        if (_direction.x > 0f)
+        {
+            playerAnimations.ChangeAnimationState(AnimationState.RunningRight, playerRun);
+        }
+
+        else if (_direction.x < 0f)
+        {
+            playerAnimations.ChangeAnimationState(AnimationState.RunningLeft, playerRun);
+        }
+        else
+        {
+            playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
+        }
+        
     }
 
     private void FixedUpdate()
