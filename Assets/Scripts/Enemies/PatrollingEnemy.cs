@@ -11,6 +11,7 @@ public class PatrollingEnemy : MonoBehaviour
     [SerializeField] private float moveDuration;
     [SerializeField] private float idleTime;
     [SerializeField] private MoveDirection _currentMoveDirection;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private enum MoveDirection
     {
@@ -23,18 +24,14 @@ public class PatrollingEnemy : MonoBehaviour
     {
         if(_currentMoveDirection == MoveDirection.Left)
         {
+            spriteRenderer.flipX = false;
             MoveLeft();
         }
         else
         {
+            spriteRenderer.flipX = true;
             MoveRight();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void MoveRight()
@@ -59,11 +56,13 @@ public class PatrollingEnemy : MonoBehaviour
 
         if(_currentMoveDirection == MoveDirection.Left)
         {
+            spriteRenderer.flipX = true;
             _currentMoveDirection = MoveDirection.Right;
             MoveRight();
         }
         else
         {
+            spriteRenderer.flipX = false;
             _currentMoveDirection = MoveDirection.Left;
             MoveLeft();
         }
