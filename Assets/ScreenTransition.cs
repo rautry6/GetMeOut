@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 public class ScreenTransition : MonoBehaviour
 {
     [SerializeField] private Image background;
-    [SerializeField] private TMP_Text thankYou;
     [SerializeField] private float duration;
 
     private readonly List<Image.FillMethod> _fillMethods = new();
@@ -25,8 +24,8 @@ public class ScreenTransition : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Space))
-            StartCoroutine(BackgroundTransition());*/
+        if (Input.GetKeyDown(KeyCode.Space))
+            StartCoroutine(BackgroundTransition());
     }
 
     public IEnumerator BackgroundTransition()
@@ -79,7 +78,7 @@ public class ScreenTransition : MonoBehaviour
             yield return null;
         }
 
-        thankYou.enabled = true;
+        background.fillAmount = 0;
     }
 
     private bool CoinFlip()
