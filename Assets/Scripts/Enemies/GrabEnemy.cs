@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class GrabEnemy : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GrabEnemy : MonoBehaviour
     [SerializeField, Range(2, 8)] private float cameraZoomLevel = 3;
     [SerializeField] private float cameraShakeAmplitude = 1;
     [SerializeField] private float cameraShakeFrequency = 1;
+    [SerializeField] private PixelPerfectCamera pixelCamera;
 
     [Header("Grab Damage")]
     [SerializeField] private bool grabbing = false;
@@ -48,6 +50,8 @@ public class GrabEnemy : MonoBehaviour
             grabbing = false;
             inputs.Clear();
 
+            pixelCamera.assetsPPU = 16;
+
             CinemachineBasicMultiChannelPerlin cm = virCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             cm.m_AmplitudeGain = 0.1f;
             cm.m_FrequencyGain = 0.1f;
@@ -74,6 +78,9 @@ public class GrabEnemy : MonoBehaviour
     {
         playerMove.StopMovement();
         playerJump.DisableJumping();
+
+        pixelCamera.assetsPPU = 32;
+
         virCamera.m_Lens.OrthographicSize = cameraZoomLevel;
         grabbedText.SetActive(true);
         CinemachineBasicMultiChannelPerlin cm = virCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
