@@ -20,6 +20,11 @@ public class Move : MonoBehaviour
     [SerializeField] private string playerRun = "Player_Run";
     [SerializeField] private string playerIdle = "Player_Idle";
 
+    [Header("Knockback")]
+    [SerializeField] private float horizontalKnockbackStrength = 5f;
+    [SerializeField] private float verticalKnockbackStrength = 5f;
+    [SerializeField] private Rigidbody2D playerRigidbody; 
+
     private Vector2 _direction;
     private Vector2 _desiredVelocity;
     private Vector2 _currentVelocity;
@@ -126,5 +131,11 @@ public class Move : MonoBehaviour
     {
         canMove = true;
         _playerRigidbody.gravityScale = 1;
+    }
+
+    public void ApplyKnockback(Vector3 direction)
+    {
+        playerRigidbody.AddForce(direction * horizontalKnockbackStrength, ForceMode2D.Impulse);
+        playerRigidbody.AddForce(Vector3.up * verticalKnockbackStrength, ForceMode2D.Impulse);
     }
 }
