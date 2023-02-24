@@ -76,6 +76,7 @@ public class PlayerHealth : MonoBehaviour
         if(collision.tag == "Enemy")
         {
             Vector3 direction;
+
             if(collision.gameObject.transform.position.x < gameObject.transform.position.x)
             {
                 direction = Vector3.right;
