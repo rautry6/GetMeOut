@@ -10,6 +10,10 @@ public class SaveAnimatorController : MonoBehaviour
     [SerializeField] private AnimationClip saveIdle;
     [SerializeField] private AnimationClip saveDown;
     [SerializeField] private AnimationClip saveStart;
+    [SerializeField] private KeyCardColors doorColor;
+    [SerializeField] private Animator doorAnimator;
+    
+    private static readonly int Open = Animator.StringToHash("Open");
 
     private Animator _saveAnimator;
 
@@ -23,7 +27,11 @@ public class SaveAnimatorController : MonoBehaviour
         var player = other.GetComponent<Move>();
         if (player != null)
         {
-            _saveAnimator.Play(saveStart.name);
+            var keyCardManager = player.GetComponentInChildren<KeyCardManager>();
+            if (keyCardManager.CheckIfManagerHasCorrectCard(doorColor))
+            {
+                _saveAnimator.Play(saveStart.name);
+            }
         }
     }
 
@@ -31,14 +39,7 @@ public class SaveAnimatorController : MonoBehaviour
     private void PlayIdleAnimation()
     {
         _saveAnimator.CrossFade(saveIdle.name, .5f);
+        doorAnimator.SetTrigger(Open);
     }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        var player = other.GetComponent<Move>();
-        if (player != null)
-        {
-            _saveAnimator.Play(saveDown.name);
-        }
-    }
+    
 }

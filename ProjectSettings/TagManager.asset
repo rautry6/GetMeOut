@@ -7,6 +7,7 @@ TagManager:
   - Portal
   - Enemy
   - Grabber
+  - PowerUp
   layers:
   - Default
   - TransparentFX
@@ -44,7 +45,13 @@ TagManager:
   - name: Background
     uniqueID: 357868605
     locked: 0
-  - name: Middleground
+  - name: BackgroundOverlay
+    uniqueID: 2469283081
+    locked: 0
+  - name: Traps
+    uniqueID: 28933449
+    locked: 0
+  - name: Player
     uniqueID: 3545025299
     locked: 0
   - name: Default
@@ -52,4 +59,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 479632273
+    locked: 0
+  - name: Ground
+    uniqueID: 3531465755
     locked: 0

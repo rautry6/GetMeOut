@@ -13,6 +13,7 @@ public class Jump : MonoBehaviour
 
     [SerializeField, Range(0f, 5f), Tooltip("Max number of jumps in air")]
     private int maxAirJumps = 0;
+    public int MaxAirJumps { get { return maxAirJumps; } set { maxAirJumps = value; } }
 
     [SerializeField, Range(0f, 10f), Tooltip("Gravity scale effecting the player")]
     private float downwardMovementMultiplier = 3f;
@@ -26,6 +27,10 @@ public class Jump : MonoBehaviour
     [SerializeField, Range(0f, .5f), Tooltip("Detection window for jump input")]
     private float jumpBuffer = .25f;
 
+    [Header("Player Animation Section")]
+    [SerializeField] private PlayerAnimations playerAnimations;
+    [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerJump = "Player_Jump";
+    
     private Rigidbody2D _playerRigidbody;
     private CollisionDataRetrieving _ground;
     private Vector2 _velocity;
@@ -52,11 +57,18 @@ public class Jump : MonoBehaviour
         if (!canJump) return;
 
         // Bitwise OR assignment operator, tryingToJump will remain set in new updates until manually changed
-        _tryingToJump |= inputController.RetrieveJumpInput(); 
+        _tryingToJump |= inputController.RetrieveJumpInput();
+
+        if (!_onGround)
+        {
+            playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
+        }
     }
 
     private void FixedUpdate()
     {
+        if (!canJump) return;
+        
         _onGround = _ground.OnGround;
         _velocity = _playerRigidbody.velocity;
 
@@ -135,4 +147,5 @@ public class Jump : MonoBehaviour
     {
         canJump = false;
     }
+    
 }

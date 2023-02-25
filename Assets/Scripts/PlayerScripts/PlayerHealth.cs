@@ -18,12 +18,10 @@ public class PlayerHealth : MonoBehaviour
     [Header("Sprite Renderer")]
     [SerializeField] private SpriteRenderer sr;
 
-    private int healthPoints = 3;
+    [Header("Player Movement")]
+    [SerializeField] private Move pmove;
 
-    private void Awake()
-    {
-        sr = GetComponent<SpriteRenderer>();
-    }
+    private int healthPoints = 3;
 
     public void TakeDamage()
     {
@@ -77,7 +75,27 @@ public class PlayerHealth : MonoBehaviour
     {
         if(collision.tag == "Enemy")
         {
+            Vector3 direction;
+
+            if(collision.gameObject.transform.position.x < gameObject.transform.position.x)
+            {
+                direction = Vector3.right;
+            }
+            else if(collision.gameObject.transform.position.x > gameObject.transform.position.x)
+            {
+                direction = Vector3.left;
+            }
+            else
+            {
+                direction = Vector3.left;
+            }
+
             TakeDamage();
+
+            if (healthPoints > 0)
+            {
+                pmove.ApplyKnockback(direction);
+            }
         }
 
         if(collision.tag == "Health")
