@@ -13,6 +13,7 @@ public class Jump : MonoBehaviour
 
     [SerializeField, Range(0f, 5f), Tooltip("Max number of jumps in air")]
     private int maxAirJumps = 0;
+    public int MaxAirJumps { get { return maxAirJumps; } set { maxAirJumps = value; } }
 
     [SerializeField, Range(0f, 10f), Tooltip("Gravity scale effecting the player")]
     private float downwardMovementMultiplier = 3f;
