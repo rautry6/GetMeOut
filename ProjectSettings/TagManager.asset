@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Grabber
   - PowerUp
+  - Ground
   layers:
   - Default
   - TransparentFX
