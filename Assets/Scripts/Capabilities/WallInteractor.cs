@@ -111,5 +111,10 @@ namespace GetMeOut
                 _playerRigidbody.velocity = Vector2.zero;
             }
         }
+
+        public void DisableWallInteraction()
+        {
+            HasWallInteractor = false;
+        }
     }
 }
