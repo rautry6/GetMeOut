@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,9 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("Player Movement")]
     [SerializeField] private Move pmove;
+
+    [Header("Player Death Event")]
+    [SerializeField] private GameEvent PlayerDeath;
 
     private int healthPoints = 3;
 
@@ -42,8 +46,7 @@ public class PlayerHealth : MonoBehaviour
         if (healthPoints <= 0)
         {
             healthPoints = 0; //Keeps health from being negative
-            //Do die
-            //stuff
+            Die();
         }
         else
         {
@@ -66,8 +69,6 @@ public class PlayerHealth : MonoBehaviour
         if (healthPoints > healthUI.Length)
         {
             healthPoints = healthUI.Length - 1 ; //Keeps health from being negative
-
-            //Do die stuff
         }
     }
 
@@ -125,6 +126,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    //Makes player sprite flash
     public IEnumerator Flash()
     {
         sr.enabled = false;
@@ -140,5 +142,10 @@ public class PlayerHealth : MonoBehaviour
         {
             StartCoroutine(Flash());
         }
+    }
+
+    public void Die()
+    {
+        PlayerDeath.TriggerEvent();
     }
 }
