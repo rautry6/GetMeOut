@@ -91,24 +91,26 @@ public class PlayerHealth : MonoBehaviour
                 direction = Vector3.left;
             }
 
-            int knockbackModifier = 1;
-
-            if(collision.gameObject.name == "SpikeTrap")
-            {
-                knockbackModifier = 2;
-            }
-
             TakeDamage();
 
             if (healthPoints > 0)
             {
-                pmove.ApplyKnockback(direction * knockbackModifier);
+                pmove.ApplyKnockback(direction);
             }
         }
 
         if(collision.tag == "Health")
         {
             Heal();
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "DeathPit")
+        {
+            PlayerDeath.TriggerEvent();
         }
     }
 

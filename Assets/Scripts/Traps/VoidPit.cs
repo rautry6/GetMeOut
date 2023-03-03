@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class VoidPit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameEvent death;
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if(collision.gameObject.tag == " Player")
+        {
+            death.TriggerEvent();
+        }
     }
 }
