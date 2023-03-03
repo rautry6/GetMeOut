@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using GetMeOut;
 using UnityEngine;
 using GetMeOut.Checks;
@@ -138,4 +139,5 @@ public class Move : MonoBehaviour
         playerRigidbody.AddForce(direction * horizontalKnockbackStrength, ForceMode2D.Impulse);
         playerRigidbody.AddForce(Vector3.up * verticalKnockbackStrength, ForceMode2D.Impulse);
     }
+
 }

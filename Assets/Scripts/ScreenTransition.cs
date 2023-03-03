@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +12,10 @@ public class ScreenTransition : MonoBehaviour
 {
     [SerializeField] private Image background;
     [SerializeField] private float duration;
+    [SerializeField] private Move playerMove;
 
     private readonly List<Image.FillMethod> _fillMethods = new();
+    [CanBeNull] private static DoorManager _currentDoorManager;
 
     private void Awake()
     {
@@ -22,14 +26,14 @@ public class ScreenTransition : MonoBehaviour
         _fillMethods.Add(Image.FillMethod.Radial360);
     }
 
-    private void Update()
+    public void HandleStartBackgroundTransition()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            StartCoroutine(BackgroundTransition());
+        StartCoroutine(BackgroundTransition());
     }
 
-    public IEnumerator BackgroundTransition()
+    private IEnumerator BackgroundTransition()
     {
+        playerMove.StopMovement();
         var elapsedTime = 0f;
         var fillMethodType = GetRandomFillMethod();
         if (fillMethodType == Image.FillMethod.Horizontal)
@@ -78,7 +82,20 @@ public class ScreenTransition : MonoBehaviour
             yield return null;
         }
 
-        background.fillAmount = 0;
+        if (_currentDoorManager != null)
+        {
+            playerMove.gameObject.transform.position = _currentDoorManager.TransitionTo.position;
+        }
+
+        yield return new WaitForSeconds(.5f);
+        elapsedTime = 0;
+        while (background.fillAmount > 0)
+        {
+            background.fillAmount = Mathf.Lerp(background.fillAmount, 0, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        playerMove.RegainMovement();
     }
 
     private bool CoinFlip()
@@ -89,5 +106,10 @@ public class ScreenTransition : MonoBehaviour
     Image.FillMethod GetRandomFillMethod()
     {
         return _fillMethods[Random.Range(0, _fillMethods.Count)];
+    }
+
+    public static void UpdateCurrentDoorManager(DoorManager doorManager)
+    {
+        _currentDoorManager = doorManager;
     }
 }

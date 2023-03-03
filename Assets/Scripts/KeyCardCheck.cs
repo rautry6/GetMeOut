@@ -9,7 +9,7 @@ public class KeyCardCheck : MonoBehaviour
     [SerializeField] private float totalTime;
     [SerializeField] private float targetIntensity;
     [SerializeField] private Light2D _light2D;
-    [SerializeField] private DoorColorAdjuster doorColorAdjuster;
+    [SerializeField] private DoorManager doorColorAdjuster;
     
     private float _elapsedTime = 0f;
     
