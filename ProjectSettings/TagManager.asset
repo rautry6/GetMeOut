@@ -9,6 +9,9 @@ TagManager:
   - Grabber
   - PowerUp
   - Ground
+  - DeathPit
+  - Trap
+  - Spike
   layers:
   - Default
   - TransparentFX
