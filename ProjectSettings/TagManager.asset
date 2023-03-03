@@ -9,6 +9,8 @@ TagManager:
   - Grabber
   - PowerUp
   - Ground
+  - Trap
+  - UsedTrap
   layers:
   - Default
   - TransparentFX

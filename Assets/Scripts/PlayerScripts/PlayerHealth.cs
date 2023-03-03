@@ -74,7 +74,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy")
+        if(collision.tag == "Enemy" || collision.tag == "Trap")
         {
             Vector3 direction;
 
@@ -91,11 +91,18 @@ public class PlayerHealth : MonoBehaviour
                 direction = Vector3.left;
             }
 
+            int knockbackModifier = 1;
+
+            if(collision.gameObject.name == "SpikeTrap")
+            {
+                knockbackModifier = 2;
+            }
+
             TakeDamage();
 
             if (healthPoints > 0)
             {
-                pmove.ApplyKnockback(direction);
+                pmove.ApplyKnockback(direction * knockbackModifier);
             }
         }
 

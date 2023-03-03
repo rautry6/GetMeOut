@@ -3,6 +3,7 @@ using GetMeOut;
 using UnityEngine;
 using GetMeOut.Checks;
 using System.Collections.Generic;
+using System.Collections;
 
 /// <summary>
 /// This class is responsible for handling the players horizontal movement
@@ -137,5 +138,20 @@ public class Move : MonoBehaviour
     {
         playerRigidbody.AddForce(direction * horizontalKnockbackStrength, ForceMode2D.Impulse);
         playerRigidbody.AddForce(Vector3.up * verticalKnockbackStrength, ForceMode2D.Impulse);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.name.Contains("SpikeTrap")){
+            verticalKnockbackStrength = 12f;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name.Contains("SpikeTrap"))
+        {
+            verticalKnockbackStrength = 5f;
+        }
     }
 }

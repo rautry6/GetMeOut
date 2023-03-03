@@ -69,11 +69,7 @@ public class FallingTrap : MonoBehaviour
             //Makes trap stick into floor
             trapRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
             canDamage = false;
-        }
-
-        if(collision.tag == "Player" && canDamage)
-        {
-            player.GetComponent<PlayerHealth>().TakeDamage();
+            gameObject.tag = "UsedTrap";
         }
     }
 }
