@@ -4,6 +4,7 @@ using GetMeOut;
 using UnityEngine;
 using GetMeOut.Checks;
 using System.Collections.Generic;
+using static HearingManager;
 
 /// <summary>
 /// This class is responsible for handling the players horizontal movement
@@ -24,7 +25,9 @@ public class Move : MonoBehaviour
     [Header("Knockback")]
     [SerializeField] private float horizontalKnockbackStrength = 5f;
     [SerializeField] private float verticalKnockbackStrength = 5f;
-    [SerializeField] private Rigidbody2D playerRigidbody; 
+    [SerializeField] private Rigidbody2D playerRigidbody;
+
+    private float timeUntilNextFootstep;
 
     private Vector2 _direction;
     private Vector2 _desiredVelocity;
@@ -44,6 +47,8 @@ public class Move : MonoBehaviour
         _collisionDataRetrieving = GetComponent<CollisionDataRetrieving>();
         _wallInteractor = GetComponent<WallInteractor>();
         _wallStickCounter = wallStickTime;
+
+        timeUntilNextFootstep = Config.Instance.FootstepInterval;
     }
 
     private void Update()
@@ -88,6 +93,12 @@ public class Move : MonoBehaviour
         _acceleration = _onGround ? maxGroundAcc : maxAirAcc;
         _maxSpeedChange = _acceleration * Time.deltaTime;
         _currentVelocity.x = Mathf.MoveTowards(_currentVelocity.x, _desiredVelocity.x, _maxSpeedChange);
+
+        if(_currentVelocity.x != 0)
+        {
+            UpdateFootstepAudio();
+        }
+
         _playerRigidbody.velocity = _currentVelocity;
 
         #region Wall Stick
@@ -138,6 +149,24 @@ public class Move : MonoBehaviour
     {
         playerRigidbody.AddForce(direction * horizontalKnockbackStrength, ForceMode2D.Impulse);
         playerRigidbody.AddForce(Vector3.up * verticalKnockbackStrength, ForceMode2D.Impulse);
+    }
+
+    public void UpdateFootstepAudio()
+    {
+        if(timeUntilNextFootstep > 0)
+        {
+            timeUntilNextFootstep -= Time.deltaTime;
+        }
+
+        if(timeUntilNextFootstep <= 0)
+        {
+
+            //Tells Hearing Manager a sound was played
+            HearingManager.Instance.OnSoundEmitted(transform.position, EHeardSoundCategory.EFootstep, 1f);
+
+            //Resets footstep timer
+            timeUntilNextFootstep = Config.Instance.FootstepInterval;
+        }
     }
 
 }

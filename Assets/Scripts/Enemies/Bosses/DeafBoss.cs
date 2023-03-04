@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static HearingManager;
+using DG.Tweening;
 
 public class DeafBoss : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class DeafBoss : MonoBehaviour
     public float HearingRange { get { return hearingRange; } }
 
     [Header("Charging")]
-   [SerializeField] private float chargeCooldown = 5f;
+    [SerializeField] private float chargeCooldown = 5f;
     private bool charging = false;
 
     private float health = 100f;
@@ -32,6 +33,19 @@ public class DeafBoss : MonoBehaviour
 
     public void ReportSoundHeard(Vector3 location, EHeardSoundCategory category, float intensity)
     {
-        Debug.Log("Heard sound " + category + " at " + location.ToString() + " with intensity of " + intensity);
+        //Calculate intesnity based on distance from source
+        float newIntensity = 1 / Vector3.Distance(location, transform.position);
+        lastHeardSoundLocation = location;
+
+        Debug.Log("Heard sound " + category + " at " + location.ToString() + " with intensity of " + newIntensity);
+
+        if(newIntensity < 0.9)
+        {
+
+        }
+        else
+        {
+            Debug.Log("Attack!");
+        }
     }
 }
