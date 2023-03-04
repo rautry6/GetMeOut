@@ -10,4 +10,9 @@ public class EnableInteractiveDetection : MonoBehaviour
     {
         interactiveDetection.SetActive(true);
     }
+
+    public void HandleDisableInteractiveDetection()
+    {
+        interactiveDetection.SetActive(false);
+    }
 }

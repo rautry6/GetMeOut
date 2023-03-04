@@ -2,5 +2,6 @@
 {
     Empty,
     LevelTransition,
+    Vent,
     ReadNote
 }

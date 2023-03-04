@@ -13,7 +13,8 @@ public class DoorManager : MonoBehaviour
     [SerializeField] private SpriteRenderer animatedDoor;
     [SerializeField] private Animator doorAnimator;
     [SerializeField] private Transform transitionTo;
-    
+    [SerializeField] private GameObject interactionDetection;
+    [SerializeField] private Light2D keyScannerLight;
     public Transform TransitionTo => transitionTo;
 
     private Light2D _light2D;
@@ -61,5 +62,12 @@ public class DoorManager : MonoBehaviour
         animatedDoor.enabled = false;
         _light2D.enabled = false;
         doorAnimator.Play("Door_Open_Retro");
+    }
+
+    public void ResetAnimator()
+    {
+        doorAnimator.SetTrigger("Reset");
+        interactionDetection.SetActive(false);
+        keyScannerLight.intensity = 0.2f;
     }
 }

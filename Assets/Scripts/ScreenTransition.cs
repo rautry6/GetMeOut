@@ -85,6 +85,7 @@ public class ScreenTransition : MonoBehaviour
         if (_currentDoorManager != null)
         {
             playerMove.gameObject.transform.position = _currentDoorManager.TransitionTo.position;
+            _currentDoorManager.ResetAnimator();
         }
 
         yield return new WaitForSeconds(.5f);
@@ -93,9 +94,13 @@ public class ScreenTransition : MonoBehaviour
         {
             background.fillAmount = Mathf.Lerp(background.fillAmount, 0, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
+            if (background.fillAmount < .1f)
+            {
+                playerMove.RegainMovement();
+            }
             yield return null;
         }
-        playerMove.RegainMovement();
+
     }
 
     private bool CoinFlip()

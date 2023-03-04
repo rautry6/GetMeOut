@@ -7,6 +7,7 @@ public class HandleInteractionPressed : MonoBehaviour
 {
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private GameEvent levelTransitionEvent;
+    [SerializeField] private GameEvent ventTraversalEvent;
     
     private GMOEventType _gmoEventType = GMOEventType.Empty;
 
@@ -52,6 +53,11 @@ public class HandleInteractionPressed : MonoBehaviour
             {
                 levelTransitionEvent.TriggerEvent();
                 
+                break;
+            }
+            case GMOEventType.Vent:
+            {
+                ventTraversalEvent.TriggerEvent();
                 break;
             }
             case GMOEventType.ReadNote:
