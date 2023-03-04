@@ -45,7 +45,7 @@ public class DeafBoss : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        wanderSpeed = Vector3.Distance(rightPoint.transform.position, leftPoint.transform.position) / moveSpeed;
+        wanderSpeed = (Vector3.Distance(rightPoint.transform.position, leftPoint.transform.position) / moveSpeed) * 2;
         wanderDirection = MoveDirection.Right;
     }
 
@@ -61,6 +61,11 @@ public class DeafBoss : MonoBehaviour
         {
             hasArrived = false;
             StartWandering();
+        }
+
+        if(listenFor > 0)
+        {
+            listenFor -= Time.deltaTime;
         }
     }
 
@@ -92,7 +97,7 @@ public class DeafBoss : MonoBehaviour
         DOTween.Clear();
         transform.DOMoveX(location.x, moveSpeed).SetEase(easeType).OnComplete(() =>
         {
-            Listen();
+            StartCoroutine(Listen());
         });
         
     }
@@ -107,10 +112,12 @@ public class DeafBoss : MonoBehaviour
 
     }
 
-    public void Listen()
+
+    public IEnumerator Listen()
     {
-        listening = true;
         listenFor = listeningTime;
+
+        yield return new WaitUntil(() => listenFor <= 0);
 
         StartWandering();
     }
