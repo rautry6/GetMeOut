@@ -6,8 +6,9 @@ public class Config : MonoBehaviour
 {
     public static Config Instance { get; private set; }
 
-    [Header("Footsteps")]
+    [Header("Player")]
     public float FootstepInterval = 1f;
+
 
     // Start is called before the first frame update
     void Awake()

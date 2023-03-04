@@ -12,7 +12,9 @@ public class HearingManager : MonoBehaviour
     public enum EHeardSoundCategory
     {
         EFootstep,
-        EJump
+        EJump,
+        ECrash,
+        EAlarm,
     }
 
     private void Awake()
