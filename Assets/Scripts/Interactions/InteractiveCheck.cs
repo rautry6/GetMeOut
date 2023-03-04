@@ -25,7 +25,11 @@ public class InteractiveCheck : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             ScreenTransition.UpdateCurrentDoorManager(doorManager);
-            _ventManager.DetectedVent = gameObject;
+            if (_ventManager != null)
+            {
+                _ventManager.DetectedVent = gameObject;
+            }
+
             interactIcon.SetActive(true);
             var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
             if (interactivePressedHandler != null)
@@ -39,7 +43,11 @@ public class InteractiveCheck : MonoBehaviour
     private void OnTriggerStay2D(Collider2D other)
     {
         ScreenTransition.UpdateCurrentDoorManager(doorManager);
-        _ventManager.DetectedVent = gameObject;
+        if (_ventManager != null)
+        {
+            _ventManager.DetectedVent = gameObject;
+        }
+
         interactIcon.SetActive(true);
         var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
         if (interactivePressedHandler != null)
@@ -55,7 +63,11 @@ public class InteractiveCheck : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             ScreenTransition.UpdateCurrentDoorManager(null);
-            _ventManager.DetectedVent = null;
+            if (_ventManager != null)
+            {
+                _ventManager.DetectedVent = null;
+            }
+
             interactIcon.SetActive(false);
             var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
             if (interactivePressedHandler != null)
