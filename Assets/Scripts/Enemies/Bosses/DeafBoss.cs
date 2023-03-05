@@ -16,6 +16,9 @@ public class DeafBoss : MonoBehaviour
     [SerializeField] private MoveDirection wanderDirection;
     private bool hasArrived = false;
     private bool targetContinouslyRunning;
+    private bool moveToPoint = false;
+
+    private float currentSpeed = 0;
 
     private Rigidbody2D rigidBody;
 
@@ -90,6 +93,21 @@ public class DeafBoss : MonoBehaviour
                 }
             }
         }
+
+        if (moveToPoint)
+        {
+            var heading = transform.position - lastHeardSoundLocation;
+            var distance = heading.magnitude;
+            var direction = heading / distance;
+
+            transform.position = new Vector3(transform.position.x - direction.x * currentSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+
+            if(transform.position.x == lastHeardSoundLocation.x)
+            {
+                StartCoroutine(Listen());
+                moveToPoint = false;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -123,12 +141,9 @@ public class DeafBoss : MonoBehaviour
             return;
         }
 
-        Debug.Log("moe");
 
         lastHeardSoundLocation = location;
         DOTween.Clear();
-
-        float currentSpeed = 0;
 
         if(numberOfSoundsInSuccession <= 1) {
 
@@ -136,13 +151,9 @@ public class DeafBoss : MonoBehaviour
         }
         else if(numberOfSoundsInSuccession <= 3)
         {
-            currentSpeed = moveSpeed / 3;
+            currentSpeed = moveSpeed * 2;
         }
-        else
-        {
-            currentSpeed = sprintSpeed;
-            targetContinouslyRunning = true;
-        }
+ 
 
         if (Vector3.Distance(location, transform.position) < chargeRange && numberOfSoundsInSuccession > 2)
         {
@@ -158,10 +169,7 @@ public class DeafBoss : MonoBehaviour
         else
         {
 
-            transform.DOMoveX(location.x, currentSpeed).SetEase(easeType).OnComplete(() =>
-            {
-                StartCoroutine(Listen());
-            });
+            moveToPoint = true;
         }
         
     }
@@ -192,7 +200,12 @@ public class DeafBoss : MonoBehaviour
 
     public void StartWandering()
     {
- 
+
+        if (moveToPoint)
+        {
+            return;
+        }
+
         if (wanderDirection == MoveDirection.Right)
         {
             transform.DOMoveX(rightPoint.transform.position.x, wanderSpeed).SetEase(easeType).OnComplete(() =>
