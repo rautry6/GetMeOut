@@ -41,7 +41,7 @@ public class DeafBoss : MonoBehaviour
 
     [Header("Charging")]
     [SerializeField] private float chargeCooldown = 5f;
-    [SerializeField] private float chargeDistance = 5f;
+    [SerializeField, Tooltip("How far from the player the AI needs to be to charge")] private float chargeRange = 2f;
     private bool charging = false;
 
     private float health = 100f;
@@ -144,7 +144,7 @@ public class DeafBoss : MonoBehaviour
             targetContinouslyRunning = true;
         }
 
-        if (Vector3.Distance(location, transform.position) < chargeDistance && numberOfSoundsInSuccession > 2)
+        if (Vector3.Distance(location, transform.position) < chargeRange && numberOfSoundsInSuccession > 2)
         {
             if (location.x > transform.position.x)
             {
