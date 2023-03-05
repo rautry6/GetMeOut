@@ -8,15 +8,16 @@ public class DeafBoss : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float sprintSpeed = 1.5f;
     [SerializeField] private Ease easeType;
     [SerializeField] private GameObject rightPoint;
     [SerializeField] private GameObject leftPoint;
     [SerializeField] private float wanderSpeed;
     [SerializeField] private MoveDirection wanderDirection;
     private bool hasArrived = false;
+    private bool targetContinouslyRunning;
 
-    private bool wandering = true;
-
+    private Rigidbody2D rigidBody;
 
     private enum MoveDirection
     {
@@ -29,6 +30,8 @@ public class DeafBoss : MonoBehaviour
     private float hearingAccuracy;
     private float distanceFromSource;
     [SerializeField] private float hearingRange = 20f;
+    private int numberOfSoundsInSuccession = 0;
+    private float removeTime = 1.5f;
 
     [SerializeField] private float listeningTime = 5f;
     private float listenFor;
@@ -38,15 +41,20 @@ public class DeafBoss : MonoBehaviour
 
     [Header("Charging")]
     [SerializeField] private float chargeCooldown = 5f;
+    [SerializeField] private float chargeDistance = 5f;
     private bool charging = false;
 
     private float health = 100f;
+
+    private GameObject player;
 
     // Start is called before the first frame update
     void Awake()
     {
         wanderSpeed = (Vector3.Distance(rightPoint.transform.position, leftPoint.transform.position) / moveSpeed) * 2;
         wanderDirection = MoveDirection.Right;
+        player = GameObject.Find("Player");
+        rigidBody = GetComponent<Rigidbody2D>();
     }
 
     void Start()
@@ -67,6 +75,21 @@ public class DeafBoss : MonoBehaviour
         {
             listenFor -= Time.deltaTime;
         }
+
+        if(numberOfSoundsInSuccession > 0)
+        {
+            removeTime -= Time.deltaTime;
+
+            if(removeTime <= 0)
+            {
+                numberOfSoundsInSuccession--;
+
+                if(numberOfSoundsInSuccession > 0)
+                {
+                    removeTime = Config.Instance.TimeToRemoveSounds;
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -78,8 +101,10 @@ public class DeafBoss : MonoBehaviour
     {
         //Calculate intesnity based on distance from source
         float newIntensity = intensity / Vector3.Distance(location, transform.position);
+        numberOfSoundsInSuccession++;
+        removeTime = Config.Instance.TimeToRemoveSounds;
 
-        Debug.Log("Heard sound " + category + " at " + location.ToString() + " with intensity of " + newIntensity);
+        //Debug.Log("Heard sound " + category + " at " + location.ToString() + " with intensity of " + newIntensity);
 
         if(newIntensity < 0.9)
         {
@@ -93,12 +118,51 @@ public class DeafBoss : MonoBehaviour
 
     public void MoveTowardsLastSound(Vector3 location)
     {
+        if(charging)
+        {
+            return;
+        }
+
+        Debug.Log("moe");
+
         lastHeardSoundLocation = location;
         DOTween.Clear();
-        transform.DOMoveX(location.x, moveSpeed).SetEase(easeType).OnComplete(() =>
+
+        float currentSpeed = 0;
+
+        if(numberOfSoundsInSuccession <= 1) {
+
+            currentSpeed = moveSpeed;
+        }
+        else if(numberOfSoundsInSuccession <= 3)
         {
-            StartCoroutine(Listen());
-        });
+            currentSpeed = moveSpeed / 3;
+        }
+        else
+        {
+            currentSpeed = sprintSpeed;
+            targetContinouslyRunning = true;
+        }
+
+        if (Vector3.Distance(location, transform.position) < chargeDistance && numberOfSoundsInSuccession > 2)
+        {
+            if (location.x > transform.position.x)
+            {
+                Charge(transform.right);
+            }
+            else
+            {
+                Charge(-transform.right);
+            }
+        }
+        else
+        {
+
+            transform.DOMoveX(location.x, currentSpeed).SetEase(easeType).OnComplete(() =>
+            {
+                StartCoroutine(Listen());
+            });
+        }
         
     }
 
@@ -107,9 +171,13 @@ public class DeafBoss : MonoBehaviour
 
     }
 
-    public void Wander()
+    public void Charge(Vector3 direction)
     {
+        charging = true;
+        DOTween.Clear();
 
+        rigidBody.AddForce(direction * 20, ForceMode2D.Impulse);
+        StartCoroutine(CoolDown());
     }
 
 
@@ -141,5 +209,13 @@ public class DeafBoss : MonoBehaviour
                 hasArrived = true;
             });
         }
+    }
+
+    public IEnumerator CoolDown()
+    {
+        yield return new WaitForSeconds(chargeCooldown);
+
+        charging = false;
+        numberOfSoundsInSuccession = 0;
     }
 }

@@ -7,8 +7,10 @@ public class Config : MonoBehaviour
     public static Config Instance { get; private set; }
 
     [Header("Player")]
-    public float FootstepInterval = 1f;
+    public float FootstepInterval = 0.5f;
 
+    [Header("Deaf Boss")]
+    public float TimeToRemoveSounds = 1f;
 
     // Start is called before the first frame update
     void Awake()
