@@ -62,13 +62,6 @@ public class FrogEnemy : MonoBehaviour
         var distance = heading.magnitude;
         var direction = heading / distance;
 
-        //Calculates angle of jump
-        var forward = transform.forward;
-        var initialAngle = Vector3.Angle(heading, forward);
-
-        //Changes angle to radians
-        var angle = initialAngle * Mathf.Deg2Rad;
-
         //Determines how far the enemy is going to try and jump
         float desiredDistance = Mathf.Min(maxJumpDistance, Mathf.Abs(distance));
 
