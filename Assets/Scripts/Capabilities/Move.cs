@@ -47,6 +47,10 @@ public class Move : MonoBehaviour
         _collisionDataRetrieving = GetComponent<CollisionDataRetrieving>();
         _wallInteractor = GetComponent<WallInteractor>();
         _wallStickCounter = wallStickTime;
+    }
+
+    private void Start()
+    {
 
         timeUntilNextFootstep = Config.Instance.FootstepInterval;
     }
