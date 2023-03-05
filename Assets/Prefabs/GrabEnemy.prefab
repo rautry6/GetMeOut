@@ -132,10 +132,12 @@ MonoBehaviour:
   inputsToEscape: 15
   spriteRenderer: {fileID: 202932102648205237}
   grabbedText: {fileID: 0}
+  tentacleAnimator: {fileID: 0}
   virCamera: {fileID: 0}
   cameraZoomLevel: 5
   cameraShakeAmplitude: 1
   cameraShakeFrequency: 1
+  pixelCamera: {fileID: 0}
   grabbing: 0
   timeBetweenSqueezes: 1
 --- !u!1 &4516671532517217683
