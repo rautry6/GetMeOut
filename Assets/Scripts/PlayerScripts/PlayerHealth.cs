@@ -93,7 +93,7 @@ public class PlayerHealth : MonoBehaviour
 
             TakeDamage();
 
-            if (healthPoints > 0)
+            if (healthPoints > 0 && !invulnerable)
             {
                 pmove.ApplyKnockback(direction);
             }

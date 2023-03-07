@@ -10,8 +10,11 @@ public class FrogEnemy : MonoBehaviour
 {
     [Header("Jump")]
     [SerializeField] private float maxJumpDistance = 10f;
-    [SerializeField] private float maxJumpHeight = 6f;
+    [SerializeField] private float JumpHeight = 10f;
     [SerializeField] private float jumpCooldown = 2f;
+
+    private float jumpVariability = 1f;
+
 
     [Header("Target Range")]
     [SerializeField, Tooltip("How close the player has to be before the enemy starts attacking")] private float targetRange = 50f;
@@ -25,6 +28,8 @@ public class FrogEnemy : MonoBehaviour
     [SerializeField] private bool _onGround = true;
 
     private CollisionDataRetrieving _collisionDataRetrieving;
+
+    [SerializeField] private Collider2D col;
 
     // Start is called before the first frame update
     void Awake()
@@ -65,7 +70,9 @@ public class FrogEnemy : MonoBehaviour
         //Determines how far the enemy is going to try and jump
         float desiredDistance = Mathf.Min(maxJumpDistance, Mathf.Abs(distance));
 
-        float velocityY = 10f;
+        float velocityY = JumpHeight;
+
+
         float velocityX = desiredDistance * gravity * 0.5f / velocityY;
 
         rigidBody.velocity = new Vector2(velocityX * -direction.x, velocityY);
@@ -80,14 +87,21 @@ public class FrogEnemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         yield return new WaitUntil(() => _onGround);
-        Debug.Log("grounCheck");
 
+        float newJumpCooldown = Random.Range(jumpCooldown - jumpVariability, jumpCooldown + jumpVariability);
 
-        yield return new WaitForSeconds(jumpCooldown);
+        yield return new WaitForSeconds(newJumpCooldown);
 
         calculating = false;
 
-        Debug.Log("done");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            Physics2D.IgnoreCollision(collision.collider, col);
+        }
     }
 
 }
