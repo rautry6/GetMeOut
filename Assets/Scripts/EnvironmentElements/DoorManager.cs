@@ -18,11 +18,13 @@ public class DoorManager : MonoBehaviour
     public Transform TransitionTo => transitionTo;
 
     private Light2D _light2D;
+    private float _initialIntensity;
     private bool _routineIsRunning = false;
 
     private void Start()
     {
         _light2D = GetComponent<Light2D>();
+        _initialIntensity = _light2D.intensity;
     }
 
     private void Update()
@@ -69,5 +71,7 @@ public class DoorManager : MonoBehaviour
         doorAnimator.SetTrigger("Reset");
         interactionDetection.SetActive(false);
         keyScannerLight.intensity = 0.2f;
+        _light2D.enabled = true;
+        _light2D.intensity = _initialIntensity;
     }
 }

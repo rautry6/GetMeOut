@@ -10,6 +10,9 @@ public enum KeyCardColors
     Yellow, // 3
     Purple,
     Black,
+    White,
+    Orange,
+    Brown,
 }
 
 [CreateAssetMenu(fileName = "KeyCard_COLOR", menuName = "Items/KeyCard")]

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class CheckForVerticalOneWayPlatform : MonoBehaviour
@@ -14,6 +15,7 @@ public class CheckForVerticalOneWayPlatform : MonoBehaviour
 
     private void Update()
     {
+        Debug.DrawRay(transform.position, new Vector3(0, rayDistance, 0), Color.magenta);
         if (!_routineStarted)
         {
             var raycastHit = Physics2D.Raycast(transform.position, Vector2.up, rayDistance, verticalPlatformLayer);
@@ -40,12 +42,14 @@ public class CheckForVerticalOneWayPlatform : MonoBehaviour
     {
         _routineStarted = true;
         var platformCollider = raycastHit2D.collider;
-        Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, true);
+        platformCollider.enabled = false;
+        //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, true);
         yield return new WaitForSeconds(colliderDisableTime);
-        Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, false);
+        platformCollider.enabled = true;
+        //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, false);
         /*platformCollider.enabled = false;
         platformCollider.enabled = true;*/
         _routineStarted = false;
     }
-    
+
 }

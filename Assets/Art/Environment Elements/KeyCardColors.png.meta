@@ -136,7 +136,7 @@ TextureImporter:
         width: 4
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -157,14 +157,14 @@ TextureImporter:
         width: 4
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6591d0a2b6eeb484ebaccdc50ae98465
-      internalID: 142460771
+      spriteID: 74e90d1fdd948554fa1145a4c792b590
+      internalID: 1751686097
       vertices: []
       indices: 
       edges: []
@@ -178,14 +178,14 @@ TextureImporter:
         width: 4
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f70ff809ec534043bb3c798f9eed57c
-      internalID: -1190097878
+      spriteID: 5107d830cb1a2574aa6ddfe125423756
+      internalID: 293337557
       vertices: []
       indices: 
       edges: []
@@ -199,14 +199,35 @@ TextureImporter:
         width: 4
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c5dbd31719de86347ba975808db65c4a
-      internalID: 296473230
+      spriteID: 960969187ceab1f4f99f60a5a31238c1
+      internalID: -1185809845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: KeyCardColors_4
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a9d427e0ec0b2d48a80bff422fc11ac
+      internalID: -1648484569
       vertices: []
       indices: 
       edges: []
@@ -222,10 +243,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      KeyCardColors_2: -1190097878
+      KeyCardColors_2: 293337557
       KeyCardColors_0: -328581006
-      KeyCardColors_3: 296473230
-      KeyCardColors_1: 142460771
+      KeyCardColors_3: -1185809845
+      KeyCardColors_1: 1751686097
+      KeyCardColors_4: -1648484569
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
