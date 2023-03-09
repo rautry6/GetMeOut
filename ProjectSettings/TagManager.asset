@@ -12,6 +12,7 @@ TagManager:
   - DeathPit
   - Trap
   - Spike
+  - TrapTrigger
   layers:
   - Default
   - TransparentFX

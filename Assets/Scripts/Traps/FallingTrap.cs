@@ -15,6 +15,7 @@ public class FallingTrap : MonoBehaviour
 
     [Header("Fall"), Tooltip("How far away from the trap the player has to be for it to fall")]
     [SerializeField] private float fallRange = 0.5f;
+    [SerializeField] private float fallHeight;
 
     private GameObject player;
 
@@ -24,11 +25,13 @@ public class FallingTrap : MonoBehaviour
     [Header("Damage"), Tooltip("True when the trap is hanging. False when it hits the ground so the player can walk through it.")]
     [SerializeField] private bool canDamage = true;
 
+    [SerializeField] private Collider2D triggerCollider;
 
     // Start is called before the first frame update
     void Awake()
     {
         player = GameObject.Find("Player");
+        
     }
 
     // Update is called once per frame
@@ -54,26 +57,31 @@ public class FallingTrap : MonoBehaviour
                 swayRight = true;
             }
         }
-
-        if (player.transform.position.x > transform.position.x - fallRange && player.transform.position.x < transform.position.x + fallRange)
-        {
-            trapRigidBody.gravityScale = 1;
-            canSway = false;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Ground")
+        if(collision.tag == "Ground" && !canSway)
         {
             //Makes trap stick into floor
             trapRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
             canDamage = false;
         }
 
-        if(collision.tag == "Player" && canDamage)
+
+        if (collision.tag == "Player")
         {
-            player.GetComponent<PlayerHealth>().TakeDamage();
+            Debug.Log("player");
+            if (canSway)
+            {
+                triggerCollider.enabled = false;
+                trapRigidBody.gravityScale = 1;
+                canSway = false;
+            }
+            else if (canDamage)
+            {
+                player.GetComponent<PlayerHealth>().TakeDamage();
+            }
         }
     }
 }
