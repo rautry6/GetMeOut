@@ -7,11 +7,12 @@ public class FallingTrap : MonoBehaviour
 
     [Header("Sway")]
     [SerializeField] private float swayRotation;
-    [SerializeField] private float rotateAmount = 0.1f;
+    [SerializeField, Tooltip("Higher value == slower swing")] private float swaySpeed = 0.1f;
     [SerializeField] private bool canSway = true;
     
     private float currentRotation = 0;
     private bool swayRight = true;
+    private bool swaying = false;
 
     [Header("Fall"), Tooltip("How far away from the trap the player has to be for it to fall")]
     [SerializeField] private float fallRange = 0.5f;
@@ -27,61 +28,40 @@ public class FallingTrap : MonoBehaviour
 
     [SerializeField] private Collider2D triggerCollider;
 
+    [Header("Animation")]
+    [SerializeField] private Sprite[] swayingAnimation;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    private int currentSprite = 3;
+    private Animator animator;
+
+    [Header("Falling")]
+    [SerializeField] private GameObject fallingObject;
+
     // Start is called before the first frame update
     void Awake()
     {
         player = GameObject.Find("Player");
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        //spriteRenderer.sprite = swayingAnimation[currentSprite];
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (swayRight && canSway)
-        {
-            currentRotation += rotateAmount;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, currentRotation);
-
-            if(currentRotation > swayRotation)
-            {
-                swayRight = false;
-            }
-        }
-        else if(canSway)
-        {
-            currentRotation -= rotateAmount;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, currentRotation);
-
-            if (currentRotation < -swayRotation)
-            {
-                swayRight = true;
-            }
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Ground" && !canSway)
-        {
-            //Makes trap stick into floor
-            trapRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
-            canDamage = false;
-        }
-
-
         if (collision.tag == "Player")
         {
-            Debug.Log("player");
-            if (canSway)
-            {
-                triggerCollider.enabled = false;
-                trapRigidBody.gravityScale = 1;
-                canSway = false;
-            }
-            else if (canDamage)
-            {
-                player.GetComponent<PlayerHealth>().TakeDamage();
-            }
+            triggerCollider.enabled = false;
+            animator.SetBool("Fall", true);
         }
+    }
+
+    public void Fall()
+    {
+        Instantiate(fallingObject, transform);
     }
 }

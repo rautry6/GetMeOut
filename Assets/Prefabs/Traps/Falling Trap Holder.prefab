@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7492153338905579340}
   - component: {fileID: 7492153338905579341}
   - component: {fileID: 7120393191794613446}
+  - component: {fileID: 7692779428250790827}
   m_Layer: 0
   m_Name: Falling Trap
   m_TagString: Untagged
@@ -101,13 +102,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swayRotation: 5
-  rotateAmount: 0.01
+  swaySpeed: 0.1
   canSway: 1
   fallRange: 0.5
   fallHeight: 0
   trapRigidBody: {fileID: 7492153338905579341}
   canDamage: 1
   triggerCollider: {fileID: 7120393191794613446}
+  swayingAnimation:
+  - {fileID: -1988595268, guid: efe2403a50a2a784584f86bff35bb060, type: 3}
+  - {fileID: 1944574298, guid: efe2403a50a2a784584f86bff35bb060, type: 3}
+  - {fileID: 580163188, guid: efe2403a50a2a784584f86bff35bb060, type: 3}
+  - {fileID: -1512105068, guid: efe2403a50a2a784584f86bff35bb060, type: 3}
+  - {fileID: -22307096, guid: efe2403a50a2a784584f86bff35bb060, type: 3}
+  spriteRenderer: {fileID: 7492153338905579342}
+  fallingAnimation: []
+  fallSpeed: 0.1
 --- !u!70 &7492153338905579340
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -171,6 +181,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!95 &7692779428250790827
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492153338905579329}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 240424d5f8867d74e9a54036e7f92f91, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7492153338917010690
 GameObject:
   m_ObjectHideFlags: 0
