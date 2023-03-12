@@ -8,29 +8,47 @@ public class FallingPlatform : MonoBehaviour
     [SerializeField] private float delay;
     [SerializeField] private float respawnTime;
     [SerializeField] private bool shouldFall;
+    [SerializeField] float timeForSideCheck;
+
     private BoxCollider2D _boxCollider2D;
     private SpriteRenderer _spriteRenderer;
+    private bool _detectedPlayer;
+    private float _timeSincePlayerFound;
+    private Animator _animator;
+    private static readonly int PlayerLanded = Animator.StringToHash("PlayerLanded");
 
     private void Start()
     {
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionStay2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Player"))
-            if(shouldFall)
-                StartCoroutine(BeginFalling());
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (shouldFall)
+            {
+                _timeSincePlayerFound += Time.deltaTime;
+                if (_timeSincePlayerFound > timeForSideCheck)
+                {
+                    _timeSincePlayerFound = 0f;
+                    _animator.SetTrigger(PlayerLanded);
+                }
+            }
+        }
     }
 
-    private IEnumerator BeginFalling()
+    private void DisableCollider()
     {
-        yield return new WaitForSeconds(delay);
         _boxCollider2D.enabled = false;
-        _spriteRenderer.enabled = false;
-        yield return new WaitForSeconds(respawnTime);
+        ;
+    }
+
+    private void EnableCollider()
+    {
+        Debug.Log("Hello?");
         _boxCollider2D.enabled = true;
-        _spriteRenderer.enabled = true;
     }
 }

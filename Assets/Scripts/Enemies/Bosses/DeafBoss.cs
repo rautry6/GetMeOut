@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HearingManager;
 using DG.Tweening;
-using static UnityEditor.FilePathAttribute;
+
 
 public class DeafBoss : MonoBehaviour
 {

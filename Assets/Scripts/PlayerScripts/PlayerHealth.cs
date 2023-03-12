@@ -159,4 +159,9 @@ public class PlayerHealth : MonoBehaviour
     {
         PlayerDeath.TriggerEvent();
     }
+
+    public void UpdateInvulnerable(bool isInvulnerable)
+    {
+        invulnerable = isInvulnerable;
+    }
 }

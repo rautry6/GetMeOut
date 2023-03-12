@@ -13,6 +13,7 @@ public class ScreenTransition : MonoBehaviour
     [SerializeField] private Image background;
     [SerializeField] private float duration;
     [SerializeField] private Move playerMove;
+    [SerializeField] private PlayerHealth playerHealth;
 
     private readonly List<Image.FillMethod> _fillMethods = new();
     [CanBeNull] private static DoorManager _currentDoorManager;
@@ -34,6 +35,7 @@ public class ScreenTransition : MonoBehaviour
     private IEnumerator BackgroundTransition()
     {
         playerMove.StopMovement();
+        playerHealth.UpdateInvulnerable(true);
         var elapsedTime = 0f;
         var fillMethodType = GetRandomFillMethod();
         if (fillMethodType == Image.FillMethod.Horizontal)
@@ -97,6 +99,7 @@ public class ScreenTransition : MonoBehaviour
             if (background.fillAmount < .1f)
             {
                 playerMove.RegainMovement();
+                playerHealth.UpdateInvulnerable(true);
             }
             yield return null;
         }

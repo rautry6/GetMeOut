@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7492153338905579340}
   - component: {fileID: 7492153338905579341}
   - component: {fileID: 7120393191794613446}
-  - component: {fileID: 7692779428250790827}
+  - component: {fileID: 1288742239}
   m_Layer: 0
   m_Name: Falling Trap
   m_TagString: Untagged
@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7492153338905579329}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.9849358, y: 2.500136, z: -0.12740795}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7492153338917010689}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5.257}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7492153338905579342
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 0.9375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -116,8 +116,7 @@ MonoBehaviour:
   - {fileID: -1512105068, guid: efe2403a50a2a784584f86bff35bb060, type: 3}
   - {fileID: -22307096, guid: efe2403a50a2a784584f86bff35bb060, type: 3}
   spriteRenderer: {fileID: 7492153338905579342}
-  fallingAnimation: []
-  fallSpeed: 0.1
+  fallingObject: {fileID: 2917058219737394651, guid: 621802874582fba4398798d4333d1b78, type: 3}
 --- !u!70 &7492153338905579340
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -168,20 +167,20 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -2.86}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0, y: 0, z: 1, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
-    newSize: {x: 1, y: 2}
+    oldSize: {x: 1, y: 0.9375}
+    newSize: {x: 1, y: 0.9375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1.51, y: 7.9}
   m_EdgeRadius: 0
---- !u!95 &7692779428250790827
+--- !u!95 &1288742239
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
