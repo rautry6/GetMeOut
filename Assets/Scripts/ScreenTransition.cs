@@ -99,7 +99,7 @@ public class ScreenTransition : MonoBehaviour
             if (background.fillAmount < .1f)
             {
                 playerMove.RegainMovement();
-                playerHealth.UpdateInvulnerable(true);
+                playerHealth.UpdateInvulnerable(false);
             }
             yield return null;
         }
