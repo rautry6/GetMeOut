@@ -9,6 +9,7 @@ TagManager:
   - Grabber
   - PowerUp
   - Ground
+  - Pointer
   layers:
   - Default
   - TransparentFX
