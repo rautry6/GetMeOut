@@ -22,7 +22,7 @@ public class PatrollingEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if(_currentMoveDirection == MoveDirection.Left)
+        if (_currentMoveDirection == MoveDirection.Left)
         {
             spriteRenderer.flipX = false;
             MoveLeft();
@@ -36,25 +36,31 @@ public class PatrollingEnemy : MonoBehaviour
 
     public void MoveRight()
     {
-        transform.DOMoveX(rightWaypoint.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
+        if (transform != null)
         {
-            StartCoroutine(Idle());
-        });
+            transform.DOMoveX(rightWaypoint.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
+            {
+                StartCoroutine(Idle());
+            });
+        }
     }
 
     public void MoveLeft()
     {
-        transform.DOMoveX(leftWaypoint.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
+        if (transform != null)
         {
-            StartCoroutine(Idle());
-        });
+            transform.DOMoveX(leftWaypoint.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
+            {
+                StartCoroutine(Idle());
+            });
+        }
     }
 
     public IEnumerator Idle()
     {
         yield return new WaitForSeconds(idleTime);
 
-        if(_currentMoveDirection == MoveDirection.Left)
+        if (_currentMoveDirection == MoveDirection.Left)
         {
             spriteRenderer.flipX = true;
             _currentMoveDirection = MoveDirection.Right;
@@ -66,6 +72,5 @@ public class PatrollingEnemy : MonoBehaviour
             _currentMoveDirection = MoveDirection.Left;
             MoveLeft();
         }
-
     }
 }

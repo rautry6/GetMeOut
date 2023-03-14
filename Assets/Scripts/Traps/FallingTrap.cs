@@ -7,16 +7,16 @@ public class FallingTrap : MonoBehaviour
 
     [Header("Sway")]
     [SerializeField] private float swayRotation;
-    [SerializeField, Tooltip("Higher value == slower swing")] private float swaySpeed = 0.1f;
-    [SerializeField] private bool canSway = true;
+    //[SerializeField, Tooltip("Higher value == slower swing")] private float swaySpeed = 0.1f;
+    //[SerializeField] private bool canSway = true;
     
-    private float currentRotation = 0;
+    /*private float currentRotation = 0;
     private bool swayRight = true;
-    private bool swaying = false;
+    private bool swaying = false;*/
 
     [Header("Fall"), Tooltip("How far away from the trap the player has to be for it to fall")]
-    [SerializeField] private float fallRange = 0.5f;
-    [SerializeField] private float fallHeight;
+    //[SerializeField] private float fallRange = 0.5f;
+    //[SerializeField] private float fallHeight;
 
     private GameObject player;
 
@@ -24,15 +24,15 @@ public class FallingTrap : MonoBehaviour
     [SerializeField] private Rigidbody2D trapRigidBody;
 
     [Header("Damage"), Tooltip("True when the trap is hanging. False when it hits the ground so the player can walk through it.")]
-    [SerializeField] private bool canDamage = true;
+    //[SerializeField] private bool canDamage = true;
 
     [SerializeField] private Collider2D triggerCollider;
 
     [Header("Animation")]
     [SerializeField] private Sprite[] swayingAnimation;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    private int currentSprite = 3;
-    private Animator animator;
+    //private int currentSprite = 3;
+    private Animator _animator;
 
     [Header("Falling")]
     [SerializeField] private GameObject fallingObject;
@@ -42,7 +42,7 @@ public class FallingTrap : MonoBehaviour
     {
         player = GameObject.Find("Player");
         spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         //spriteRenderer.sprite = swayingAnimation[currentSprite];
     }
 
@@ -56,7 +56,7 @@ public class FallingTrap : MonoBehaviour
         if (collision.tag == "Player")
         {
             triggerCollider.enabled = false;
-            animator.SetBool("Fall", true);
+            _animator.SetBool("Fall", true);
         }
     }
 

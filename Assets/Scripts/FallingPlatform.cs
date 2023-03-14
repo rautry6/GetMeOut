@@ -48,7 +48,8 @@ public class FallingPlatform : MonoBehaviour
 
     private void EnableCollider()
     {
-        Debug.Log("Hello?");
+        if (_boxCollider2D.enabled) return;
+        
         _boxCollider2D.enabled = true;
     }
 }
