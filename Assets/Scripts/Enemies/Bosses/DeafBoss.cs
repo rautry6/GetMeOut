@@ -8,7 +8,7 @@ public class DeafBoss : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float sprintSpeed = 1.5f;
+    [SerializeField] private float sprintSpeed = 15f;
     [SerializeField] private Ease easeType;
     [SerializeField] private GameObject rightPoint;
     [SerializeField] private GameObject leftPoint;
@@ -63,6 +63,8 @@ public class DeafBoss : MonoBehaviour
     [SerializeField, Tooltip("How far from the player the AI needs to be to charge")] private float chargeRange = 2f;
     [SerializeField] private float chargeDistance = 10f;
     [SerializeField] private float chargeSpeed = 10f;
+    [SerializeField] private float wallDetectionRange = 0.5f;
+    [SerializeField] private LayerMask hitLayer;
     private Vector3 chargeDirection;
     private float chargeEndXPoint;
     private bool charging = false;
@@ -89,6 +91,17 @@ public class DeafBoss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Checks if the boss hits a wall while charging
+       RaycastHit2D hit = Physics2D.Raycast(transform.position, chargeDirection, wallDetectionRange, hitLayer);
+       Debug.DrawRay(transform.position, chargeDirection * wallDetectionRange, Color.yellow);
+        if (hit.collider != null && currentState == States.Charge)
+        {
+            Debug.Log("fire");
+            currentState = States.Cooldown;
+            StartCoroutine(CoolDown());
+        }
+
+
         if (hasArrived && currentState == States.Wander)
         {
             hasArrived = false;
@@ -136,44 +149,40 @@ public class DeafBoss : MonoBehaviour
     {
         if(currentState == States.Chase)
         {
-            Debug.Log(Vector3.Distance(targetLocation, transform.position));
-            if (Vector3.Distance(targetLocation, transform.position) < chargeRange && numberOfSoundsInSuccession > 2)
+            if (Vector3.Distance(player.transform.position, transform.position) < chargeRange)
             {
 
-                if (targetLocation.x > transform.position.x)
+                if (player.transform.position.x < transform.position.x)
                 {
-                    //Charge(transform.right);
-                    chargeDirection = transform.right;
+                    chargeDirection = -transform.right;
 
                 }
                 else
                 {
-                    chargeDirection = -transform.right;
+                    chargeDirection = transform.right;
                 }
 
-                chargeEndXPoint = transform.position.x + (chargeRange * chargeDirection.x);
+                chargeEndXPoint = transform.position.x + (chargeDistance * chargeDirection.x);
 
                 currentState = States.Charge;
                 return;
             }
 
-            var heading = transform.position - lastHeardSoundLocation;
+            var heading = transform.position - player.transform.position;
             var distance = heading.magnitude;
             var direction = heading / distance;
 
-            transform.position -= transform.right * direction.x * 15 * Time.deltaTime;
+            transform.position -= transform.right * direction.x * sprintSpeed * Time.deltaTime;
 
         }
 
         if(currentState == States.Charge)
         {
-            Debug.Log(chargeDirection.ToString());
-
             if(chargeDirection.x >= 0)
             {
                 if(transform.position.x  < chargeEndXPoint)
                 {
-                    transform.position += transform.right * chargeDirection.x * chargeSpeed* Time.deltaTime;
+                    transform.position += transform.right * chargeDirection.x * chargeSpeed * Time.deltaTime;
                 }
                 else
                 {
@@ -211,13 +220,13 @@ public class DeafBoss : MonoBehaviour
         }
         else
         {
-            Debug.Log("Attack!");
+            //Debug.Log("Attack!");
         }
     }
 
     public void MoveTowardsLastSound(Vector3 location)
     {
-        if(currentState == States.Charge || currentState == States.Chase)
+        if(currentState == States.Charge || currentState == States.Chase || currentState == States.Cooldown)
         {
             return;
         }
@@ -318,6 +327,7 @@ public class DeafBoss : MonoBehaviour
 
     public IEnumerator CoolDown()
     {
+        yield return null;
         yield return new WaitForSeconds(chargeCooldown);
 
         currentState = States.Wander;
