@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PowerUpRoutine : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PowerUpRoutine : MonoBehaviour
     [SerializeField] private GameObject injector;
     [SerializeField] private ParticleSystem powerUpParticles;
     [SerializeField] private PlayerAnimations playerAnimations;
+    [SerializeField] private BoxCollider2D powerUpCollider;
+    [SerializeField] private Light2D light;
     private static readonly int Empty = Animator.StringToHash("Empty");
     private static readonly int Finished = Animator.StringToHash("Finished");
 
@@ -24,16 +27,18 @@ public class PowerUpRoutine : MonoBehaviour
     {
         playerMove.StopMovement();
         playerJump.DisableJumping();
-        StartCoroutine(MovePlayerToPosition());
+        StartCoroutine(PowerUpSequence());
 
     }
 
-    private IEnumerator MovePlayerToPosition()
+    private IEnumerator PowerUpSequence()
     {
         var rigidBody = player.GetComponent<Rigidbody2D>();
         powerUpMachineSR.sortingOrder = 6;
         var seq = player.transform.DOMove(positionToMoveTo.position, movementTime).OnPlay(() =>
         {
+            powerUpCollider.enabled = false;
+            injector.SetActive(true);
             playerAnimations.ChangeAnimationState(AnimationState.PowerUp, "Player_PowerUp");
             powerUpParticles.Play();
         }).OnComplete(() =>
@@ -50,7 +55,7 @@ public class PowerUpRoutine : MonoBehaviour
         powerUpAnimator.SetTrigger(Empty);
         yield return new WaitForSeconds(powerUpAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length * powerUpDelay);
         powerUpAnimator.SetTrigger(Finished);
-        injector.SetActive(true);
+        light.intensity = 0;
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         playerMove.RegainMovement();
         playerJump.EnableJumping();
