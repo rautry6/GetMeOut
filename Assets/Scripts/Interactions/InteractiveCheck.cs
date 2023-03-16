@@ -24,13 +24,20 @@ public class InteractiveCheck : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            ScreenTransition.UpdateCurrentDoorManager(doorManager);
+            interactIcon.SetActive(true);
+
+            if (doorManager != null)
+            {
+                // Need to know which doorManager belongs to this game object
+                ScreenTransition.UpdateCurrentDoorManager(doorManager);
+            }
+
             if (_ventManager != null)
             {
+                // VentManager only exists on vent game objects
                 _ventManager.DetectedVent = gameObject;
             }
 
-            interactIcon.SetActive(true);
             var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
             if (interactivePressedHandler != null)
             {
@@ -40,7 +47,7 @@ public class InteractiveCheck : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    /*private void OnTriggerStay2D(Collider2D other)
     {
         ScreenTransition.UpdateCurrentDoorManager(doorManager);
         if (_ventManager != null)
@@ -55,7 +62,7 @@ public class InteractiveCheck : MonoBehaviour
             interactivePressedHandler.SetGMOEventType(gmoEventType);
             interactivePressedHandler.SetCanInteractTrue();
         }
-    }
+    }*/
 
 
     private void OnTriggerExit2D(Collider2D other)

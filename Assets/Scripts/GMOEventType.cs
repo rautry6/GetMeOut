@@ -3,5 +3,6 @@
     Empty,
     LevelTransition,
     Vent,
-    ReadNote
+    ReadNote,
+    PowerUp
 }

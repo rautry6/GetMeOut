@@ -69,6 +69,8 @@ public class Move : MonoBehaviour
 
     private void RunningAnimationCheck()
     {
+        if (!canMove) return;
+        
         if (_direction.x > 0f)
         {
             playerAnimations.ChangeAnimationState(AnimationState.RunningRight, playerRun);
@@ -80,7 +82,8 @@ public class Move : MonoBehaviour
         }
         else
         {
-            playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
+            if(_onGround)
+                playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
         }
         
     }

@@ -8,6 +8,7 @@ public class HandleInteractionPressed : MonoBehaviour
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private GameEvent levelTransitionEvent;
     [SerializeField] private GameEvent ventTraversalEvent;
+    [SerializeField] private GameEvent powerUpEvent;
     
     private GMOEventType _gmoEventType = GMOEventType.Empty;
 
@@ -62,6 +63,11 @@ public class HandleInteractionPressed : MonoBehaviour
             }
             case GMOEventType.ReadNote:
             {
+                break;
+            }
+            case GMOEventType.PowerUp:
+            {
+                powerUpEvent.TriggerEvent();
                 break;
             }
             default: throw new NotImplementedException();
