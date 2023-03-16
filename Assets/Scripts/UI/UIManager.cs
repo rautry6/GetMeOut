@@ -28,6 +28,12 @@ public class UIManager : MonoBehaviour
         healthUI.SetActive(false);
         keycardUI.SetActive(false);
     }
+    
+    public void EnableHealthAndKeycardUI()
+    {
+        healthUI.SetActive(true);
+        keycardUI.SetActive(true);
+    }
 
     /// <summary>
     /// Turns off the tip ui
@@ -35,6 +41,11 @@ public class UIManager : MonoBehaviour
     public void DisableTipUI()
     {
         tipUI.SetActive(false);
+    }
+    
+    public void EnableTipUI()
+    {
+        tipUI.SetActive(true);
     }
 
     public void GameOver()
@@ -46,4 +57,15 @@ public class UIManager : MonoBehaviour
         gameOverCanvasGroup.DOFade(1, gameOverFadeInTime);
         gameOverTextCanvasGroup.DOFade(1, gameOverTextFadeInTime);
     }
+
+    public void ResetGameOverUI()
+    {
+        EnableHealthAndKeycardUI();
+        EnableTipUI();
+        
+        //Fades in the GameOver UI
+        gameOverCanvasGroup.DOFade(0, gameOverFadeInTime);
+        gameOverTextCanvasGroup.DOFade(0, gameOverTextFadeInTime);
+    }
+
 }

@@ -176,4 +176,11 @@ public class Move : MonoBehaviour
         }
     }
 
+    public void ReportPosition()
+    {
+        AutoSave.Instance.posX = transform.position.x;
+        AutoSave.Instance.posY = transform.position.y;
+        AutoSave.Instance.posZ = transform.position.z;
+    }
+
 }

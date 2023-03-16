@@ -24,6 +24,7 @@ public class InteractiveCheck : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            AutoSave.Instance.Save();
             interactIcon.SetActive(true);
 
             if (doorManager != null)

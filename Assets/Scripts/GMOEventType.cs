@@ -3,6 +3,6 @@
     Empty,
     LevelTransition,
     Vent,
-    ReadNote,
+    PCInteract,
     PowerUp
 }
