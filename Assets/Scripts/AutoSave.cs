@@ -24,7 +24,7 @@ public class AutoSave : MonoBehaviour
 
     private void Awake()
     {
-        _canSave = false;
+        _canSave = true;
         StartCoroutine(CountdownCanSave());
         _playerDataPath = $"{Application.dataPath}/SaveData/PlayerSaveData.txt";
 
