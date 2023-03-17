@@ -20,6 +20,8 @@ public class PowerUpRoutine : MonoBehaviour
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private BoxCollider2D powerUpCollider;
     [SerializeField] private Light2D light;
+    [SerializeField] private GameObject PowerUpUI;
+    
     private static readonly int Empty = Animator.StringToHash("Empty");
     private static readonly int Finished = Animator.StringToHash("Finished");
 
@@ -43,6 +45,7 @@ public class PowerUpRoutine : MonoBehaviour
             powerUpParticles.Play();
         }).OnComplete(() =>
         {
+            PowerUpUI.SetActive(true);
             player.transform.position = positionToMoveTo.position;
             if (rigidBody != null)
             {
@@ -60,5 +63,7 @@ public class PowerUpRoutine : MonoBehaviour
         playerMove.RegainMovement();
         playerJump.EnableJumping();
         powerUpMachineSR.sortingOrder = 1;
+        yield return new WaitForSeconds(2f);
+        PowerUpUI.SetActive(false);
     }
 }
