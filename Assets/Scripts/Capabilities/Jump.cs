@@ -59,9 +59,9 @@ public class Jump : MonoBehaviour
         // Bitwise OR assignment operator, tryingToJump will remain set in new updates until manually changed
         _tryingToJump |= inputController.RetrieveJumpInput();
 
-        if (!_onGround)
+        if (!_onGround && _playerRigidbody.velocity.y < 0)
         {
-            //playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
+            playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
         }
     }
 
