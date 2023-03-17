@@ -24,6 +24,14 @@ public class FallingPlatform : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        foreach (var param in _animator.parameters)
+        {
+            Debug.Log(param);
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -34,7 +42,7 @@ public class FallingPlatform : MonoBehaviour
                 if (_timeSincePlayerFound > timeForSideCheck)
                 {
                     _timeSincePlayerFound = 0f;
-                    _animator.SetTrigger(PlayerLanded);
+                    _animator.Play("FragilePlatformBegin");
                 }
             }
         }
