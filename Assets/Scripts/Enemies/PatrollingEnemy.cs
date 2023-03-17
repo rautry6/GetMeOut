@@ -11,7 +11,7 @@ public class PatrollingEnemy : MonoBehaviour
     [SerializeField] private float moveDuration;
     [SerializeField] private float idleTime;
     [SerializeField] private MoveDirection _currentMoveDirection;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
 
     private enum MoveDirection
     {
@@ -24,12 +24,10 @@ public class PatrollingEnemy : MonoBehaviour
     {
         if (_currentMoveDirection == MoveDirection.Left)
         {
-            spriteRenderer.flipX = false;
             MoveLeft();
         }
         else
         {
-            spriteRenderer.flipX = true;
             MoveRight();
         }
     }
@@ -38,8 +36,12 @@ public class PatrollingEnemy : MonoBehaviour
     {
         if (transform != null)
         {
-            transform.DOMoveX(rightWaypoint.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
+            transform.DOMoveX(rightWaypoint.position.x, moveDuration).SetEase(easeType).OnPlay(() =>
             {
+                animator.SetTrigger("WalkRight");
+            }).OnComplete(() =>
+            {
+                animator.SetTrigger("TurnLeft");
                 StartCoroutine(Idle());
             });
         }
@@ -49,8 +51,12 @@ public class PatrollingEnemy : MonoBehaviour
     {
         if (transform != null)
         {
-            transform.DOMoveX(leftWaypoint.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
+            transform.DOMoveX(leftWaypoint.position.x, moveDuration).SetEase(easeType).OnPlay(() =>
             {
+                animator.SetTrigger("WalkLeft");
+            }).OnComplete(() =>
+            {
+                animator.SetTrigger("TurnRight");
                 StartCoroutine(Idle());
             });
         }
@@ -62,15 +68,14 @@ public class PatrollingEnemy : MonoBehaviour
 
         if (_currentMoveDirection == MoveDirection.Left)
         {
-            spriteRenderer.flipX = true;
             _currentMoveDirection = MoveDirection.Right;
             MoveRight();
         }
         else
         {
-            spriteRenderer.flipX = false;
             _currentMoveDirection = MoveDirection.Left;
             MoveLeft();
         }
     }
+
 }

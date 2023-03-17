@@ -1,4 +1,4 @@
-position 125.2969,0.4796805,-1.017988
-health 3
-keycard KeyCard_White,
-powerups 
+position 185.1156,16.47968,0.2854
+health 1
+keycard KeyCard_White,KeyCard_Red,
+powerups DoubleJump,
