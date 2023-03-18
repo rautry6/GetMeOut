@@ -32,7 +32,7 @@ public class CheckForVerticalOneWayPlatform : MonoBehaviour
             {
                 if (Input.GetAxisRaw("Vertical") < 0)
                 {
-                    StartCoroutine(DisableCollider(raycastHit));
+                    StartCoroutine(DisableColliderFast(raycastHit));
                 }
             }
         }
@@ -45,6 +45,20 @@ public class CheckForVerticalOneWayPlatform : MonoBehaviour
         platformCollider.enabled = false;
         //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, true);
         yield return new WaitForSeconds(colliderDisableTime);
+        platformCollider.enabled = true;
+        //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, false);
+        /*platformCollider.enabled = false;
+        platformCollider.enabled = true;*/
+        _routineStarted = false;
+    }
+    
+    IEnumerator DisableColliderFast(RaycastHit2D raycastHit2D)
+    {
+        _routineStarted = true;
+        var platformCollider = raycastHit2D.collider;
+        platformCollider.enabled = false;
+        //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, true);
+        yield return new WaitForSeconds(colliderDisableTime/2f);
         platformCollider.enabled = true;
         //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, false);
         /*platformCollider.enabled = false;
