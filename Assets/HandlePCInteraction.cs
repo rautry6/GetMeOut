@@ -1,34 +1,53 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HandlePCInteraction : MonoBehaviour
 {
     [SerializeField] private GameObject pcInteractionUI;
-    [SerializeField] private float delayTime = 5f;
+    [SerializeField] private PCDetectsPlayer pcDetectsPlayer;
+    [SerializeField] private Move playerMove;
+    [SerializeField] private Jump playerJump;
 
     private bool _isInRoutine;
+    private bool _isDone;
 
     private void Awake()
     {
         _isInRoutine = false;
+        _isDone = false;
     }
 
-    public void BeginPCInteractionRoutine()
+    // animation event
+    public void HandleStartPCRoutine()
     {
-        if (!_isInRoutine)
+        if (_isInRoutine == false)
         {
-            _isInRoutine = true;
             StartCoroutine(PCInteractionRoutine());
+        }
+    }
+
+    private void Update()
+    {
+        if (_isInRoutine && Input.GetKeyDown(KeyCode.F))
+        {
+            _isDone = true;
         }
     }
 
     private IEnumerator PCInteractionRoutine()
     {
+        _isInRoutine = true;
+        playerMove.StopMovement();
+        playerJump.DisableJumping();
         pcInteractionUI.SetActive(true);
-        yield return new WaitForSeconds(delayTime);
+        yield return new WaitUntil(() => _isDone);
         pcInteractionUI.SetActive(false);
+        playerMove.RegainMovement();
+        playerJump.EnableJumping();
+        yield return new WaitForSeconds(.75f);
+        pcDetectsPlayer.TriggerOff();
+        pcDetectsPlayer.SetHasInteracted(false);
         _isInRoutine = false;
+        _isDone = false;
     }
 }

@@ -31,7 +31,7 @@ public class InteractiveCheck : MonoBehaviour
                 _ventManager.DetectedVent = gameObject;
             }
 
-            AutoSave.Instance.Save();
+            //AutoSave.Instance.Save();
             interactIcon.SetActive(true);
 
             if (doorManager != null)
