@@ -36,7 +36,8 @@ public class DeafBoss : MonoBehaviour
         Chase,
         Charge,
         Wander,
-        Cooldown
+        Cooldown,
+        ChargeDebris,
     }
 
     [Header("Current State")]
@@ -72,6 +73,7 @@ public class DeafBoss : MonoBehaviour
     private float health = 100f;
 
     private GameObject player;
+    private Vector3 target;
 
     // Start is called before the first frame update
     void Awake()
@@ -94,7 +96,7 @@ public class DeafBoss : MonoBehaviour
         //Checks if the boss hits a wall while charging
        RaycastHit2D hit = Physics2D.Raycast(transform.position, chargeDirection, wallDetectionRange, hitLayer);
        Debug.DrawRay(transform.position, chargeDirection * wallDetectionRange, Color.yellow);
-        if (hit.collider != null && currentState == States.Charge)
+        if (hit.collider != null && currentState == States.Charge || hit.collider != null && currentState == States.ChargeDebris)
         {
             Debug.Log("fire");
             currentState = States.Cooldown;
@@ -203,6 +205,34 @@ public class DeafBoss : MonoBehaviour
                 }
             }
         }
+
+        if(currentState == States.ChargeDebris)
+        {
+            if(chargeDirection.x >= 0)
+            {
+                if (transform.position.x < chargeEndXPoint)
+                {
+                    transform.position += transform.right * chargeDirection.x * chargeSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    currentState = States.Cooldown;
+                    StartCoroutine(CoolDown());
+                }
+            }
+            else
+            {
+                if (transform.position.x > chargeEndXPoint)
+                {
+                    transform.position += transform.right * chargeDirection.x * chargeSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    currentState = States.Cooldown;
+                    StartCoroutine(CoolDown());
+                }
+            }
+        }
     }
 
     public void ReportSoundHeard(Vector3 location, EHeardSoundCategory category, float intensity)
@@ -214,7 +244,26 @@ public class DeafBoss : MonoBehaviour
 
         //Debug.Log("Heard sound " + category + " at " + location.ToString() + " with intensity of " + newIntensity);
 
-        if(newIntensity < 0.9 && currentState != States.Chase)
+        if (category == EHeardSoundCategory.ECrash)
+        {
+            target = location;
+
+            if (target.x < transform.position.x)
+            {
+                chargeDirection = -transform.right;
+
+            }
+            else
+            {
+                chargeDirection = transform.right;
+            }
+
+            chargeEndXPoint = target.x;
+
+            currentState = States.ChargeDebris;
+            DOTween.Clear();
+        }
+        else if (newIntensity < 0.9 && currentState != States.Chase)
         {
             MoveTowardsLastSound(location);
         }
@@ -266,15 +315,6 @@ public class DeafBoss : MonoBehaviour
     public void Attack()
     {
 
-    }
-
-    public void Charge(Vector3 direction)
-    {
-        charging = true;
-        DOTween.Clear();
-
-        rigidBody.AddForce(direction * 200, ForceMode2D.Impulse);
-        StartCoroutine(CoolDown());
     }
 
 
@@ -333,5 +373,20 @@ public class DeafBoss : MonoBehaviour
         currentState = States.Wander;
         StartWandering();
         numberOfSoundsInSuccession = 0;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Debris")
+        {
+            currentState = States.Cooldown;
+            TakeDamage(33.5f);
+            StartCoroutine(CoolDown());
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
     }
 }

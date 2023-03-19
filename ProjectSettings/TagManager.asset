@@ -13,6 +13,7 @@ TagManager:
   - Trap
   - Spike
   - TrapTrigger
+  - Debris
   layers:
   - Default
   - TransparentFX

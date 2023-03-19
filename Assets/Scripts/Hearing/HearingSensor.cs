@@ -31,7 +31,7 @@ public class HearingSensor : MonoBehaviour
 
     public void OnSoundHeard(Vector3 location, EHeardSoundCategory category, float intensity)
     {
-        if(Vector3.Distance(location, LinkedBoss.transform.position) > LinkedBoss.HearingRange)
+        if(Vector3.Distance(location, LinkedBoss.transform.position) > LinkedBoss.HearingRange && category != EHeardSoundCategory.ECrash)
         {
             return;
         }
