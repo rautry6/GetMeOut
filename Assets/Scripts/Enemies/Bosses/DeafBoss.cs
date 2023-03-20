@@ -75,6 +75,9 @@ public class DeafBoss : MonoBehaviour
     private GameObject player;
     private Vector3 target;
 
+    [Header("UI")]
+    [SerializeField] private GameObject BossHealthBar;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -88,6 +91,7 @@ public class DeafBoss : MonoBehaviour
     void Start()
     {
         StartWandering();
+
     }
 
     // Update is called once per frame
@@ -388,5 +392,34 @@ public class DeafBoss : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
+
+        if(health <= 0)
+        {
+            //Makes sure health is not negative before updating the UI
+            health = 0;
+        }
+
+        UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        BossHealthBar.transform.localScale = new Vector3(health, BossHealthBar.transform.localScale.y);
+    }
+
+
+    public IEnumerator UITest()
+    {
+        yield return new WaitForSeconds(2f);
+
+        TakeDamage(33.5f);
+
+        yield return new WaitForSeconds(2f);
+
+        TakeDamage(33.5f);
+
+        yield return new WaitForSeconds(2f);
+
+        TakeDamage(33.5f);
     }
 }
