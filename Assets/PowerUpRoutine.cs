@@ -24,6 +24,7 @@ public class PowerUpRoutine : MonoBehaviour
     
     private static readonly int Empty = Animator.StringToHash("Empty");
     private static readonly int Finished = Animator.StringToHash("Finished");
+    [SerializeField] private float graphicActiveTime;
 
     public void StartPowerUpRoutine()
     {
@@ -63,7 +64,7 @@ public class PowerUpRoutine : MonoBehaviour
         playerMove.RegainMovement();
         playerJump.EnableJumping();
         powerUpMachineSR.sortingOrder = 1;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(graphicActiveTime);
         PowerUpUI.SetActive(false);
     }
 }
