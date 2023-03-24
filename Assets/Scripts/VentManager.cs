@@ -6,6 +6,7 @@ using DG.Tweening;
 public class VentManager : MonoBehaviour
 {
     [SerializeField] private Move playerMove;
+    [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private SpriteRenderer playerSpriteRenderer;
     [SerializeField] private float duration = 3f;
     [SerializeField] private float delayTime = 3f;
@@ -20,6 +21,7 @@ public class VentManager : MonoBehaviour
 
         if (destinationVent == null) return;
         
+        playerHealth.UpdateInvulnerable(true);
         playerMove.StopMovement();
         IsInVentMovement = true;
         playerSpriteRenderer.enabled = false;
@@ -28,6 +30,7 @@ public class VentManager : MonoBehaviour
             playerSpriteRenderer.enabled = true;
             playerMove.RegainMovement();
             StartCoroutine(DelayInteractionAfterVent());
+            playerHealth.UpdateInvulnerable(false);
         });
     }
 

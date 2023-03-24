@@ -10,7 +10,6 @@ public class AcidManager : MonoBehaviour
     [SerializeField] private float initialMoveDuration;
     [SerializeField] private float secondaryMoveDuration;
     [SerializeField] private float startDelay;
-    [SerializeField] private CameraShake cameraShake;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private GameObject horizontalPlatform;
     [SerializeField] private Ease acidEase;
@@ -29,32 +28,22 @@ public class AcidManager : MonoBehaviour
         _startingPosition = transform;
     }
 
-    private void Update()
+    public void HandleStartAcid()
     {
-        var player = Physics2D.CircleCast(horizontalPlatform.transform.position, 1f, Vector2.up, 1f, playerLayer);
-        
-        if (player.transform != null)
-        {
-            if (!_runOnce)
-            {
-                _runOnce = true;
-                StartCoroutine(StartAcid());
-            }
-        }
+        StartCoroutine(StartAcid());
     }
-
+    
     private IEnumerator StartAcid()
     {
-        yield return new WaitForSeconds(1f);
-        cameraShake.ShakeCamera();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         _acidSequence = DOTween.Sequence();
-        _acidSequence.Append(transform.DOMoveY(endPositions.position.y, initialMoveDuration).SetEase(acidEase));
+        _acidSequence.Append(transform.DOScaleY(20, 10f).SetEase(Ease.OutSine));
+        _acidSequence.Append(transform.DOScaleY(175f, 60f));
     }
 
     public void DrainAcid()
     {
         _acidSequence.Kill();
-        transform.DOMoveY(-20, 10f).OnComplete(() => { gameObject.SetActive(false); });
+        transform.DOScaleY(3f, 10f).OnComplete(() => { gameObject.SetActive(false); });
     }
 }

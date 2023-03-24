@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     [Header("Game Over UI")]
     [SerializeField] private CanvasGroup gameOverCanvasGroup;
     [SerializeField] private CanvasGroup gameOverTextCanvasGroup;
+    [SerializeField] private GameObject restartButton;
     [SerializeField] private float gameOverFadeInTime = 2f;
     [SerializeField] private float gameOverTextFadeInTime = 2f;
 
@@ -54,7 +55,10 @@ public class UIManager : MonoBehaviour
         DisableTipUI();
 
         //Fades in the GameOver UI
-        gameOverCanvasGroup.DOFade(1, gameOverFadeInTime);
+        gameOverCanvasGroup.DOFade(1, gameOverFadeInTime).OnComplete(() =>
+        {
+            restartButton.SetActive(true);
+        });
         gameOverTextCanvasGroup.DOFade(1, gameOverTextFadeInTime);
     }
 
@@ -62,7 +66,7 @@ public class UIManager : MonoBehaviour
     {
         EnableHealthAndKeycardUI();
         EnableTipUI();
-        
+        restartButton.SetActive(false);
         //Fades in the GameOver UI
         gameOverCanvasGroup.DOFade(0, gameOverFadeInTime);
         gameOverTextCanvasGroup.DOFade(0, gameOverTextFadeInTime);
