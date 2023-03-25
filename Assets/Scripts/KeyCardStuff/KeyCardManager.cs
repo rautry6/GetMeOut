@@ -8,6 +8,9 @@ public class KeyCardManager : MonoBehaviour
     [SerializeField] private KeyCard redCard;
     [SerializeField] private KeyCard whiteCard;
     [SerializeField] private KeyCard greenCard;
+    [SerializeField] private KeyCard purpleCard;
+    [SerializeField] private KeyCard blueCard;
+    [SerializeField] private KeyCard yellowCard;
 
     private void Awake()
     {
@@ -51,6 +54,27 @@ public class KeyCardManager : MonoBehaviour
                     if (keyCardsCollected.Contains(greenCard)) continue;
                     keyCardsCollected.Add(greenCard);
                     keyCardUI.AddKeyCardUI(greenCard);
+                    break;
+                }
+                case "KeyCard_Purple":
+                {
+                    if (keyCardsCollected.Contains(purpleCard)) continue;
+                    keyCardsCollected.Add(purpleCard);
+                    keyCardUI.AddKeyCardUI(purpleCard);
+                    break;
+                }
+                case "KeyCard_Blue":
+                {
+                    if (keyCardsCollected.Contains(blueCard)) continue;
+                    keyCardsCollected.Add(blueCard);
+                    keyCardUI.AddKeyCardUI(blueCard);
+                    break;
+                }
+                case "KeyCard_Yellow":
+                {
+                    if (keyCardsCollected.Contains(yellowCard)) continue;
+                    keyCardsCollected.Add(yellowCard);
+                    keyCardUI.AddKeyCardUI(yellowCard);
                     break;
                 }
             }

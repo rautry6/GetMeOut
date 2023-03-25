@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: KeyCard_Blue
   m_EditorClassIdentifier: 
   cardColor: 2
-  cardSprite: {fileID: 21300000, guid: db1e5320e7fe5084186f46a2b4b183ad, type: 3}
-  cardColorValue: {r: 0.57254905, g: 0.25490198, b: 0.95294124, a: 1}
+  cardSprite: {fileID: -2108239694, guid: 04a3086fc4574ec4da54a06449583b60, type: 3}
+  cardColorValue: {r: 0.13948657, g: 0.0990566, b: 1, a: 1}
