@@ -19,6 +19,16 @@ public class FallingDebris : MonoBehaviour
         
     }
 
+    public void Fall()
+    {
+        debrisRigidbody.gravityScale = 1;
+    }
+
+    public void Destroy()
+    {
+        //Play animation and delete
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Ground")
