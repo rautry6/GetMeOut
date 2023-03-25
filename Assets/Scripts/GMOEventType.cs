@@ -4,4 +4,6 @@
     LevelTransition,
     Vent,
     ReadNote,
+    PCInteract,
+    PowerUp
 }

@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     [Header("Game Over UI")]
     [SerializeField] private CanvasGroup gameOverCanvasGroup;
     [SerializeField] private CanvasGroup gameOverTextCanvasGroup;
+    [SerializeField] private GameObject restartButton;
     [SerializeField] private float gameOverFadeInTime = 2f;
     [SerializeField] private float gameOverTextFadeInTime = 2f;
 
@@ -28,6 +29,12 @@ public class UIManager : MonoBehaviour
         healthUI.SetActive(false);
         keycardUI.SetActive(false);
     }
+    
+    public void EnableHealthAndKeycardUI()
+    {
+        healthUI.SetActive(true);
+        keycardUI.SetActive(true);
+    }
 
     /// <summary>
     /// Turns off the tip ui
@@ -36,6 +43,11 @@ public class UIManager : MonoBehaviour
     {
         tipUI.SetActive(false);
     }
+    
+    public void EnableTipUI()
+    {
+        tipUI.SetActive(true);
+    }
 
     public void GameOver()
     {
@@ -43,7 +55,21 @@ public class UIManager : MonoBehaviour
         DisableTipUI();
 
         //Fades in the GameOver UI
-        gameOverCanvasGroup.DOFade(1, gameOverFadeInTime);
+        gameOverCanvasGroup.DOFade(1, gameOverFadeInTime).OnComplete(() =>
+        {
+            restartButton.SetActive(true);
+        });
         gameOverTextCanvasGroup.DOFade(1, gameOverTextFadeInTime);
     }
+
+    public void ResetGameOverUI()
+    {
+        EnableHealthAndKeycardUI();
+        EnableTipUI();
+        restartButton.SetActive(false);
+        //Fades in the GameOver UI
+        gameOverCanvasGroup.DOFade(0, gameOverFadeInTime);
+        gameOverTextCanvasGroup.DOFade(0, gameOverTextFadeInTime);
+    }
+
 }

@@ -1,38 +1,38 @@
 using GetMeOut;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUpChecker : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "PowerUp")
+        if(collision.CompareTag("PowerUp"))
         {
-            Debug.Log("PowerUP!");
-
             PowerUpInjector powerUpInjector = collision.GetComponent<PowerUpInjector>();
-
-            if(powerUpInjector.PowerUp == "WallInteractor")
-            {
-                GetComponent<WallInteractor>().HasWallInteractor = true;
-            }
-            else if(powerUpInjector.PowerUp == "DoubleJump")
-            {
-                GetComponent<Jump>().MaxAirJumps = 1;
-            }
+            AddPowerUp(powerUpInjector.PowerUp);
+            AutoSave.Instance.Powerups.Add(powerUpInjector.PowerUp);
         }
+    }
+
+    public void LoadPowerUps()
+    {
+        var temp = AutoSave.Instance.Powerups;
+        foreach (var powerUp in temp)
+        {
+            AddPowerUp(powerUp);
+        }
+    }
+    
+    public void AddPowerUp(string powerUp)
+    {
+        
+        if(powerUp == "WallInteractor")
+        {
+            GetComponent<WallInteractor>().HasWallInteractor = true;
+        }
+        else if(powerUp == "DoubleJump")
+        {
+            GetComponent<Jump>().MaxAirJumps = 1;
+        }
+        
     }
 }

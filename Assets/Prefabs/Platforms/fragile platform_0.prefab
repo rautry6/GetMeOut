@@ -123,6 +123,8 @@ MonoBehaviour:
   respawnTime: 2
   shouldFall: 1
   timeForSideCheck: 1.5
+  isSlow: 0
+  animatorSpeed: 0
 --- !u!61 &1028811338914758113
 BoxCollider2D:
   m_ObjectHideFlags: 0

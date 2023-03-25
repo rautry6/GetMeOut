@@ -160,8 +160,34 @@ public class PlayerHealth : MonoBehaviour
         PlayerDeath.TriggerEvent();
     }
 
+    // button click or event trigger
+    public void Respawn()
+    {
+        transform.position = new Vector3(AutoSave.Instance.posX, AutoSave.Instance.posY, AutoSave.Instance.posZ);
+        healthPoints = AutoSave.Instance.health;
+        UpdateHeartsUI();
+    }
+
+    public void ReportHealth()
+    {
+        AutoSave.Instance.health = healthPoints;
+    }
+    
     public void UpdateInvulnerable(bool isInvulnerable)
     {
         invulnerable = isInvulnerable;
+    }
+
+    private void UpdateHeartsUI()
+    {
+        foreach (var t in healthUI)
+        {
+            t.sprite = depletedSprite;
+        }
+
+        for (var i = 0; i <= healthPoints - 1; i++)
+        {
+            healthUI[i].sprite = fullSprite;
+        }
     }
 }

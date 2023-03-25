@@ -8,6 +8,8 @@ public class HandleInteractionPressed : MonoBehaviour
     [SerializeField] private GameObject interactIcon;
     [SerializeField] private GameEvent levelTransitionEvent;
     [SerializeField] private GameEvent ventTraversalEvent;
+    [SerializeField] private GameEvent powerUpEvent;
+    [SerializeField] private GameEvent pcInteractionEvent;
     
     private GMOEventType _gmoEventType = GMOEventType.Empty;
 
@@ -60,8 +62,14 @@ public class HandleInteractionPressed : MonoBehaviour
                 ventTraversalEvent.TriggerEvent();
                 break;
             }
-            case GMOEventType.ReadNote:
+            case GMOEventType.PowerUp:
             {
+                powerUpEvent.TriggerEvent();
+                break;
+            }
+            case GMOEventType.PCInteract:
+            {
+                pcInteractionEvent.TriggerEvent();
                 break;
             }
             default: throw new NotImplementedException();

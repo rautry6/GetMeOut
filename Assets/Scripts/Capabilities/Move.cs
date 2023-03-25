@@ -69,6 +69,8 @@ public class Move : MonoBehaviour
 
     private void RunningAnimationCheck()
     {
+        if (!canMove) return;
+        
         if (_direction.x > 0f)
         {
             playerAnimations.ChangeAnimationState(AnimationState.RunningRight, playerRun);
@@ -80,7 +82,8 @@ public class Move : MonoBehaviour
         }
         else
         {
-            playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
+            if(_onGround)
+                playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
         }
         
     }
@@ -171,6 +174,13 @@ public class Move : MonoBehaviour
             //Resets footstep timer
             timeUntilNextFootstep = Config.Instance.FootstepInterval;
         }
+    }
+
+    public void ReportPosition()
+    {
+        AutoSave.Instance.posX = transform.position.x;
+        AutoSave.Instance.posY = transform.position.y;
+        AutoSave.Instance.posZ = transform.position.z;
     }
 
 }

@@ -12,6 +12,7 @@ public class CheckForVerticalOneWayPlatform : MonoBehaviour
     [SerializeField] private float rayDistance;
 
     private bool _routineStarted = false;
+    [SerializeField] private float colliderFastDisableTime;
 
     private void Update()
     {
@@ -30,9 +31,9 @@ public class CheckForVerticalOneWayPlatform : MonoBehaviour
             var raycastHit = Physics2D.Raycast(transform.position, Vector2.down, rayDistance * 2, verticalPlatformLayer);
             if (raycastHit)
             {
-                if (Input.GetAxisRaw("Vertical") < 0)
+                if (Input.GetAxisRaw("Vertical") < 0 && !_routineStarted)
                 {
-                    StartCoroutine(DisableCollider(raycastHit));
+                    StartCoroutine(DisableColliderFast(raycastHit));
                 }
             }
         }
@@ -45,6 +46,20 @@ public class CheckForVerticalOneWayPlatform : MonoBehaviour
         platformCollider.enabled = false;
         //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, true);
         yield return new WaitForSeconds(colliderDisableTime);
+        platformCollider.enabled = true;
+        //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, false);
+        /*platformCollider.enabled = false;
+        platformCollider.enabled = true;*/
+        _routineStarted = false;
+    }
+    
+    IEnumerator DisableColliderFast(RaycastHit2D raycastHit2D)
+    {
+        _routineStarted = true;
+        var platformCollider = raycastHit2D.collider;
+        platformCollider.enabled = false;
+        //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, true);
+        yield return new WaitForSeconds(colliderFastDisableTime);
         platformCollider.enabled = true;
         //Physics2D.IgnoreCollision(GetComponentInParent<Collider2D>(), platformCollider, false);
         /*platformCollider.enabled = false;

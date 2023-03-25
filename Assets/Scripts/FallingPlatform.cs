@@ -16,12 +16,22 @@ public class FallingPlatform : MonoBehaviour
     private float _timeSincePlayerFound;
     private Animator _animator;
     private static readonly int PlayerLanded = Animator.StringToHash("PlayerLanded");
+    [SerializeField] private bool isSlow;
+    [SerializeField] private float animatorSpeed;
 
     private void Start()
     {
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        foreach (var param in _animator.parameters)
+        {
+            Debug.Log(param);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D other)
@@ -34,7 +44,13 @@ public class FallingPlatform : MonoBehaviour
                 if (_timeSincePlayerFound > timeForSideCheck)
                 {
                     _timeSincePlayerFound = 0f;
-                    _animator.SetTrigger(PlayerLanded);
+                    if (isSlow)
+                    {
+                        animatorSpeed = .66f;
+                        _animator.speed = animatorSpeed;
+                    }
+                    else _animator.speed = 1f;
+                    _animator.Play("FragilePlatformBegin");
                 }
             }
         }

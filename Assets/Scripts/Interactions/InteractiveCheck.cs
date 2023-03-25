@@ -24,13 +24,23 @@ public class InteractiveCheck : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            ScreenTransition.UpdateCurrentDoorManager(doorManager);
             if (_ventManager != null)
             {
+                if (_ventManager.IsInVentMovement) return;
+                // VentManager only exists on vent game objects
                 _ventManager.DetectedVent = gameObject;
             }
 
+            //AutoSave.Instance.Save();
             interactIcon.SetActive(true);
+
+            if (doorManager != null)
+            {
+                // Need to know which doorManager belongs to this game object
+                ScreenTransition.UpdateCurrentDoorManager(doorManager);
+            }
+
+
             var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
             if (interactivePressedHandler != null)
             {
@@ -42,18 +52,22 @@ public class InteractiveCheck : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        ScreenTransition.UpdateCurrentDoorManager(doorManager);
-        if (_ventManager != null)
+        if (other.gameObject.CompareTag("Player"))
         {
-            _ventManager.DetectedVent = gameObject;
-        }
+            ScreenTransition.UpdateCurrentDoorManager(doorManager);
+            if (_ventManager != null)
+            {
+                if (_ventManager.IsInVentMovement) return;
+                _ventManager.DetectedVent = gameObject;
+            }
 
-        interactIcon.SetActive(true);
-        var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
-        if (interactivePressedHandler != null)
-        {
-            interactivePressedHandler.SetGMOEventType(gmoEventType);
-            interactivePressedHandler.SetCanInteractTrue();
+            interactIcon.SetActive(true);
+            var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
+            if (interactivePressedHandler != null)
+            {
+                interactivePressedHandler.SetGMOEventType(gmoEventType);
+                interactivePressedHandler.SetCanInteractTrue();
+            }
         }
     }
 
