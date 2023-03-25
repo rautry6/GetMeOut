@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2246863210644644411}
   - component: {fileID: 2246863210644644404}
   - component: {fileID: 2246863210644644405}
+  - component: {fileID: 5678303299275746869}
   m_Layer: 0
   m_Name: Lore PC
   m_TagString: Untagged
@@ -193,6 +194,34 @@ MonoBehaviour:
   pcDetectsPlayer: {fileID: 2246863210644644404}
   playerMove: {fileID: 0}
   playerJump: {fileID: 0}
+--- !u!114 &5678303299275746869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2246863210644644413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82e5dfa678f3f69428d401fea81be2fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: b4e2c2e5e1ca2984da61aec6a9e33ff3, type: 2}
+  onEventTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2246863210644644404}
+        m_TargetAssemblyTypeName: PCDetectsPlayer, Assembly-CSharp
+        m_MethodName: SetHasInteracted
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &2246863211234473984
 GameObject:
   m_ObjectHideFlags: 0
