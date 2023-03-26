@@ -5,5 +5,6 @@
     Vent,
     ReadNote,
     PCInteract,
-    PowerUp
+    PowerUp,
+    DropDebris
 }
