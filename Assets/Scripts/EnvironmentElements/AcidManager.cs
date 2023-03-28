@@ -5,11 +5,13 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using UnityEngine;
 using static UnityEngine.Debug;
+
 public class AcidManager : MonoBehaviour
 {
     private Sequence _acidSequence;
     private Vector3 _startScale;
     private TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions> _startTween;
+
     private void Awake()
     {
         _startScale = transform.localScale;
@@ -19,7 +21,7 @@ public class AcidManager : MonoBehaviour
     {
         StartCoroutine(StartAcid(delay));
     }
-    
+
     private IEnumerator StartAcid(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -28,7 +30,11 @@ public class AcidManager : MonoBehaviour
 
     public void DrainAcid()
     {
-       transform.DOScaleY(_startScale.y, 10f).OnComplete(() => { gameObject.SetActive(false); });
+        transform.DOScaleY(_startScale.y, 10f).OnComplete(() =>
+        {
+            /*gameObject.SetActive(false);*/
+            _startTween.Kill();
+        });
     }
 
     public void ResetAcidScaleToStart()
@@ -38,5 +44,4 @@ public class AcidManager : MonoBehaviour
         transform.DOScaleY(_startScale.y, 0f);
         HandleStartAcid(2.25f);
     }
-
 }

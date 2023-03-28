@@ -46,7 +46,7 @@ public class HandlePCInteraction : MonoBehaviour
         playerJump.EnableJumping();
         yield return new WaitForSeconds(.75f);
         pcDetectsPlayer.TriggerOff();
-        pcDetectsPlayer.SetHasInteracted(false);
+        pcDetectsPlayer.SetHasInteractedFalse();
         _isInRoutine = false;
         _isDone = false;
     }

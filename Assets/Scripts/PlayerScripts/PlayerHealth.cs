@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -137,6 +138,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        Debug.Log(invulnerable);
+    }
+
     //Makes player sprite flash
     public IEnumerator Flash()
     {
@@ -157,7 +163,9 @@ public class PlayerHealth : MonoBehaviour
 
     public void Die()
     {
-        PlayerDeath.TriggerEvent();
+        if (invulnerable) return;
+        
+        PlayerDeath.TriggerEvent(); 
     }
 
     // button click or event trigger
