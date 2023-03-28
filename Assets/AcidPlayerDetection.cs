@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class AcidPlayerDetection : MonoBehaviour
 {
-    [SerializeField] private AcidManager acidManager;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            acidManager.HandleStartAcid();
+            var playerHealth = other.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.Die();
+            }
         }
     }
 }

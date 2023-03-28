@@ -1,4 +1,4 @@
-position 54.02901,0.4794246,0.2854
+position 618.9656,3.479676,0
 health 3
-keycard KeyCard_Purple,
+keycard 
 powerups 

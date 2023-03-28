@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactIcon: {fileID: 0}
-  gmoEventType: 3
+  gmoEventType: 4
   doorManager: {fileID: 0}
 --- !u!61 &2246863210644644408
 BoxCollider2D:
