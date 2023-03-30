@@ -18,6 +18,7 @@ public class AutoSave : MonoBehaviour
     public static AutoSave Instance;
     [SerializeField] private GameEvent loadEvent;
     [SerializeField] private float saveCooldown = 10f;
+    [SerializeField] private AcidManager acidManager;
     
     private string _playerDataPath;
     private bool _canSave;
@@ -85,7 +86,7 @@ public class AutoSave : MonoBehaviour
                 }
                 case "health":
                 {
-                    health = int.Parse(line[1]);
+                    health = 3; //int.Parse(line[1]);
                     break;
                 }
                 case "keycard":
@@ -105,6 +106,15 @@ public class AutoSave : MonoBehaviour
                     {
                         if(powerUp != "")
                             Powerups.Add(powerUp);
+                    }
+                    break;
+                }
+                case "acidState":
+                {
+                    var acidState = line[1];
+                    if (Enum.TryParse(acidState, out AcidState parsedAcidState))
+                    {
+                        acidManager.CurrentAcidState = parsedAcidState;
                     }
                     break;
                 }
@@ -147,6 +157,13 @@ public class AutoSave : MonoBehaviour
         powerUpNames += "\n";
         finalText += powerUpNames;
 
+        var acidState = "acidState ";
+        acidState += acidManager.CurrentAcidState;
+        acidState += "\n";
+
+
+        finalText += acidState;
+        
         return finalText;
     }
 

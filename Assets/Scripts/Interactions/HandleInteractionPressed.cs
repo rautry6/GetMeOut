@@ -38,7 +38,6 @@ public class HandleInteractionPressed : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 SetCanInteractFalse();
-                Debug.Log("pressed interact");
                 HandleEvent();
             }
         }

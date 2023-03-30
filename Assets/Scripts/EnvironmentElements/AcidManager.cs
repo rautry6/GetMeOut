@@ -8,13 +8,18 @@ using static UnityEngine.Debug;
 
 public class AcidManager : MonoBehaviour
 {
+    [SerializeField] private float startTime;
+    [SerializeField] private Transform finishedPosition;
     private Sequence _acidSequence;
-    private Vector3 _startScale;
+    private Vector3 _startPosition;
     private TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions> _startTween;
+
+    public AcidState CurrentAcidState { get; set; }
 
     private void Awake()
     {
-        _startScale = transform.localScale;
+        _startPosition = transform.position;
+        CurrentAcidState = AcidState.HasNotStarted;
     }
 
     public void HandleStartAcid(float delay = 1.5f)
@@ -24,13 +29,15 @@ public class AcidManager : MonoBehaviour
 
     private IEnumerator StartAcid(float delay)
     {
+        CurrentAcidState = AcidState.ShouldRestart;
         yield return new WaitForSeconds(delay);
-        _startTween = transform.DOScaleY(175f, 60f);
+        _startTween = transform.DOMoveY(finishedPosition.position.y, startTime);
     }
 
     public void DrainAcid()
     {
-        transform.DOScaleY(_startScale.y, 10f).OnComplete(() =>
+        CurrentAcidState = AcidState.IsDrained;
+        transform.DOMoveY(_startPosition.y, 10f).OnComplete(() =>
         {
             /*gameObject.SetActive(false);*/
             _startTween.Kill();
@@ -39,9 +46,11 @@ public class AcidManager : MonoBehaviour
 
     public void ResetAcidScaleToStart()
     {
+        if (CurrentAcidState != AcidState.ShouldRestart) return;
+        
         StopAllCoroutines();
         _startTween.Complete();
-        transform.DOScaleY(_startScale.y, 0f);
+        transform.DOMoveY(_startPosition.y, 0f);
         HandleStartAcid(2.25f);
     }
 }

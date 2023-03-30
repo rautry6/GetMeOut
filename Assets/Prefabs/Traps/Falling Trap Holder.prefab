@@ -102,12 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swayRotation: 5
-  swaySpeed: 0.1
-  canSway: 1
-  fallRange: 0.5
-  fallHeight: 0
   trapRigidBody: {fileID: 7492153338905579341}
-  canDamage: 1
   triggerCollider: {fileID: 7120393191794613446}
   swayingAnimation:
   - {fileID: -1988595268, guid: efe2403a50a2a784584f86bff35bb060, type: 3}
@@ -225,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 7492153338917010690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 54.365063, y: 6.4698644, z: 0.12740795}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7492153338905579328}

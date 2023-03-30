@@ -42,6 +42,7 @@ public class PlayerHealth : MonoBehaviour
             healthUI[healthPoints-1].sprite = depletedSprite;
         }
 
+        Debug.Log("Deducted");
         healthPoints--;
 
         if (healthPoints <= 0)
@@ -65,6 +66,7 @@ public class PlayerHealth : MonoBehaviour
             healthUI[healthPoints].sprite = fullSprite;
         }
 
+        Debug.Log("DEDUCTING");
         healthPoints++;
 
         if (healthPoints > healthUI.Length)
@@ -75,7 +77,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy" || collision.tag == "Trap")
+        if(collision.CompareTag("Enemy") || collision.CompareTag("Trap"))
         {
             Vector3 direction;
 
@@ -101,17 +103,17 @@ public class PlayerHealth : MonoBehaviour
         }
 
         //No knockback on spikes
-        if(collision.tag == "Spike")
+        if(collision.CompareTag("Spike"))
         {
             TakeDamage();
         }
 
-        if(collision.tag == "DeathPit")
+        if(collision.CompareTag("DeathPit"))
         {
             PlayerDeath.TriggerEvent();
         }
 
-        if(collision.tag == "Health")
+        if(collision.CompareTag("Health"))
         {
             Heal();
         }
@@ -140,7 +142,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(invulnerable);
+        Debug.Log($"Invulnerable: {invulnerable}");
     }
 
     //Makes player sprite flash

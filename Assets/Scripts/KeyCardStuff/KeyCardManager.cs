@@ -19,7 +19,6 @@ public class KeyCardManager : MonoBehaviour
 
     public void OnKeyCardCollected(KeyCard keyCard)
     {
-        Debug.Log("OnKeyCardCollected");
         keyCardsCollected.Add(keyCard);
         AutoSave.Instance.AddKeyCard(keyCard.name);
     }
