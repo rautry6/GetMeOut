@@ -6,5 +6,6 @@
     ReadNote,
     PCInteract,
     PowerUp,
-    DropDebris
+    DropDebris,
+    LoadNewScene,
 }

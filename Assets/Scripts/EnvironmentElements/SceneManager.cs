@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
+
 
 public class SceneManager : MonoBehaviour
 {
@@ -16,6 +15,11 @@ public class SceneManager : MonoBehaviour
                 "RestartScene was given an invalid scene name to load, double check it has been added to the list of build indexes");
         DOTween.KillAll();
         StopAllCoroutines();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+    }
+
+    public void LoadSpecificScene(string sceneName)
+    {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 }
