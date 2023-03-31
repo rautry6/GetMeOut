@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -11,6 +12,7 @@ public class HandleInteractionPressed : MonoBehaviour
     [SerializeField] private GameEvent powerUpEvent;
     [SerializeField] private GameEvent pcInteractionEvent;
     [SerializeField] private GameEvent dropDebrisEvent;
+    [SerializeField] private GameEvent loadNewScene;
     
     private GMOEventType _gmoEventType = GMOEventType.Empty;
 
@@ -75,6 +77,11 @@ public class HandleInteractionPressed : MonoBehaviour
             case GMOEventType.DropDebris:
             {
                 dropDebrisEvent.TriggerEvent();
+                break;
+            }
+            case GMOEventType.LoadNewScene:
+            {
+                loadNewScene.TriggerEvent();
                 break;
             }
             default: throw new NotImplementedException();

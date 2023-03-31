@@ -1,5 +1,5 @@
-position 515.395,27.47968,0.2854
-health 3
-keycard KeyCard_Purple,
-powerups 
-acidState HasNotStarted
+position 620.2371,3.479307,-1.017988
+health 2
+keycard KeyCard_White,KeyCard_Purple,
+powerups WallInteractor,
+acidState IsDrained

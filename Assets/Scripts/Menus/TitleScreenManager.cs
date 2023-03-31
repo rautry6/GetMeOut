@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class TitleScreenManager : MonoBehaviour
 {
@@ -10,6 +9,8 @@ public class TitleScreenManager : MonoBehaviour
     
     [Header("Text Elements"), SerializeField, Tooltip("Text options in menu")]
     List<GameObject> options = new List<GameObject>();
+
+    [SerializeField] private GameObject comingSoonUI;
 
     private float _spacing;
     private GameObject _ptr;
@@ -73,10 +74,11 @@ public class TitleScreenManager : MonoBehaviour
         {
             if (_selected == 1) //New game
             {
-                SceneManager.LoadScene("StartingLevel");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("StartingLevel");
             } else if (_selected == 2) //Load
             {
-
+                if(!comingSoonUI.activeInHierarchy)
+                    comingSoonUI.SetActive(true);   
             } else if (_selected == 3) //Options
             {
                 optionsHUD.SetActive(true);

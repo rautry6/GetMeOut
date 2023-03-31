@@ -97,7 +97,8 @@ namespace GetMeOut
                     WallJumping = true;
                     _tryingToJump = false;
                 }
-                _playerParticleSystem.Play();
+                if(_playerParticleSystem != null)
+                    _playerParticleSystem.Play();
             }
 
             #endregion
