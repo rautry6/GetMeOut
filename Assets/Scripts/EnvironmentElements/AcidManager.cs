@@ -8,8 +8,9 @@ using static UnityEngine.Debug;
 
 public class AcidManager : MonoBehaviour
 {
-    [SerializeField] private float startTime;
+    [SerializeField] private float mainDuration;
     [SerializeField] private Transform finishedPosition;
+    [SerializeField] private float restartDelayToStart;
     private Sequence _acidSequence;
     private Vector3 _startPosition;
     private TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions> _startTween;
@@ -31,7 +32,7 @@ public class AcidManager : MonoBehaviour
     {
         CurrentAcidState = AcidState.ShouldRestart;
         yield return new WaitForSeconds(delay);
-        _startTween = transform.DOMoveY(finishedPosition.position.y, startTime);
+        _startTween = transform.DOMoveY(finishedPosition.position.y, mainDuration).SetEase(Ease.OutQuad);
     }
 
     public void DrainAcid()
@@ -51,6 +52,6 @@ public class AcidManager : MonoBehaviour
         StopAllCoroutines();
         _startTween.Complete();
         transform.DOMoveY(_startPosition.y, 0f);
-        HandleStartAcid(2.25f);
+        HandleStartAcid(restartDelayToStart);
     }
 }

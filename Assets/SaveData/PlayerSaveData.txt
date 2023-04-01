@@ -1,5 +1,5 @@
-position 620.2371,3.479307,-1.017988
-health 2
-keycard KeyCard_White,KeyCard_Purple,
-powerups WallInteractor,
+position 645.3469,9.599334,-1.017988
+health 3
+keycard 
+powerups WallInteractor,WallInteractor,WallInteractor,WallInteractor,WallInteractor,WallInteractor,WallInteractor,WallInteractor,
 acidState IsDrained
