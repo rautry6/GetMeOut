@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1028811338914758141}
   - component: {fileID: 1028811338914758113}
   - component: {fileID: 792095245602281426}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: fragile platform_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
