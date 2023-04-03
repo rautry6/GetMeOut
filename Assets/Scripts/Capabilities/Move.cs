@@ -18,12 +18,13 @@ public class Move : MonoBehaviour
     [SerializeField, Range(0.05f, 0.5f)] private float wallStickTime = .25f;
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private bool canMove = true;
-    [Header("Strings that must match exactly the animation they represent")]
-    [SerializeField] private string playerRun = "Player_Run";
+
+    [Header("Strings that must match exactly the animation they represent")] [SerializeField]
+    private string playerRun = "Player_Run";
+
     [SerializeField] private string playerIdle = "Player_Idle";
 
-    [Header("Knockback")]
-    [SerializeField] private float horizontalKnockbackStrength = 5f;
+    [Header("Knockback")] [SerializeField] private float horizontalKnockbackStrength = 5f;
     [SerializeField] private float verticalKnockbackStrength = 5f;
     [SerializeField] private Rigidbody2D playerRigidbody;
 
@@ -51,8 +52,8 @@ public class Move : MonoBehaviour
 
     private void Start()
     {
-
-        timeUntilNextFootstep = Config.Instance.FootstepInterval;
+        if (Config.Instance != null)
+            timeUntilNextFootstep = Config.Instance.FootstepInterval;
     }
 
     private void Update()
@@ -63,14 +64,14 @@ public class Move : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(_onGround)
+        if (_onGround)
             RunningAnimationCheck();
     }
 
     private void RunningAnimationCheck()
     {
         if (!canMove) return;
-        
+
         if (_direction.x > 0f)
         {
             playerAnimations.ChangeAnimationState(AnimationState.RunningRight, playerRun);
@@ -82,10 +83,9 @@ public class Move : MonoBehaviour
         }
         else
         {
-            if(_onGround)
+            if (_onGround)
                 playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
         }
-        
     }
 
     private void FixedUpdate()
@@ -101,7 +101,7 @@ public class Move : MonoBehaviour
         _maxSpeedChange = _acceleration * Time.deltaTime;
         _currentVelocity.x = Mathf.MoveTowards(_currentVelocity.x, _desiredVelocity.x, _maxSpeedChange);
 
-        if(_currentVelocity.x != 0)
+        if (_currentVelocity.x != 0)
         {
             UpdateFootstepAudio();
         }
@@ -160,19 +160,20 @@ public class Move : MonoBehaviour
 
     public void UpdateFootstepAudio()
     {
-        if(timeUntilNextFootstep > 0)
+        if (timeUntilNextFootstep > 0)
         {
             timeUntilNextFootstep -= Time.deltaTime;
         }
 
-        if(timeUntilNextFootstep <= 0)
+        if (timeUntilNextFootstep <= 0)
         {
-
-            //Tells Hearing Manager a sound was played
-            HearingManager.Instance.OnSoundEmitted(transform.position, EHeardSoundCategory.EFootstep, 1f);
-
-            //Resets footstep timer
-            timeUntilNextFootstep = Config.Instance.FootstepInterval;
+            if (HearingManager.Instance != null)
+            {
+                //Tells Hearing Manager a sound was played
+                HearingManager.Instance.OnSoundEmitted(transform.position, EHeardSoundCategory.EFootstep, 1f);
+                //Resets footstep timer
+                timeUntilNextFootstep = Config.Instance.FootstepInterval;
+            }
         }
     }
 
@@ -182,5 +183,4 @@ public class Move : MonoBehaviour
         AutoSave.Instance.posY = transform.position.y;
         AutoSave.Instance.posZ = transform.position.z;
     }
-
 }

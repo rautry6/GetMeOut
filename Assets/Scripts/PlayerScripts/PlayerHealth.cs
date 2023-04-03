@@ -66,7 +66,6 @@ public class PlayerHealth : MonoBehaviour
             healthUI[healthPoints].sprite = fullSprite;
         }
 
-        Debug.Log("DEDUCTING");
         healthPoints++;
 
         if (healthPoints > healthUI.Length)
@@ -112,11 +111,7 @@ public class PlayerHealth : MonoBehaviour
         {
             PlayerDeath.TriggerEvent();
         }
-
-        if(collision.CompareTag("Health"))
-        {
-            Heal();
-        }
+        
     }
 
     public IEnumerator InvulTime()
