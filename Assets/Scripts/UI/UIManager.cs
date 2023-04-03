@@ -54,9 +54,11 @@ public class UIManager : MonoBehaviour
         DisableHealthAndKeycardUI();
         DisableTipUI();
 
+        Debug.Log("Fading In");
         //Fades in the GameOver UI
         gameOverCanvasGroup.DOFade(1, gameOverFadeInTime).OnComplete(() =>
         {
+            Debug.Log("Complete");
             restartButton.SetActive(true);
         });
         gameOverTextCanvasGroup.DOFade(1, gameOverTextFadeInTime);
@@ -68,7 +70,11 @@ public class UIManager : MonoBehaviour
         EnableTipUI();
         restartButton.SetActive(false);
         //Fades in the GameOver UI
-        gameOverCanvasGroup.DOFade(0, gameOverFadeInTime);
+        Debug.Log("Fading Out");
+        gameOverCanvasGroup.DOFade(0, gameOverFadeInTime).OnComplete(() =>
+        {
+            Debug.Log("Complete");
+        });
         gameOverTextCanvasGroup.DOFade(0, gameOverTextFadeInTime);
     }
 
