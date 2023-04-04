@@ -15,12 +15,6 @@ public class HearingSensor : MonoBehaviour
         HearingManager.Instance.Register(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnDestroy()
     {
         if(HearingManager.Instance != null)

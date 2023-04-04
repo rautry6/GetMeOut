@@ -101,7 +101,7 @@ public class Move : MonoBehaviour
         _maxSpeedChange = _acceleration * Time.deltaTime;
         _currentVelocity.x = Mathf.MoveTowards(_currentVelocity.x, _desiredVelocity.x, _maxSpeedChange);
 
-        if (_currentVelocity.x != 0)
+        if (_currentVelocity.x != 0 && _onGround)
         {
             UpdateFootstepAudio();
         }

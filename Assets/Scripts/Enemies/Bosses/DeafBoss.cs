@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using static HearingManager;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 
 public class DeafBoss : MonoBehaviour
@@ -102,7 +104,6 @@ public class DeafBoss : MonoBehaviour
        Debug.DrawRay(transform.position, chargeDirection * wallDetectionRange, Color.yellow);
         if (hit.collider != null && currentState == States.Charge || hit.collider != null && currentState == States.ChargeDebris)
         {
-            Debug.Log("fire");
             currentState = States.Cooldown;
             StartCoroutine(CoolDown());
         }
@@ -143,7 +144,7 @@ public class DeafBoss : MonoBehaviour
 
             transform.position = new Vector3(transform.position.x - direction.x * currentSpeed * Time.deltaTime, transform.position.y, transform.position.z);
 
-            if(transform.position.x == lastHeardSoundLocation.x)
+            if(Math.Abs(transform.position.x - lastHeardSoundLocation.x) < .01f)
             {
                 StartCoroutine(Listen());
                 currentState = States.Listen;
@@ -241,6 +242,7 @@ public class DeafBoss : MonoBehaviour
 
     public void ReportSoundHeard(Vector3 location, EHeardSoundCategory category, float intensity)
     {
+        
         //Calculate intesnity based on distance from source
         float newIntensity = intensity / Vector3.Distance(location, transform.position);
         numberOfSoundsInSuccession++;
@@ -267,7 +269,7 @@ public class DeafBoss : MonoBehaviour
             currentState = States.ChargeDebris;
             DOTween.Clear();
         }
-        else if (newIntensity < 0.9 && currentState != States.Chase)
+        else if (newIntensity < 0.9f)
         {
             MoveTowardsLastSound(location);
         }
@@ -279,7 +281,7 @@ public class DeafBoss : MonoBehaviour
 
     public void MoveTowardsLastSound(Vector3 location)
     {
-        if(currentState == States.Charge || currentState == States.Chase || currentState == States.Cooldown)
+        if(currentState == States.Charge || currentState == States.Chase || currentState == States.Cooldown || currentState == States.ChargeDebris)
         {
             return;
         }
@@ -384,6 +386,7 @@ public class DeafBoss : MonoBehaviour
         if(collision.tag == "Debris")
         {
             currentState = States.Cooldown;
+            collision.gameObject.GetComponent<FallingDebris>().Destroy();
             TakeDamage(33.5f);
             StartCoroutine(CoolDown());
         }
@@ -392,7 +395,7 @@ public class DeafBoss : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
-
+    
         if(health <= 0)
         {
             //Makes sure health is not negative before updating the UI
