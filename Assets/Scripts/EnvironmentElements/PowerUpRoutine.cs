@@ -24,17 +24,49 @@ public class PowerUpRoutine : MonoBehaviour
     [SerializeField] private GameObject PowerUpUI;
     [SerializeField] private CinemachineBlendListCamera cinemachineBlendListCamera;
     [SerializeField] private AcidManager acidManager;
-    
+    [SerializeField] private Transform doorBlock;
+    [SerializeField] private Transform doorEndPosition;
+
     private static readonly int Empty = Animator.StringToHash("Empty");
     private static readonly int Finished = Animator.StringToHash("Finished");
     [SerializeField] private float graphicActiveTime;
     private static readonly int Full = Animator.StringToHash("Full");
 
-    public void StartPowerUpRoutine()
+    public void StartWallPowerUpRoutine()
     {
         playerMove.StopMovement();
         playerJump.DisableJumping();
         PowerUpSequence();
+    }
+
+    public void StartJumpPowerUpRoutine()
+    {
+        playerMove.StopMovement();
+        playerJump.DisableJumping();
+        WallPowerUpSequence();
+    }
+
+    private void WallPowerUpSequence()
+    {
+        var rigidBody = player.GetComponent<Rigidbody2D>();
+        powerUpMachineSR.sortingOrder = 6;
+        var seq = player.transform.DOMove(positionToMoveTo.position, movementTime).OnPlay(() =>
+        {
+            powerUpCollider.enabled = false;
+            injector.SetActive(true);
+            playerAnimations.ChangeAnimationState(AnimationState.PowerUp, "Player_PowerUp");
+        }).OnComplete(() =>
+        {
+            powerUpAnimator.SetTrigger(Full);
+            powerUpParticles.Play();
+            PowerUpUI.SetActive(true);
+            player.transform.position = positionToMoveTo.position;
+            if (rigidBody != null)
+            {
+                rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
+                StartCoroutine(JumpPlayerReachedSpot(rigidBody));
+            }
+        });
     }
 
     private void PowerUpSequence()
@@ -74,6 +106,20 @@ public class PowerUpRoutine : MonoBehaviour
         cinemachineBlendListCamera.Priority = 0;
         powerUpMachineSR.sortingOrder = 1;
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        playerMove.RegainMovement();
+        playerJump.EnableJumping();
+        yield return new WaitForSeconds(graphicActiveTime);
+        PowerUpUI.SetActive(false);
+    }
+
+    private IEnumerator JumpPlayerReachedSpot(Rigidbody2D rigidBody)
+    {
+        yield return new WaitForSeconds(2f);
+        powerUpParticles.Stop();
+        light.intensity = 0;
+        powerUpMachineSR.sortingOrder = 1;
+        rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        doorBlock.DOMoveY(doorEndPosition.position.y, 2f);
         playerMove.RegainMovement();
         playerJump.EnableJumping();
         yield return new WaitForSeconds(graphicActiveTime);

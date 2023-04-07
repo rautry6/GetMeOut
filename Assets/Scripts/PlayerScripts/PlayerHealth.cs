@@ -135,11 +135,6 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        Debug.Log($"Invulnerable: {invulnerable}");
-    }
-
     //Makes player sprite flash
     public IEnumerator Flash()
     {

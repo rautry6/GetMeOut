@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HearingManager;
 
@@ -30,6 +28,8 @@ public class HearingSensor : MonoBehaviour
             return;
         }
 
-        LinkedBoss.ReportSoundHeard(location, category, intensity);
+        if (LinkedBoss.GetCurrentState() != BossStates.Idle) {
+            LinkedBoss.ReportSoundHeard(location, category, intensity);
+        }
     }
 }

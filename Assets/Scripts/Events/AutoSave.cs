@@ -19,7 +19,7 @@ public class AutoSave : MonoBehaviour
     [SerializeField] private GameEvent loadEvent;
     [SerializeField] private float saveCooldown = 10f;
     [SerializeField] private AcidManager acidManager;
-    
+
     private string _playerDataPath;
     private bool _canSave;
 
@@ -37,7 +37,11 @@ public class AutoSave : MonoBehaviour
 
         Instance = this;
         CheckForFile();
+    }
 
+    private void Update()
+    {
+        Debug.Log(Instance);
     }
 
     public void Save()
@@ -94,9 +98,10 @@ public class AutoSave : MonoBehaviour
                     var keyCards = line[1].Split(",");
                     foreach (var keyCard in keyCards)
                     {
-                        if(keyCard != "")
+                        if (keyCard != "")
                             KeyCards.Add(keyCard);
                     }
+
                     break;
                 }
                 case "powerups":
@@ -104,9 +109,10 @@ public class AutoSave : MonoBehaviour
                     var powerUps = line[1].Split(",");
                     foreach (var powerUp in powerUps)
                     {
-                        if(powerUp != "")
+                        if (powerUp != "")
                             Powerups.Add(powerUp);
                     }
+
                     break;
                 }
                 case "acidState":
@@ -116,6 +122,7 @@ public class AutoSave : MonoBehaviour
                     {
                         acidManager.CurrentAcidState = parsedAcidState;
                     }
+
                     break;
                 }
             }
@@ -157,13 +164,17 @@ public class AutoSave : MonoBehaviour
         powerUpNames += "\n";
         finalText += powerUpNames;
 
-        var acidState = "acidState ";
-        acidState += acidManager.CurrentAcidState;
-        acidState += "\n";
-
-
-        finalText += acidState;
+        if (acidManager != null)
+        {
+            var acidState = "acidState ";
+            acidState += acidManager.CurrentAcidState;
+            acidState += "\n";
         
+            finalText += acidState;
+        }
+
+
+
         return finalText;
     }
 

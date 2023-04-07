@@ -220,7 +220,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5324078607783134970}
         m_TargetAssemblyTypeName: PowerUpRoutine, Assembly-CSharp
-        m_MethodName: StartPowerUpRoutine
+        m_MethodName: StartWallPowerUpRoutine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
