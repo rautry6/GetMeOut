@@ -9,7 +9,7 @@ public class VoidPit : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerHealth>().Die();
+            other.GetComponent<PlayerHealth>().StrictDie();
         }
     }
 }

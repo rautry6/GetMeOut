@@ -75,6 +75,7 @@ public class TitleScreenManager : MonoBehaviour
             if (_selected == 1) //New game
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene("StartingLevel");
+                MusicManager.Instance.PlayMusic();
             } else if (_selected == 2) //Load
             {
                 if(!comingSoonUI.activeInHierarchy)

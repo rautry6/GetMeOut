@@ -159,6 +159,11 @@ public class PlayerHealth : MonoBehaviour
         
         PlayerDeath.TriggerEvent(); 
     }
+    
+    public void StrictDie()
+    {
+        PlayerDeath.TriggerEvent(); 
+    }
 
     // button click or event trigger
     public void Respawn()
