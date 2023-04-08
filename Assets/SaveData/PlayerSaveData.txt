@@ -1,5 +1,4 @@
-position 643.6606,9.599287,0.2854
-health 2
-keycard KeyCard_White,KeyCard_Purple,
+position 148.2456,0.4796805,0
+health 3
+keycard 
 powerups 
-acidState HasNotStarted

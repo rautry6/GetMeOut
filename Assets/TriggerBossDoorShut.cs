@@ -7,6 +7,7 @@ public class TriggerBossDoorShut : MonoBehaviour
     [SerializeField] private Transform resetDoorPosition;
     [SerializeField] private GameObject door;
     [SerializeField] private DeafBoss boss;
+    [SerializeField] private BossPlatformSpawning platforms;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -31,6 +32,7 @@ public class TriggerBossDoorShut : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         playerMove.RegainMovement();
         playerJump.EnableJumping();
+        platforms.EnableSpawning();
         Destroy(gameObject);
     }
 }
