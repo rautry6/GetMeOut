@@ -22,6 +22,7 @@ public class TriggerBossDoorShut : MonoBehaviour
         var playerJump = player.GetComponent<Jump>();
         
         playerMove.StopMovement();
+        
         playerJump.DisableJumping();
 
         door.transform.DOMoveY(resetDoorPosition.position.y, 1.5f).OnComplete(() =>

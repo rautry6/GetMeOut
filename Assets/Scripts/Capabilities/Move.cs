@@ -143,6 +143,7 @@ public class Move : MonoBehaviour
     {
         canMove = false;
         _playerRigidbody.velocity = new Vector2(0, 0);
+        playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
         _playerRigidbody.gravityScale = 0;
     }
 
