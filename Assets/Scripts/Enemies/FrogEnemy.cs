@@ -12,16 +12,11 @@ public class FrogEnemy : MonoBehaviour
     [SerializeField] private float maxJumpDistance = 10f;
     [SerializeField] private float JumpHeight = 10f;
     [SerializeField] private float jumpCooldown = 2f;
-
-    private float jumpVariability = 1f;
-
-
+    [SerializeField] private Animator frogAnimator;
     [Header("Target Range")]
     [SerializeField, Tooltip("How close the player has to be before the enemy starts attacking")] private float targetRange = 50f;
-
-
+    private float jumpVariability = 1f;
     private Rigidbody2D rigidBody;
-    private float GravityScale;
     private Transform player;
 
     [SerializeField]private bool calculating = false;
@@ -30,12 +25,12 @@ public class FrogEnemy : MonoBehaviour
     private CollisionDataRetrieving _collisionDataRetrieving;
 
     [SerializeField] private Collider2D col;
+    private static readonly int IsJumping = Animator.StringToHash("isJumping");
 
     // Start is called before the first frame update
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        GravityScale = rigidBody.gravityScale;
         player = GameObject.Find("Player").transform;
         _collisionDataRetrieving = GetComponent<CollisionDataRetrieving>();
     }
@@ -43,12 +38,16 @@ public class FrogEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (frogAnimator.GetBool(IsJumping) && rigidBody.velocity.y < 0)
+        {
+            frogAnimator.SetBool(IsJumping, false);
+        }
         //Checks if player is in range and not already calculating
         if(Mathf.Abs(player.position.x - transform.position.x) < targetRange && !calculating)
         {
             StopAllCoroutines();
             calculating = true;
-
+            
             CalculateForces();
         }
     }
@@ -76,8 +75,9 @@ public class FrogEnemy : MonoBehaviour
         float velocityX = desiredDistance * gravity * 0.5f / velocityY;
 
         rigidBody.velocity = new Vector2(velocityX * -direction.x, velocityY);
+        frogAnimator.SetBool(IsJumping, true);
         StartCoroutine(Cooldown());
-
+        
     }
 
     public IEnumerator Cooldown()
@@ -103,5 +103,4 @@ public class FrogEnemy : MonoBehaviour
             Physics2D.IgnoreCollision(collision.collider, col);
         }
     }
-
 }
