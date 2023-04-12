@@ -72,19 +72,21 @@ public class Move : MonoBehaviour
     {
         if (!canMove) return;
 
+        playerAnimations.UpdateHorizontalValue(_playerRigidbody.velocity.x);
+        
         if (_direction.x > 0f)
         {
-            playerAnimations.ChangeAnimationState(AnimationState.RunningRight, playerRun);
+            //playerAnimations.ChangeAnimationState(AnimationState.RunningRight, playerRun);
         }
 
         else if (_direction.x < 0f)
         {
-            playerAnimations.ChangeAnimationState(AnimationState.RunningLeft, playerRun);
+            //playerAnimations.ChangeAnimationState(AnimationState.RunningLeft, playerRun);
         }
         else
         {
-            if (_onGround)
-                playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
+            //if (_onGround)
+                //playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
         }
     }
 
@@ -143,7 +145,7 @@ public class Move : MonoBehaviour
     {
         canMove = false;
         _playerRigidbody.velocity = new Vector2(0, 0);
-        playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
+        //playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
         _playerRigidbody.gravityScale = 0;
     }
 

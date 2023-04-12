@@ -54,7 +54,7 @@ public class PowerUpRoutine : MonoBehaviour
         {
             powerUpCollider.enabled = false;
             injector.SetActive(true);
-            playerAnimations.ChangeAnimationState(AnimationState.PowerUp, "Player_PowerUp");
+            //playerAnimations.ChangeAnimationState(AnimationState.PowerUp, "Player_PowerUp");
         }).OnComplete(() =>
         {
             powerUpAnimator.SetTrigger(Full);
@@ -77,7 +77,7 @@ public class PowerUpRoutine : MonoBehaviour
         {
             powerUpCollider.enabled = false;
             injector.SetActive(true);
-            playerAnimations.ChangeAnimationState(AnimationState.PowerUp, "Player_PowerUp");
+            //playerAnimations.ChangeAnimationState(AnimationState.PowerUp, "Player_PowerUp");
         }).OnComplete(() =>
         {
             powerUpAnimator.SetTrigger(Full);

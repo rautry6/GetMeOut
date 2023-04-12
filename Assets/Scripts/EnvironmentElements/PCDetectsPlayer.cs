@@ -1,7 +1,10 @@
+using TMPro;
 using UnityEngine;
 
 public class PCDetectsPlayer : MonoBehaviour
 {
+    [SerializeField] private LoreSO loreText;
+    [SerializeField] private TMP_Text loreTMPText;
     private Animator _animator;
     private readonly int _hasInteracted = Animator.StringToHash("HasInteracted");
     private readonly int _off = Animator.StringToHash("Off");
@@ -37,8 +40,11 @@ public class PCDetectsPlayer : MonoBehaviour
 
     public void SetHasInteractedTrue()
     {
-        if(_animator.GetBool(IsInteractable))
+        if (_animator.GetBool(IsInteractable))
+        {
+            loreTMPText.text = loreText.LoreText;
             _animator.SetBool(_hasInteracted, true);
+        }
     }
     
     public void SetHasInteractedFalse()

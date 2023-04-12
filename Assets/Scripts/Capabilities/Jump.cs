@@ -59,10 +59,10 @@ public class Jump : MonoBehaviour
         // Bitwise OR assignment operator, tryingToJump will remain set in new updates until manually changed
         _tryingToJump |= inputController.RetrieveJumpInput();
 
-        if (!_onGround && _playerRigidbody.velocity.y < 0)
+        /*if (!_onGround && _playerRigidbody.velocity.y < 0)
         {
-            playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
-        }
+            
+        }*/
     }
 
     private void FixedUpdate()
@@ -100,7 +100,7 @@ public class Jump : MonoBehaviour
         if (inputController.RetrieveJumpInputHeld() && _playerRigidbody.velocity.y > 0)
         {
             _playerRigidbody.gravityScale = upwardMovementMultiplier;
-            playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
+            //playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
         }
         else if (!inputController.RetrieveJumpInputHeld() || _playerRigidbody.velocity.y < 0)
         {
@@ -112,6 +112,7 @@ public class Jump : MonoBehaviour
         }
 
         _playerRigidbody.velocity = _velocity;
+        
     }
 
     void JumpAction()
@@ -136,6 +137,7 @@ public class Jump : MonoBehaviour
             }
 
             _velocity.y += _jumpSpeed;
+            playerAnimations.TriggerJump();
         }
     }
 
