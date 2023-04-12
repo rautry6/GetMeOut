@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LoreText", menuName = "Items/LoreText")]
 public class LoreSO : ScriptableObject
 {
-    [SerializeField]
+    [SerializeField, HideInInspector]
     private string loreText = "";
     public string LoreText => loreText;
 }

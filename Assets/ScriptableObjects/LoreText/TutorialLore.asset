@@ -12,19 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe48ac65c8dd1a4eafd1b55b0ad93a3, type: 3}
   m_Name: TutorialLore
   m_EditorClassIdentifier: 
-  loreText: "Welcome to GeneTech Corp, intern!\r\n\r\n    We are excited to have
-    your innovative mind and passionate drive joining the staff here at GeneTech
-    Corp. As reviewed in your Laboratory Faculty Application Agreement Form, you
-    are assigned to our leading, cutting-edge research in genetic modification. Our
-    goal is the betterment of mankind through the breakthroughs of genetic modification
-    of agriculture and domestic wildlife. We aim to increase the yield of domestic
-    produce by increasing the mass of animals under gene modification by the next
-    2 years at best.\r\n\r\n    You will be assigned to the Chemical Composition
-    and Control department to further enhance our prototype mixture of MEI-27. Information
-    will be debriefed to you upon introduction to the department head. Remember,
-    as stated in your contract, all information is government classified information
-    and cannot be leaked publicly. Doing so will call for your contract to be terminated,
-    detained, and handed over to the appropriate authorities.\r\n\r\n    We are happy
-    to have you along as part of the grandest scientific endeavor humanity must face.
-    To the betterment of mankind, and once again welcome.\r\n\r\nCompany Head,\r\n\r\nDarren
-    Carter"
+  loreText: "** R-488-HIT REPORT **\r\n\r\nSubject R-488-HIT is currently our most
+    successful experiment resulting from the Human Intelligence Testing program.
+    Dr. Heisenvofth\u2019s judgement to inject human brain cells in the embryo before
+    fetal development has proved to provide greater results than when done in the
+    stages after birth. R-488-HIT has a head slightly larger than its body but is
+    not hindered physically and has a larger brain as well. Subject is able to solve
+    puzzles and mazes as well as use objects though it is advised not to let the
+    subject out unsupervised. Vitals and dietary habits are normal. Only oddity is
+    that the subject is\r\n\r\nconstantly staring at the door when tests were not
+    conducted. Researchers were unable to determine why."
