@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
 
         Debug.Log("Fading In");
         //Fades in the GameOver UI
-        gameOverCanvasGroup.DOFade(1, gameOverFadeInTime).OnComplete(() =>
+        gameOverCanvasGroup.DOFade(1, gameOverFadeInTime).SetDelay(1f).OnComplete(() =>
         {
             Debug.Log("Complete");
             restartButton.SetActive(true);

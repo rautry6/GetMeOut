@@ -42,8 +42,10 @@ public class Jump : MonoBehaviour
     private bool _tryingToJump;
     private bool _onGround;
     private bool _isJumping;
+    private bool _canFall;
 
     [SerializeField] private bool canJump = true;
+    private static readonly int Vertical = Animator.StringToHash("Vertical");
 
     private void Awake()
     {
@@ -59,10 +61,16 @@ public class Jump : MonoBehaviour
         // Bitwise OR assignment operator, tryingToJump will remain set in new updates until manually changed
         _tryingToJump |= inputController.RetrieveJumpInput();
 
-        /*if (!_onGround && _playerRigidbody.velocity.y < 0)
+        var playerAnimStateInfo = playerAnimations.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
+        
+        if (playerAnimStateInfo.IsName("Player_Idle") || playerAnimStateInfo.IsName("Player_Run"))
         {
-            
-        }*/
+            if (_playerRigidbody.velocity.y < 0 && _canFall)
+            {
+                _canFall = false;
+                playerAnimations.TriggerJump();
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -111,8 +119,8 @@ public class Jump : MonoBehaviour
             _playerRigidbody.gravityScale = _defaultGravityScale;
         }
 
+        _canFall = _playerRigidbody.velocity.y >= 0;
         _playerRigidbody.velocity = _velocity;
-        
     }
 
     void JumpAction()

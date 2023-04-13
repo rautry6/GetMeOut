@@ -12,10 +12,10 @@ using static HearingManager;
 public class Move : MonoBehaviour
 {
     [SerializeField] private InputController inputController = null;
-    [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
-    [SerializeField, Range(0f, 100f)] private float maxGroundAcc = 35f;
-    [SerializeField, Range(0f, 100f)] private float maxAirAcc = 20f;
-    [SerializeField, Range(0.05f, 0.5f)] private float wallStickTime = .25f;
+    [SerializeField] [Range(0f, 100f)] private float maxSpeed = 4f;
+    [SerializeField] [Range(0f, 100f)] private float maxGroundAcc = 35f;
+    [SerializeField] [Range(0f, 100f)] private float maxAirAcc = 20f;
+    [SerializeField] [Range(0.05f, 0.5f)] private float wallStickTime = .25f;
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private bool canMove = true;
 
@@ -72,8 +72,11 @@ public class Move : MonoBehaviour
     {
         if (!canMove) return;
 
-        playerAnimations.UpdateHorizontalValue(_playerRigidbody.velocity.x);
-        
+        Debug.Log(playerAnimations.PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Player_Jump"));
+        if (!playerAnimations.PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Player_Jump"))
+            playerAnimations.UpdateHorizontalValue(_playerRigidbody.velocity.x);
+
+
         if (_direction.x > 0f)
         {
             //playerAnimations.ChangeAnimationState(AnimationState.RunningRight, playerRun);
@@ -86,16 +89,13 @@ public class Move : MonoBehaviour
         else
         {
             //if (_onGround)
-                //playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
+            //playerAnimations.ChangeAnimationState(AnimationState.Idle, playerIdle);
         }
     }
 
     private void FixedUpdate()
     {
-        if (!canMove)
-        {
-            return;
-        }
+        if (!canMove) return;
 
         _onGround = _collisionDataRetrieving.OnGround;
         _currentVelocity = _playerRigidbody.velocity;
@@ -103,17 +103,13 @@ public class Move : MonoBehaviour
         _maxSpeedChange = _acceleration * Time.deltaTime;
         _currentVelocity.x = Mathf.MoveTowards(_currentVelocity.x, _desiredVelocity.x, _maxSpeedChange);
 
-        if (_currentVelocity.x != 0 && _onGround)
-        {
-            UpdateFootstepAudio();
-        }
+        if (_currentVelocity.x != 0 && _onGround) UpdateFootstepAudio();
 
         _playerRigidbody.velocity = _currentVelocity;
 
         #region Wall Stick
 
         if (_wallInteractor.HasWallInteractor)
-        {
             if (_collisionDataRetrieving.OnWall && !_collisionDataRetrieving.OnGround && !_wallInteractor.WallJumping)
             {
                 if (_wallStickCounter > 0f)
@@ -121,14 +117,10 @@ public class Move : MonoBehaviour
                     _currentVelocity.x = 0f;
 
                     if (inputController.RetrieveMovementInput() == _collisionDataRetrieving.ContactNormal.x)
-                    {
                         _wallStickCounter -= Time.deltaTime;
-                    }
                     else
-                    {
                         // reset wall stick counter
                         _wallStickCounter = wallStickTime;
-                    }
                 }
                 else
                 {
@@ -136,7 +128,6 @@ public class Move : MonoBehaviour
                     _wallStickCounter = wallStickTime;
                 }
             }
-        }
 
         #endregion
     }
@@ -163,21 +154,16 @@ public class Move : MonoBehaviour
 
     public void UpdateFootstepAudio()
     {
-        if (timeUntilNextFootstep > 0)
-        {
-            timeUntilNextFootstep -= Time.deltaTime;
-        }
+        if (timeUntilNextFootstep > 0) timeUntilNextFootstep -= Time.deltaTime;
 
         if (timeUntilNextFootstep <= 0)
-        {
-            if (HearingManager.Instance != null)
+            if (Instance != null)
             {
                 //Tells Hearing Manager a sound was played
-                HearingManager.Instance.OnSoundEmitted(transform.position, EHeardSoundCategory.EFootstep, 1f);
+                Instance.OnSoundEmitted(transform.position, EHeardSoundCategory.EFootstep, 1f);
                 //Resets footstep timer
                 timeUntilNextFootstep = Config.Instance.FootstepInterval;
             }
-        }
     }
 
     public void ReportPosition()

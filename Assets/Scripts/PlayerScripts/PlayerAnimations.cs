@@ -26,7 +26,7 @@ public class PlayerAnimations : MonoBehaviour
         {
             spriteRenderer.flipX = speed < 0;
         }
-
+        
         if (!playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Player_Jump"))
         {
             playerAnimator.SetFloat(Horizontal, Mathf.Abs(speed));
@@ -45,10 +45,6 @@ public class PlayerAnimations : MonoBehaviour
 
         playerAnimator.Play(desiredAnimation);
     }*/
-    public void UpdateVerticalValue(float value)
-    {
-        playerAnimator.SetFloat(Vertical, Mathf.Abs(value));
-    }
 
     public void TriggerJump()
     {

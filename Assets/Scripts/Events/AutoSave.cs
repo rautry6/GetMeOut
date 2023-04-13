@@ -39,11 +39,6 @@ public class AutoSave : MonoBehaviour
         CheckForFile();
     }
 
-    private void Update()
-    {
-        Debug.Log(Instance);
-    }
-
     public void Save()
     {
         if (_canSave)
