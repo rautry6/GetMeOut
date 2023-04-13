@@ -1,5 +1,4 @@
-position 55.25672,2.523652,0
+position 148.1158,0.4796805,0
 health 3
 keycard 
 powerups 
-acidState HasNotStarted

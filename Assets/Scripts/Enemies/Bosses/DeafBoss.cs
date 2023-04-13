@@ -369,13 +369,7 @@ public class DeafBoss : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Debris")
-        {
-            currentBossState = BossStates.Cooldown;
-            collision.gameObject.GetComponent<FallingDebris>().Destroy();
-            TakeDamage(33.5f);
-            StartCoroutine(CoolDown());
-        }
+        
     }
 
     public void TakeDamage(float damage)
@@ -410,5 +404,11 @@ public class DeafBoss : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         TakeDamage(33.5f);
+    }
+
+    public void SetCooldown()
+    {
+        currentBossState = BossStates.Cooldown;
+        StartCoroutine(CoolDown());
     }
 }

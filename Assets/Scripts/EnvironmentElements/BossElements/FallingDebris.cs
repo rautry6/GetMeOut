@@ -8,6 +8,7 @@ public class FallingDebris : MonoBehaviour
     Rigidbody2D debrisRigidbody;
     [SerializeField] private Collider2D collider1;
     [SerializeField] private Sprite destroyedSprite;
+    [SerializeField] private DeafBoss boss;
 
     public bool OnGround;
     public bool BossHit;
@@ -37,6 +38,8 @@ public class FallingDebris : MonoBehaviour
     public void Destroy()
     {
         BossHit = true;
+        boss.TakeDamage(33.5f);
+        boss.CoolDown();
         gameObject.GetComponent<SpriteRenderer>().sprite = destroyedSprite;
     }
 
@@ -49,6 +52,11 @@ public class FallingDebris : MonoBehaviour
             debrisRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
             //collider1.enabled = false;
             HearingManager.Instance.OnSoundEmitted(transform.position, HearingManager.EHeardSoundCategory.ECrash, 100f);
+        }
+
+        if(collision.GetComponent<DeafBoss>() != null && !BossHit)
+        {
+            Destroy();
         }
     }
 }
