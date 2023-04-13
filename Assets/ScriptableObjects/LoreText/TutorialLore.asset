@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe48ac65c8dd1a4eafd1b55b0ad93a3, type: 3}
   m_Name: TutorialLore
   m_EditorClassIdentifier: 
-  loreText: "** R-488-HIT REPORT **\r\n\r\nSubject R-488-HIT is currently our most
-    successful experiment resulting from the Human Intelligence Testing program.
-    Dr. Heisenvofth\u2019s judgement to inject human brain cells in the embryo before
-    fetal development has proved to provide greater results than when done in the
-    stages after birth. R-488-HIT has a head slightly larger than its body but is
-    not hindered physically and has a larger brain as well. Subject is able to solve
-    puzzles and mazes as well as use objects though it is advised not to let the
-    subject out unsupervised. Vitals and dietary habits are normal. Only oddity is
-    that the subject is\r\n\r\nconstantly staring at the door when tests were not
-    conducted. Researchers were unable to determine why."
+  loreText: '** CONDITION REPORT OF F-0-HCS **
+
+    
+
+    Subject F-0-HCS has gained
+    1012% in mass and has become extremely hostile to all other individuals. While
+    it could regenerate mass caused by the injection testing, it has yet to recover
+    its eyes it lost prior to the tests. MEI has yet to produce organ regenerative
+    properties yet which is still good for subject termination, but to minimize damage
+    to the body for later dissection higher-ups called for termination through starvation.
+    NO personnel are to enter the containment room to prevent feeding F-0-HCS any
+    further. If you are found inside the containment room, you are advised to stay
+    quiet and leave the room as it will charge headfirst at the hint of sound.'
