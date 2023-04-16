@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject restartButton;
     [SerializeField] private float gameOverFadeInTime = 2f;
     [SerializeField] private float gameOverTextFadeInTime = 2f;
+    [SerializeField] private GameObject bossUI;
 
     /// <summary>
     /// Turns off the player health and keycard inventory ui
@@ -64,6 +65,17 @@ public class UIManager : MonoBehaviour
         gameOverTextCanvasGroup.DOFade(1, gameOverTextFadeInTime);
     }
 
+    public void BossGameOver()
+    {
+        DisableHealthAndKeycardUI();
+        bossUI.SetActive(false);
+        gameOverCanvasGroup.DOFade(1, gameOverFadeInTime).SetDelay(1f).OnComplete(() =>
+        {
+            Debug.Log("Complete");
+            restartButton.SetActive(true);
+        });
+        gameOverTextCanvasGroup.DOFade(1, gameOverTextFadeInTime);
+    }
     public void ResetGameOverUI()
     {
         EnableHealthAndKeycardUI();

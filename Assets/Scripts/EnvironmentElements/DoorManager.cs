@@ -65,7 +65,6 @@ public class DoorManager : MonoBehaviour
         _light2D.enabled = false;
         doorAnimator.Play("Door_Open_Retro");
     }
-
     public void ResetAnimator()
     {
         doorAnimator.SetTrigger("Reset");

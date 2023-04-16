@@ -55,6 +55,7 @@ public class PowerUpRoutine : MonoBehaviour
             powerUpCollider.enabled = false;
             injector.SetActive(true);
             //playerAnimations.ChangeAnimationState(AnimationState.PowerUp, "Player_PowerUp");
+            playerAnimations.PlayerAnimator.Play("Player_PowerUp");
         }).OnComplete(() =>
         {
             powerUpAnimator.SetTrigger(Full);
@@ -120,6 +121,7 @@ public class PowerUpRoutine : MonoBehaviour
         powerUpMachineSR.sortingOrder = 1;
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         doorBlock.DOMoveY(doorEndPosition.position.y, 2f);
+        playerAnimations.PlayerAnimator.Play("Player_Idle");
         playerMove.RegainMovement();
         playerJump.EnableJumping();
         yield return new WaitForSeconds(graphicActiveTime);

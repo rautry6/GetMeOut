@@ -70,6 +70,7 @@ public class DeafBoss : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private GameObject BossHealthBar;
+    [SerializeField] private GameObject bossHolderUI;
 
     // Start is called before the first frame update
     void Awake()
@@ -387,7 +388,12 @@ public class DeafBoss : MonoBehaviour
 
     public void UpdateUI()
     {
-        BossHealthBar.transform.localScale = new Vector3(health, BossHealthBar.transform.localScale.y);
+        BossHealthBar.transform.localScale = new Vector3(health / 100f, BossHealthBar.transform.localScale.y);
+    }
+
+    public void EnableUI()
+    {
+        bossHolderUI.SetActive(true);
     }
 
 

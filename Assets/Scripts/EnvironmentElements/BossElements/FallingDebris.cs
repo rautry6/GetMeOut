@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class FallingDebris : MonoBehaviour
@@ -9,6 +10,8 @@ public class FallingDebris : MonoBehaviour
     [SerializeField] private Collider2D collider1;
     [SerializeField] private Sprite destroyedSprite;
     [SerializeField] private DeafBoss boss;
+    [SerializeField] private GameEvent debrisEvent;
+    [SerializeField] private bool isLastDebris;
 
     public bool OnGround;
     public bool BossHit;
@@ -34,13 +37,18 @@ public class FallingDebris : MonoBehaviour
         debrisRigidbody.gravityScale = 1;
     }
 
-
     public void Destroy()
     {
+        if (isLastDebris)
+        {
+            debrisEvent.TriggerEvent();
+        }
         BossHit = true;
         boss.TakeDamage(33.5f);
         boss.CoolDown();
-        gameObject.GetComponent<SpriteRenderer>().sprite = destroyedSprite;
+        var spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = destroyedSprite;
+        spriteRenderer.DOFade(0, 2f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

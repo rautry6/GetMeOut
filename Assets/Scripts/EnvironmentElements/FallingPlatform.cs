@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class FallingPlatform : MonoBehaviour
 {
-    [SerializeField] private float delay;
-    [SerializeField] private float respawnTime;
     [SerializeField] private bool shouldFall;
     [SerializeField] float timeForSideCheck;
 
