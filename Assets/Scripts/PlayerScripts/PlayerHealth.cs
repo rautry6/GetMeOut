@@ -165,12 +165,20 @@ public class PlayerHealth : MonoBehaviour
         PlayerDeath.TriggerEvent(); 
     }
 
-    // button click or event trigger
+    
     public void Respawn()
     {
         transform.position = new Vector3(AutoSave.Instance.posX, AutoSave.Instance.posY, AutoSave.Instance.posZ);
         healthPoints = AutoSave.Instance.health;
         UpdateHeartsUI();
+    }
+
+    // button click or event trigger
+
+    public void Restart()
+    {
+        AutoSave.Instance.ResetHealth();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     public void ReportHealth()

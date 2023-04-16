@@ -25,8 +25,6 @@ public class AutoSave : MonoBehaviour
 
     private void Awake()
     {
-        _canSave = true;
-        StartCoroutine(CountdownCanSave());
         _playerDataPath = $"{Application.dataPath}/SaveData/PlayerSaveData.txt";
 
         if (Instance != null)
@@ -37,6 +35,10 @@ public class AutoSave : MonoBehaviour
 
         Instance = this;
         CheckForFile();
+        Load();
+
+        _canSave = true;
+        StartCoroutine(CountdownCanSave());
     }
 
     public void Save()
@@ -48,8 +50,13 @@ public class AutoSave : MonoBehaviour
             player.GetComponent<Move>().ReportPosition();
             player.GetComponent<PlayerHealth>().ReportHealth();
             File.WriteAllText($"{Application.dataPath}/SaveData/PlayerSaveData.txt", FormatSaveData());
-            StartCoroutine(CountdownCanSave());
         }
+    }
+
+    public void ResetHealth()
+    {
+        health = 3;
+        File.WriteAllText($"{Application.dataPath}/SaveData/PlayerSaveData.txt", FormatSaveData());
     }
 
     private IEnumerator CountdownCanSave()
@@ -69,7 +76,8 @@ public class AutoSave : MonoBehaviour
         _canSave = false;
         var reader = new StreamReader(_playerDataPath);
         var data = reader.ReadLine();
-        while (data != null)
+        int lines = 0;
+        while (data != null && lines < 20)
         {
             var line = data.Split(" ");
             switch (line[0])
@@ -85,7 +93,7 @@ public class AutoSave : MonoBehaviour
                 }
                 case "health":
                 {
-                    health = 3; //int.Parse(line[1]);
+                    health = int.Parse(line[1]);
                     break;
                 }
                 case "keycard":
@@ -123,8 +131,10 @@ public class AutoSave : MonoBehaviour
             }
 
             data = reader.ReadLine();
+            lines++;
         }
 
+        reader.Close();
         TriggerLoad();
     }
 
