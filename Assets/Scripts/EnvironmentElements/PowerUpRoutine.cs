@@ -61,6 +61,7 @@ public class PowerUpRoutine : MonoBehaviour
             powerUpAnimator.SetTrigger(Full);
             powerUpParticles.Play();
             PowerUpUI.SetActive(true);
+            PowerUpManager.Instance.PowerUpList.Add("DoubleJump");
             player.transform.position = positionToMoveTo.position;
             if (rigidBody != null)
             {
@@ -84,6 +85,7 @@ public class PowerUpRoutine : MonoBehaviour
             powerUpAnimator.SetTrigger(Full);
             powerUpParticles.Play();
             PowerUpUI.SetActive(true);
+            PowerUpManager.Instance.PowerUpList.Add("WallInteractor");
             player.transform.position = positionToMoveTo.position;
             if (rigidBody != null)
             {

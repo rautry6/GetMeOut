@@ -9,14 +9,13 @@ public class PowerUpChecker : MonoBehaviour
         {
             PowerUpInjector powerUpInjector = collision.GetComponent<PowerUpInjector>();
             AddPowerUp(powerUpInjector.PowerUp);
-            AutoSave.Instance.Powerups.Add(powerUpInjector.PowerUp);
+            //AutoSave.Instance.Powerups.Add(powerUpInjector.PowerUp);
         }
     }
 
     public void LoadPowerUps()
     {
-        var temp = AutoSave.Instance.Powerups;
-        foreach (var powerUp in temp)
+        foreach (var powerUp in PowerUpManager.Instance.PowerUpList)
         {
             AddPowerUp(powerUp);
         }

@@ -178,7 +178,7 @@ public class PlayerHealth : MonoBehaviour
     public void Restart()
     {
         AutoSave.Instance.ResetHealth();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        
     }
 
     public void ReportHealth()

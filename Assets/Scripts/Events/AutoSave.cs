@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AutoSave : MonoBehaviour
@@ -18,7 +19,7 @@ public class AutoSave : MonoBehaviour
     public static AutoSave Instance;
     [SerializeField] private GameEvent loadEvent;
     [SerializeField] private float saveCooldown = 10f;
-    [SerializeField] private AcidManager acidManager;
+    //[SerializeField] private AcidManager acidManager;
 
     private string _playerDataPath;
     private bool _canSave;
@@ -35,8 +36,8 @@ public class AutoSave : MonoBehaviour
 
         Instance = this;
         CheckForFile();
-        Load();
-
+        //Load();
+        DontDestroyOnLoad(Instance);
         _canSave = true;
         StartCoroutine(CountdownCanSave());
     }
@@ -49,6 +50,11 @@ public class AutoSave : MonoBehaviour
             var player = GameObject.FindWithTag("Player");
             player.GetComponent<Move>().ReportPosition();
             player.GetComponent<PlayerHealth>().ReportHealth();
+            Powerups.Clear();
+            foreach (var powerUp in PowerUpManager.Instance.PowerUpList)
+            {
+                Powerups.Add(powerUp);
+            }
             File.WriteAllText($"{Application.dataPath}/SaveData/PlayerSaveData.txt", FormatSaveData());
         }
     }
@@ -57,6 +63,19 @@ public class AutoSave : MonoBehaviour
     {
         health = 3;
         File.WriteAllText($"{Application.dataPath}/SaveData/PlayerSaveData.txt", FormatSaveData());
+        StartCoroutine(AsyncSceneLoad());
+    }
+
+    private IEnumerator AsyncSceneLoad()
+    {
+        var asyncLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        
+        Load();
     }
 
     private IEnumerator CountdownCanSave()
@@ -113,12 +132,12 @@ public class AutoSave : MonoBehaviour
                     foreach (var powerUp in powerUps)
                     {
                         if (powerUp != "")
-                            Powerups.Add(powerUp);
+                            PowerUpManager.Instance.PowerUpList.Add(powerUp);
                     }
 
                     break;
                 }
-                case "acidState":
+                /*case "acidState":
                 {
                     var acidState = line[1];
                     if (Enum.TryParse(acidState, out AcidState parsedAcidState))
@@ -127,7 +146,7 @@ public class AutoSave : MonoBehaviour
                     }
 
                     break;
-                }
+                }*/
             }
 
             data = reader.ReadLine();
@@ -169,25 +188,20 @@ public class AutoSave : MonoBehaviour
         powerUpNames += "\n";
         finalText += powerUpNames;
 
-        if (acidManager != null)
+        /*if (acidManager != null)
         {
             var acidState = "acidState ";
             acidState += acidManager.CurrentAcidState;
             acidState += "\n";
         
             finalText += acidState;
-        }
+        }*/
 
 
 
         return finalText;
     }
-
-    public void AddPowerUp(string powerUpName)
-    {
-        Powerups.Add(powerUpName);
-    }
-
+    
     public void AddKeyCard(string keyCardName)
     {
         KeyCards.Add(keyCardName);
