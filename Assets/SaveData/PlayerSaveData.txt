@@ -1,4 +1,4 @@
-position 177.8167,0.6689881,0.2854
-health 2
-keycard KeyCard_White,
+position 148.3555,0.6623402,0
+health 3
+keycard 
 powerups 
