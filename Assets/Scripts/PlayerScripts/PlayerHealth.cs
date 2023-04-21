@@ -26,6 +26,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Player Death Event")]
     [SerializeField] private GameEvent PlayerDeath;
 
+    [SerializeField] private PlayerSFXManager playerSFXManager;
     private int healthPoints = 3;
 
     public void TakeDamage()
@@ -43,6 +44,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         Debug.Log("Deducted");
+        playerSFXManager.PlayHurtSFX();
         healthPoints--;
 
         if (healthPoints <= 0)
@@ -156,7 +158,7 @@ public class PlayerHealth : MonoBehaviour
     public void Die()
     {
         if (invulnerable) return;
-        
+        playerSFXManager.PlayDeathSFX();
         PlayerDeath.TriggerEvent(); 
     }
     

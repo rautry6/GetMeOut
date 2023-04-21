@@ -18,6 +18,7 @@ public class Move : MonoBehaviour
     [SerializeField] [Range(0.05f, 0.5f)] private float wallStickTime = .25f;
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private bool canMove = true;
+    [SerializeField] private PlayerSFXManager playerSfxManager;
 
     [Header("Strings that must match exactly the animation they represent")] [SerializeField]
     private string playerRun = "Player_Run";
@@ -103,7 +104,11 @@ public class Move : MonoBehaviour
         _maxSpeedChange = _acceleration * Time.deltaTime;
         _currentVelocity.x = Mathf.MoveTowards(_currentVelocity.x, _desiredVelocity.x, _maxSpeedChange);
 
-        if (_currentVelocity.x != 0 && _onGround) UpdateFootstepAudio();
+        if (_currentVelocity.x != 0 && _onGround)
+        {
+            playerSfxManager?.PlayWalkSFX();
+            UpdateFootstepAudio();
+        }
 
         _playerRigidbody.velocity = _currentVelocity;
 

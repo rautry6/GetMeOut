@@ -31,6 +31,8 @@ public class Jump : MonoBehaviour
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerJump = "Player_Jump";
     
+    [SerializeField] private bool canJump = true;
+    [SerializeField] private PlayerSFXManager playerSfxManager;
     private Rigidbody2D _playerRigidbody;
     private CollisionDataRetrieving _ground;
     private Vector2 _velocity;
@@ -44,7 +46,6 @@ public class Jump : MonoBehaviour
     private bool _isJumping;
     private bool _canFall;
 
-    [SerializeField] private bool canJump = true;
     private static readonly int Vertical = Animator.StringToHash("Vertical");
 
     private void Awake()
@@ -146,6 +147,7 @@ public class Jump : MonoBehaviour
 
             _velocity.y += _jumpSpeed;
             playerAnimations.TriggerJump();
+            playerSfxManager?.PlayJumpSFX();
         }
     }
 

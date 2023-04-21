@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
@@ -8,8 +10,11 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip[] audioClips;
     [SerializeField] private AudioClip mainMenuClip;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] bossAudioClips;
     
     private int _currentMusicIndex;
+
+    
 
     private void Awake()
     {
@@ -27,6 +32,21 @@ public class MusicManager : MonoBehaviour
         MainMenuPlayMusic();
     }
 
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.name == "DeafBoss")
+        {
+            audioSource.Stop();
+            _currentMusicIndex = 0;
+            PlayBossMusic();
+        }
+    }
+
     void MainMenuPlayMusic()
     {
         audioSource.clip = mainMenuClip;
@@ -39,11 +59,25 @@ public class MusicManager : MonoBehaviour
         audioSource.Play();
         StartCoroutine(PlayingMusic());
     }
+    
+    public void PlayBossMusic()
+    {
+        audioSource.clip = bossAudioClips[_currentMusicIndex];
+        audioSource.Play();
+        StartCoroutine(PlayingBossMusic());
+    }
 
     IEnumerator PlayingMusic()
     {
         yield return new WaitForSeconds(audioClips[_currentMusicIndex].length);
         _currentMusicIndex = (_currentMusicIndex + 1) % audioClips.Length;
         PlayMusic();
+    }
+    
+    IEnumerator PlayingBossMusic()
+    {
+        yield return new WaitForSeconds(bossAudioClips[_currentMusicIndex].length);
+        _currentMusicIndex = (_currentMusicIndex + 1) % audioClips.Length;
+        PlayBossMusic();
     }
 }
