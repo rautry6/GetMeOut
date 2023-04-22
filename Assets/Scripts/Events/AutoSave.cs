@@ -22,12 +22,24 @@ public class AutoSave : MonoBehaviour
     //[SerializeField] private AcidManager acidManager;
 
     private string _playerDataPath;
+    
     private bool _canSave;
 
     private void Awake()
     {
-        _playerDataPath = $"{Application.dataPath}/SaveData/PlayerSaveData.txt";
-
+        //_playerDataPath = $"{Application.dataPath}/SaveData/PlayerSaveData.txt";
+        var saveDataFolder = Path.Combine(Application.dataPath, "SaveData");
+        if (!Directory.Exists(saveDataFolder))
+        {
+            Directory.CreateDirectory(saveDataFolder);
+        }
+        
+        _playerDataPath = Path.Combine(saveDataFolder, "PlayerSaveData.txt");
+        if (!File.Exists(_playerDataPath))
+        {
+            File.Create(_playerDataPath).Dispose();
+        }
+        
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -35,7 +47,7 @@ public class AutoSave : MonoBehaviour
         }
 
         Instance = this;
-        CheckForFile();
+        //CheckForFile();
         //Load();
         DontDestroyOnLoad(Instance);
         _canSave = true;

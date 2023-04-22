@@ -73,7 +73,6 @@ public class Move : MonoBehaviour
     {
         if (!canMove) return;
 
-        Debug.Log(playerAnimations.PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Player_Jump"));
         if (!playerAnimations.PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Player_Jump"))
             playerAnimations.UpdateHorizontalValue(_playerRigidbody.velocity.x);
 

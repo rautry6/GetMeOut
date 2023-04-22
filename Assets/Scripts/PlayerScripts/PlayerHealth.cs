@@ -43,7 +43,6 @@ public class PlayerHealth : MonoBehaviour
             healthUI[healthPoints-1].sprite = depletedSprite;
         }
 
-        Debug.Log("Deducted");
         playerSFXManager.PlayHurtSFX();
         healthPoints--;
 

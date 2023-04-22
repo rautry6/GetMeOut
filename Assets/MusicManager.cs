@@ -77,7 +77,7 @@ public class MusicManager : MonoBehaviour
     IEnumerator PlayingBossMusic()
     {
         yield return new WaitForSeconds(bossAudioClips[_currentMusicIndex].length);
-        _currentMusicIndex = (_currentMusicIndex + 1) % audioClips.Length;
+        _currentMusicIndex = (_currentMusicIndex + 1) % bossAudioClips.Length;
         PlayBossMusic();
     }
 }
