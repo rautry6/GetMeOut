@@ -4,5 +4,6 @@
     RunningRight,
     RunningLeft,
     JumpUp,
-    FallDown,
+    PowerUp,
+    Fall,
 }

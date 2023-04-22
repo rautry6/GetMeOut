@@ -83,9 +83,15 @@ public class GrabEnemy : MonoBehaviour
 
         virCamera.m_Lens.OrthographicSize = cameraZoomLevel;
         grabbedText.SetActive(true);
-        CinemachineBasicMultiChannelPerlin cm = virCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        cm.m_AmplitudeGain = cameraShakeAmplitude;
-        cm.m_FrequencyGain = cameraShakeFrequency;
+
+        void GrabbedCameraShake()
+        {
+            CinemachineBasicMultiChannelPerlin cm = virCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            cm.m_AmplitudeGain = cameraShakeAmplitude;
+            cm.m_FrequencyGain = cameraShakeFrequency;
+        }
+
+        GrabbedCameraShake();
 
         escaping = true;
         grabbing = true;

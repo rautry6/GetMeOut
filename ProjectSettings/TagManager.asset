@@ -9,6 +9,14 @@ TagManager:
   - Grabber
   - PowerUp
   - Ground
+  - DeathPit
+  - Trap
+  - Spike
+  - TrapTrigger
+  - Debris
+  - Health
+  - Pointer
+  - Slippery
   layers:
   - Default
   - TransparentFX

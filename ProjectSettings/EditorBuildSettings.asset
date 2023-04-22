@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TitleScreen.unity
+    guid: 16e939fa65e4a064786698960e6bae0f
+  - enabled: 1
     path: Assets/Scenes/StartingLevel.unity
     guid: 5ffbea3651076b9488a2612aff5ba6ee
+  - enabled: 1
+    path: Assets/Scenes/DeafBoss.unity
+    guid: b6bf4965aa43f9f4ab9513317b65a95e
+  - enabled: 1
+    path: Assets/Scenes/Win.unity
+    guid: 021987fb7017b7a4598adfe15f8ba6d4
   m_configObjects: {}

@@ -28,11 +28,13 @@ namespace GetMeOut
         private Vector2 _velocity;
         private bool _onWall, _onGround, _tryingToJump;
         private float _wallDirectionX;
+        private ParticleSystem _playerParticleSystem;
 
         private void Start()
         {
             _collisionDataRetrieving = GetComponent<CollisionDataRetrieving>();
             _playerRigidbody = GetComponent<Rigidbody2D>();
+            _playerParticleSystem = GetComponent<ParticleSystem>();
         }
 
         private void Update()
@@ -95,6 +97,8 @@ namespace GetMeOut
                     WallJumping = true;
                     _tryingToJump = false;
                 }
+                if(_playerParticleSystem != null)
+                    _playerParticleSystem.Play();
             }
 
             #endregion
@@ -105,7 +109,7 @@ namespace GetMeOut
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (!HasWallInteractor) return;
-            
+
             if (_collisionDataRetrieving.OnWall && !_collisionDataRetrieving.OnGround && WallJumping)
             {
                 _playerRigidbody.velocity = Vector2.zero;

@@ -31,6 +31,8 @@ public class Jump : MonoBehaviour
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField, Tooltip("Name of jump animation state in animator")] private string playerJump = "Player_Jump";
     
+    [SerializeField] private bool canJump = true;
+    [SerializeField] private PlayerSFXManager playerSfxManager;
     private Rigidbody2D _playerRigidbody;
     private CollisionDataRetrieving _ground;
     private Vector2 _velocity;
@@ -42,8 +44,9 @@ public class Jump : MonoBehaviour
     private bool _tryingToJump;
     private bool _onGround;
     private bool _isJumping;
+    private bool _canFall;
 
-    [SerializeField] private bool canJump = true;
+    private static readonly int Vertical = Animator.StringToHash("Vertical");
 
     private void Awake()
     {
@@ -59,9 +62,15 @@ public class Jump : MonoBehaviour
         // Bitwise OR assignment operator, tryingToJump will remain set in new updates until manually changed
         _tryingToJump |= inputController.RetrieveJumpInput();
 
-        if (!_onGround)
+        var playerAnimStateInfo = playerAnimations.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
+        
+        if (playerAnimStateInfo.IsName("Player_Idle") || playerAnimStateInfo.IsName("Player_Run"))
         {
-            playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
+            if (_playerRigidbody.velocity.y < 0 && _canFall)
+            {
+                _canFall = false;
+                playerAnimations.TriggerJump();
+            }
         }
     }
 
@@ -100,6 +109,7 @@ public class Jump : MonoBehaviour
         if (inputController.RetrieveJumpInputHeld() && _playerRigidbody.velocity.y > 0)
         {
             _playerRigidbody.gravityScale = upwardMovementMultiplier;
+            //playerAnimations.ChangeAnimationState(AnimationState.JumpUp, playerJump);
         }
         else if (!inputController.RetrieveJumpInputHeld() || _playerRigidbody.velocity.y < 0)
         {
@@ -110,6 +120,7 @@ public class Jump : MonoBehaviour
             _playerRigidbody.gravityScale = _defaultGravityScale;
         }
 
+        _canFall = _playerRigidbody.velocity.y >= 0;
         _playerRigidbody.velocity = _velocity;
     }
 
@@ -135,6 +146,8 @@ public class Jump : MonoBehaviour
             }
 
             _velocity.y += _jumpSpeed;
+            playerAnimations.TriggerJump();
+            playerSfxManager?.PlayJumpSFX();
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -25,6 +26,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Player Death Event")]
     [SerializeField] private GameEvent PlayerDeath;
 
+    [SerializeField] private PlayerSFXManager playerSFXManager;
     private int healthPoints = 3;
 
     public void TakeDamage()
@@ -41,6 +43,7 @@ public class PlayerHealth : MonoBehaviour
             healthUI[healthPoints-1].sprite = depletedSprite;
         }
 
+        playerSFXManager.PlayHurtSFX();
         healthPoints--;
 
         if (healthPoints <= 0)
@@ -74,7 +77,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy")
+        if(collision.CompareTag("Enemy") || collision.CompareTag("Trap"))
         {
             Vector3 direction;
 
@@ -93,16 +96,23 @@ public class PlayerHealth : MonoBehaviour
 
             TakeDamage();
 
-            if (healthPoints > 0)
+            if (healthPoints > 0 && !invulnerable)
             {
                 pmove.ApplyKnockback(direction);
             }
         }
 
-        if(collision.tag == "Health")
+        //No knockback on spikes
+        if(collision.CompareTag("Spike"))
         {
-            Heal();
+            TakeDamage();
         }
+
+        if(collision.CompareTag("DeathPit"))
+        {
+            PlayerDeath.TriggerEvent();
+        }
+        
     }
 
     public IEnumerator InvulTime()
@@ -146,6 +156,52 @@ public class PlayerHealth : MonoBehaviour
 
     public void Die()
     {
-        PlayerDeath.TriggerEvent();
+        if (invulnerable) return;
+        playerSFXManager.PlayDeathSFX();
+        PlayerDeath.TriggerEvent(); 
+    }
+    
+    public void StrictDie()
+    {
+        PlayerDeath.TriggerEvent(); 
+    }
+
+    
+    public void Respawn()
+    {
+        transform.position = new Vector3(AutoSave.Instance.posX, AutoSave.Instance.posY, AutoSave.Instance.posZ);
+        healthPoints = AutoSave.Instance.health;
+        UpdateHeartsUI();
+    }
+
+    // button click or event trigger
+
+    public void Restart()
+    {
+        AutoSave.Instance.ResetHealth();
+        
+    }
+
+    public void ReportHealth()
+    {
+        AutoSave.Instance.health = healthPoints;
+    }
+    
+    public void UpdateInvulnerable(bool isInvulnerable)
+    {
+        invulnerable = isInvulnerable;
+    }
+
+    private void UpdateHeartsUI()
+    {
+        foreach (var t in healthUI)
+        {
+            t.sprite = depletedSprite;
+        }
+
+        for (var i = 0; i <= healthPoints - 1; i++)
+        {
+            healthUI[i].sprite = fullSprite;
+        }
     }
 }

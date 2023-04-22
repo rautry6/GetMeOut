@@ -11,7 +11,7 @@ public class PatrollingEnemy : MonoBehaviour
     [SerializeField] private float moveDuration;
     [SerializeField] private float idleTime;
     [SerializeField] private MoveDirection _currentMoveDirection;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
 
     private enum MoveDirection
     {
@@ -22,50 +22,60 @@ public class PatrollingEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if(_currentMoveDirection == MoveDirection.Left)
+        if (_currentMoveDirection == MoveDirection.Left)
         {
-            spriteRenderer.flipX = false;
             MoveLeft();
         }
         else
         {
-            spriteRenderer.flipX = true;
             MoveRight();
         }
     }
 
     public void MoveRight()
     {
-        transform.DOMoveX(rightWaypoint.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
+        if (transform != null)
         {
-            StartCoroutine(Idle());
-        });
+            transform.DOMoveX(rightWaypoint.position.x, moveDuration).SetEase(easeType).OnPlay(() =>
+            {
+                animator.SetTrigger("WalkRight");
+            }).OnComplete(() =>
+            {
+                animator.SetTrigger("TurnLeft");
+                StartCoroutine(Idle());
+            });
+        }
     }
 
     public void MoveLeft()
     {
-        transform.DOMoveX(leftWaypoint.position.x, moveDuration).SetEase(easeType).OnComplete(() =>
+        if (transform != null)
         {
-            StartCoroutine(Idle());
-        });
+            transform.DOMoveX(leftWaypoint.position.x, moveDuration).SetEase(easeType).OnPlay(() =>
+            {
+                animator.SetTrigger("WalkLeft");
+            }).OnComplete(() =>
+            {
+                animator.SetTrigger("TurnRight");
+                StartCoroutine(Idle());
+            });
+        }
     }
 
     public IEnumerator Idle()
     {
         yield return new WaitForSeconds(idleTime);
 
-        if(_currentMoveDirection == MoveDirection.Left)
+        if (_currentMoveDirection == MoveDirection.Left)
         {
-            spriteRenderer.flipX = true;
             _currentMoveDirection = MoveDirection.Right;
             MoveRight();
         }
         else
         {
-            spriteRenderer.flipX = false;
             _currentMoveDirection = MoveDirection.Left;
             MoveLeft();
         }
-
     }
+
 }

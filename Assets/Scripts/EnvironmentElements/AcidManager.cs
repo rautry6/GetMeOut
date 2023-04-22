@@ -2,59 +2,56 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using DG.Tweening.Core;
 using UnityEngine;
 using static UnityEngine.Debug;
+
 public class AcidManager : MonoBehaviour
 {
-    [SerializeField] private Transform endPositions;
-    [SerializeField] private float initialMoveDuration;
-    [SerializeField] private float secondaryMoveDuration;
-    [SerializeField] private float startDelay;
-    [SerializeField] private CameraShake cameraShake;
-    [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private GameObject horizontalPlatform;
-    [SerializeField] private Ease acidEase;
+    [SerializeField] private float mainDuration;
+    [SerializeField] private Transform finishedPosition;
+    [SerializeField] private float restartDelayToStart;
     private Sequence _acidSequence;
-    private Transform _startingPosition;
-    private bool _runOnce = false;
+    private Vector3 _startPosition;
+    private TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions> _startTween;
+
+    public AcidState CurrentAcidState { get; set; }
 
     private void Awake()
     {
-        _acidSequence.SetId("acid");
+        _startPosition = transform.position;
+        CurrentAcidState = AcidState.HasNotStarted;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void HandleStartAcid(float delay = 1.5f)
     {
-        _startingPosition = transform;
+        StartCoroutine(StartAcid(delay));
     }
 
-    private void Update()
+    private IEnumerator StartAcid(float delay)
     {
-        var player = Physics2D.CircleCast(horizontalPlatform.transform.position, 1f, Vector2.up, 1f, playerLayer);
-        
-        if (player.transform != null)
-        {
-            if (!_runOnce)
-            {
-                _runOnce = true;
-                StartCoroutine(StartAcid());
-            }
-        }
-    }
-
-    private IEnumerator StartAcid()
-    {
-        yield return new WaitForSeconds(1f);
-        cameraShake.ShakeCamera();
-        yield return new WaitForSeconds(1f);
-        _acidSequence = DOTween.Sequence();
-        _acidSequence.Append(transform.DOMoveY(endPositions.position.y, initialMoveDuration).SetEase(acidEase));
+        CurrentAcidState = AcidState.ShouldRestart;
+        yield return new WaitForSeconds(delay);
+        _startTween = transform.DOMoveY(finishedPosition.position.y, mainDuration).SetEase(Ease.OutQuad);
     }
 
     public void DrainAcid()
     {
-        _acidSequence.Kill();
-        transform.DOMoveY(-20, 10f).OnComplete(() => { gameObject.SetActive(false); });
+        CurrentAcidState = AcidState.IsDrained;
+        transform.DOMoveY(_startPosition.y, 10f).OnComplete(() =>
+        {
+            /*gameObject.SetActive(false);*/
+            _startTween.Kill();
+        });
+    }
+
+    public void ResetAcidScaleToStart()
+    {
+        if (CurrentAcidState != AcidState.ShouldRestart) return;
+        
+        StopAllCoroutines();
+        _startTween.Complete();
+        transform.DOMoveY(_startPosition.y, 0f);
+        HandleStartAcid(restartDelayToStart);
     }
 }
