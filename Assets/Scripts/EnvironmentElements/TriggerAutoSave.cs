@@ -11,6 +11,7 @@ public class TriggerAutoSave : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("TriggerAutoSave");
             autoSaveEvent.TriggerEvent();
         }
     }

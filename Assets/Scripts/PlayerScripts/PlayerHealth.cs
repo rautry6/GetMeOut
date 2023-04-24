@@ -157,7 +157,6 @@ public class PlayerHealth : MonoBehaviour
     public void Die()
     {
         if (invulnerable) return;
-        playerSFXManager.PlayDeathSFX();
         PlayerDeath.TriggerEvent(); 
     }
     
