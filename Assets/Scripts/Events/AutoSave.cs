@@ -68,6 +68,8 @@ public class AutoSave : MonoBehaviour
                 Powerups.Add(powerUp);
             }
             File.WriteAllText($"{Application.dataPath}/SaveData/PlayerSaveData.txt", FormatSaveData());
+            Debug.Log("EndOfSave");
+            _canSave = true;
         }
     }
 
