@@ -71,7 +71,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (healthPoints > healthUI.Length)
         {
-            healthPoints = healthUI.Length - 1 ; //Keeps health from being negative
+            healthPoints = healthUI.Length; //Keeps health from being above max health
         }
     }
 
