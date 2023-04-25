@@ -54,6 +54,14 @@ public class AutoSave : MonoBehaviour
         StartCoroutine(CountdownCanSave());
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("TitleScreen");
+        }
+    }
+
     public void Save()
     {
         if (_canSave)
