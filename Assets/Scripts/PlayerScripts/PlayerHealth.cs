@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class PlayerHealth : MonoBehaviour
         if(healthPoints > 0)
         {
             healthUI[healthPoints-1].sprite = depletedSprite;
+            StartCoroutine(HealthShake(healthUI[healthPoints - 1].gameObject));
+            
         }
 
         playerSFXManager.PlayHurtSFX();
@@ -73,6 +76,61 @@ public class PlayerHealth : MonoBehaviour
         {
             healthPoints = healthUI.Length; //Keeps health from being above max health
         }
+    }
+
+    private IEnumerator HealthShake(GameObject objToShake)
+    {
+        HorizontalLayoutGroup hlg = objToShake.transform.parent.GetComponent<HorizontalLayoutGroup>();
+
+        //Disable horizonal layout so piece can move
+        if(hlg != null)
+        {
+            hlg.enabled = false;
+        }
+
+        Vector3 originalPosition = objToShake.transform.position;
+
+        //How far left and right you want the piece to move
+        float objShakeOffset = 20f;
+        Vector3 shakeOffsetPosition = (Vector3.right * objShakeOffset);
+
+        Vector3 targetPosition = objToShake.transform.position - shakeOffsetPosition;
+
+        //How fast each individual shake occurs
+        float shakeSpeed = 0.05f;
+
+        //How many times the heart piece moves left and right
+        int numberOfShakes = 4;
+
+        for(int i = 0; i < numberOfShakes; i++)
+        {
+            objToShake.transform.DOMove(targetPosition, shakeSpeed);
+
+            yield return new WaitWhile(() => objToShake.transform.position != targetPosition);
+
+            shakeOffsetPosition = -shakeOffsetPosition;
+            targetPosition = originalPosition + shakeOffsetPosition;
+
+            objToShake.transform.DOMove(targetPosition, shakeSpeed);
+
+            yield return new WaitWhile(() => objToShake.transform.position != targetPosition);
+
+            shakeOffsetPosition = -shakeOffsetPosition;
+            targetPosition = originalPosition + shakeOffsetPosition;
+        }
+
+        //Return to original position
+        objToShake.transform.DOMove(originalPosition, shakeSpeed);
+
+        yield return new WaitWhile(() => objToShake.transform.position != originalPosition);
+
+        //Re-enable horizontal layout group
+        if (hlg != null)
+        {
+            hlg.enabled = true;
+        }
+
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)
