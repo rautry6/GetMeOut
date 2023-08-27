@@ -565,9 +565,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6707146429273622020}
+  - component: {fileID: 8304494998082795622}
   - component: {fileID: 6707146429273622019}
   - component: {fileID: 6707146429273622021}
-  - component: {fileID: 8304494998082795622}
   m_Layer: 0
   m_Name: 2DCamera
   m_TagString: Untagged
@@ -591,6 +591,23 @@ Transform:
   m_Father: {fileID: 6707146429817626050}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8304494998082795622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6707146429273622018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2fba25a5cd15594e8f050a11e386c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ConfineMode: 0
+  m_BoundingVolume: {fileID: 0}
+  m_BoundingShape2D: {fileID: 0}
+  m_ConfineScreenEdges: 1
+  m_Damping: 0
 --- !u!114 &6707146429273622019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,23 +660,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intensity: 0.1
   shakeTimerDuration: 0.1
---- !u!114 &8304494998082795622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6707146429273622018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2fba25a5cd15594e8f050a11e386c80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ConfineMode: 0
-  m_BoundingVolume: {fileID: 0}
-  m_BoundingShape2D: {fileID: 0}
-  m_ConfineScreenEdges: 1
-  m_Damping: 0
 --- !u!1 &6707146429817626049
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,15 +799,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.125
-    y: 0.019038076
-    width: 0.75000006
-    height: 0.96192384
+    x: -0.017708335
+    y: 0.2824074
+    width: 0.25
+    height: 0.2962963
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

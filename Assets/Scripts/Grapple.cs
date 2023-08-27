@@ -48,6 +48,9 @@ public class Grapple : MonoBehaviour
     public AnimationCurve ropeProgressionCurve;
     [SerializeField][Range(1, 50)] private float ropeProgressionSpeed = 1;
 
+    [SerializeField] private GameObject selectedGrapple;
+    private GameObject[] grapples;
+
     float moveTime = 0;
 
     private Transform currentGrapple;
@@ -66,20 +69,28 @@ public class Grapple : MonoBehaviour
         springJoint.enabled = false;
 
         cam = Camera.main;
+
+        grapples = GameObject.FindGameObjectsWithTag("Grapple");
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
-
-
-            if (!returning && !latched && !shooting)
+            CheckForNearestGrappleHook();
+            if (currentGrapple != null)
             {
-                grappling = true;
-                shooting = true;
+                targetPosition = currentGrapple.position;
+
+
+                if (!returning && !latched && !shooting)
+                {
+                    grappling = true;
+                    shooting = true;
+                }
             }
         }
 
@@ -283,5 +294,27 @@ public class Grapple : MonoBehaviour
     public void BreakHook()
     {
         StopGrappling();
+    }
+
+    public void CheckForNearestGrappleHook()
+    {
+        float distance = maxTravelDistance + 0.1f;
+        foreach (var grapple in grapples)
+        {
+            float currentDistance = Vector2.Distance(grapple.transform.position, transform.position);
+            if (currentDistance < distance)
+            {
+                currentGrapple = grapple.transform;
+                distance = currentDistance;
+
+            }
+        }
+
+        if(distance !=  maxTravelDistance + 0.1f)
+        {
+            return;
+        }
+
+        currentGrapple = null;
     }
 }

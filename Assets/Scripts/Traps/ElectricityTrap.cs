@@ -23,10 +23,10 @@ public class ElectricityTrap : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
 
-        edgeCollider.SetPoints(new List<Vector2> { point1.transform.position, point2.transform.position });
+        edgeCollider.SetPoints(new List<Vector2> { point1.transform.localPosition, point2.transform.localPosition });
         edgeCollider.enabled = false;
 
-        edgeCollider2.SetPoints(new List<Vector2> { point2.transform.position, point1.transform.position });
+        edgeCollider2.SetPoints(new List<Vector2> { point2.transform.localPosition, point1.transform.localPosition });
         edgeCollider2.enabled = false;
     }
 
@@ -65,8 +65,8 @@ public class ElectricityTrap : MonoBehaviour
             lineRenderer.SetPosition(0, point1.transform.position);
             lineRenderer.SetPosition(1, point2.transform.position);
 
-            edgeCollider.SetPoints(new List<Vector2> { point1.transform.position, point2.transform.position });
-            edgeCollider2.SetPoints(new List<Vector2> { point2.transform.position, point1.transform.position });
+            edgeCollider.SetPoints(new List<Vector2> { point1.transform.localPosition, point2.transform.localPosition });
+            edgeCollider2.SetPoints(new List<Vector2> { point2.transform.localPosition, point1.transform.localPosition });
         }
         else
         {
