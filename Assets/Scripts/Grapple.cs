@@ -77,12 +77,19 @@ public class Grapple : MonoBehaviour
     void Update()
     {
 
+        CheckForNearestGrappleHook();
 
+        
+
+    }
+
+    private void LateUpdate()
+    {
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            CheckForNearestGrappleHook();
             if (currentGrapple != null)
             {
+
                 targetPosition = currentGrapple.position;
 
 
@@ -168,7 +175,6 @@ public class Grapple : MonoBehaviour
 
             StartCoroutine(CheckIfHit(hit));
         }
-
     }
 
     public void DrawRope(RaycastHit2D hit)
@@ -304,7 +310,14 @@ public class Grapple : MonoBehaviour
             float currentDistance = Vector2.Distance(grapple.transform.position, transform.position);
             if (currentDistance < distance)
             {
+                if (currentGrapple != null &&  currentGrapple != grapple.transform)
+                {
+                    currentGrapple.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+                
                 currentGrapple = grapple.transform;
+                currentGrapple.GetComponent<SpriteRenderer>().color = Color.red;
+
                 distance = currentDistance;
 
             }
