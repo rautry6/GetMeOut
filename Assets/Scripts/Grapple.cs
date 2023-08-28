@@ -228,10 +228,14 @@ public class Grapple : MonoBehaviour
             snapPoint = hit.collider.transform;
 
             //If the player is hooked to a moving hook, move hook start moving hook
-            if (hit.transform.tag.Equals("MovingHook"))
+            if (hit.transform.name.Contains("Moving"))
             {
                 currentMovingHook = hit.transform.GetComponent<MovingGrappleHook>();
-                currentMovingHook?.PlayerSnapped();
+
+                if (currentMovingHook.moving != true)
+                {
+                    currentMovingHook?.PlayerSnapped();
+                }
             }
         }
 
@@ -328,6 +332,7 @@ public class Grapple : MonoBehaviour
             return;
         }
 
+        currentGrapple.GetComponent<SpriteRenderer>().color = Color.white;
         currentGrapple = null;
     }
 }
