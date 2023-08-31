@@ -8,7 +8,8 @@ public class Grapple : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private Camera cam;
 
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] LayerMask grappleLayer;
+    [SerializeField] LayerMask groundLayer;
 
     private Vector3 targetPosition;
 
@@ -90,6 +91,8 @@ public class Grapple : MonoBehaviour
             targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
 
 
+
+
             if (!returning && !latched && !shooting)
             {
                 grappling = true;
@@ -133,8 +136,21 @@ public class Grapple : MonoBehaviour
             length = maxTravelDistance;
         }
 
-        //Checks for a Raycast hit on the specified layers
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, length, layerMask);
+        RaycastHit2D hit;
+
+        hit = Physics2D.Raycast(transform.position, direction, length, groundLayer);
+
+        if (hit != false)
+        {
+            //Checks for a Raycast hit on the specified layers
+            hit = Physics2D.Raycast(transform.position, direction, length, grappleLayer);
+        }
+        else
+        {
+            targetPosition = hit.point;
+        }
+
+
 
 
         moveTime += Time.deltaTime;
@@ -269,7 +285,11 @@ public class Grapple : MonoBehaviour
         yield return new WaitWhile(() => !finishedShooting);
 
         //If something was hit
-        if (hit != false)
+        if(hit != false) {
+            Debug.Log(hit.transform.tag);
+        }
+        if (hit != false && hit.transform.CompareTag("Grapple"))
+
         {
             Debug.Log(hit.collider);
 
