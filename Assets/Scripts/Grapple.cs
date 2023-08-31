@@ -87,17 +87,13 @@ public class Grapple : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            if (currentGrapple != null)
+            targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+
+
+            if (!returning && !latched && !shooting)
             {
-
-                targetPosition = currentGrapple.position;
-
-
-                if (!returning && !latched && !shooting)
-                {
-                    grappling = true;
-                    shooting = true;
-                }
+                grappling = true;
+                shooting = true;
             }
         }
 
