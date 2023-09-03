@@ -136,22 +136,13 @@ public class Grapple : MonoBehaviour
             length = maxTravelDistance;
         }
 
-        RaycastHit2D hit;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, length, groundLayer);
 
-        hit = Physics2D.Raycast(transform.position, direction, length, groundLayer);
-
-        if (hit != false)
+        if (hit.collider == null)
         {
             //Checks for a Raycast hit on the specified layers
             hit = Physics2D.Raycast(transform.position, direction, length, grappleLayer);
         }
-        else
-        {
-            targetPosition = hit.point;
-        }
-
-
-
 
         moveTime += Time.deltaTime;
 
@@ -191,6 +182,11 @@ public class Grapple : MonoBehaviour
 
     public void DrawRope(RaycastHit2D hit)
     {
+        if (hit.collider != null && (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("Wall")))
+        {
+            targetPosition = hit.point;
+        }
+        
         for (int i = 0; i < numberOfPoints; i++)
         {
             float delta = (float)i / ((float)numberOfPoints - 1f);

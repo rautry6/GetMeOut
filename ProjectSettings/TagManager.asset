@@ -18,6 +18,7 @@ TagManager:
   - Pointer
   - Slippery
   - Grapple
+  - Wall
   layers:
   - Default
   - TransparentFX
