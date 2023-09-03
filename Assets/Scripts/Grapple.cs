@@ -8,7 +8,8 @@ public class Grapple : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private Camera cam;
 
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] LayerMask grappleLayer;
+    [SerializeField] LayerMask groundLayer;
 
     private Vector3 targetPosition;
 
@@ -48,6 +49,9 @@ public class Grapple : MonoBehaviour
     public AnimationCurve ropeProgressionCurve;
     [SerializeField][Range(1, 50)] private float ropeProgressionSpeed = 1;
 
+    [SerializeField] private GameObject selectedGrapple;
+    private GameObject[] grapples;
+
     float moveTime = 0;
 
     private Transform currentGrapple;
@@ -66,14 +70,27 @@ public class Grapple : MonoBehaviour
         springJoint.enabled = false;
 
         cam = Camera.main;
+
+        grapples = GameObject.FindGameObjectsWithTag("Grapple");
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        CheckForNearestGrappleHook();
+
+        
+
+    }
+
+    private void LateUpdate()
+    {
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+
+
 
 
             if (!returning && !latched && !shooting)
@@ -119,9 +136,13 @@ public class Grapple : MonoBehaviour
             length = maxTravelDistance;
         }
 
-        //Checks for a Raycast hit on the specified layers
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, length, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, length, groundLayer);
 
+        if (hit.collider == null)
+        {
+            //Checks for a Raycast hit on the specified layers
+            hit = Physics2D.Raycast(transform.position, direction, length, grappleLayer);
+        }
 
         moveTime += Time.deltaTime;
 
@@ -157,11 +178,15 @@ public class Grapple : MonoBehaviour
 
             StartCoroutine(CheckIfHit(hit));
         }
-
     }
 
     public void DrawRope(RaycastHit2D hit)
     {
+        if (hit.collider != null && (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("Wall")))
+        {
+            targetPosition = hit.point;
+        }
+        
         for (int i = 0; i < numberOfPoints; i++)
         {
             float delta = (float)i / ((float)numberOfPoints - 1f);
@@ -211,10 +236,14 @@ public class Grapple : MonoBehaviour
             snapPoint = hit.collider.transform;
 
             //If the player is hooked to a moving hook, move hook start moving hook
-            if (hit.transform.tag.Equals("MovingHook"))
+            if (hit.transform.name.Contains("Moving"))
             {
                 currentMovingHook = hit.transform.GetComponent<MovingGrappleHook>();
-                currentMovingHook?.PlayerSnapped();
+
+                if (currentMovingHook.moving != true)
+                {
+                    currentMovingHook?.PlayerSnapped();
+                }
             }
         }
 
@@ -252,7 +281,11 @@ public class Grapple : MonoBehaviour
         yield return new WaitWhile(() => !finishedShooting);
 
         //If something was hit
-        if (hit != false)
+        if(hit != false) {
+            Debug.Log(hit.transform.tag);
+        }
+        if (hit != false && hit.transform.CompareTag("Grapple"))
+
         {
             Debug.Log(hit.collider);
 
@@ -283,5 +316,35 @@ public class Grapple : MonoBehaviour
     public void BreakHook()
     {
         StopGrappling();
+    }
+
+    public void CheckForNearestGrappleHook()
+    {
+        float distance = maxTravelDistance + 0.1f;
+        foreach (var grapple in grapples)
+        {
+            float currentDistance = Vector2.Distance(grapple.transform.position, transform.position);
+            if (currentDistance < distance)
+            {
+                if (currentGrapple != null &&  currentGrapple != grapple.transform)
+                {
+                    currentGrapple.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+                
+                currentGrapple = grapple.transform;
+                currentGrapple.GetComponent<SpriteRenderer>().color = Color.red;
+
+                distance = currentDistance;
+
+            }
+        }
+
+        if(distance !=  maxTravelDistance + 0.1f)
+        {
+            return;
+        }
+
+        currentGrapple.GetComponent<SpriteRenderer>().color = Color.white;
+        currentGrapple = null;
     }
 }

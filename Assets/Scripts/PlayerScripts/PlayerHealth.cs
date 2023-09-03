@@ -106,14 +106,14 @@ public class PlayerHealth : MonoBehaviour
         {
             objToShake.transform.DOMove(targetPosition, shakeSpeed);
 
-            yield return new WaitWhile(() => objToShake.transform.position != targetPosition);
+            yield return new WaitForSeconds(shakeSpeed);
 
             shakeOffsetPosition = -shakeOffsetPosition;
             targetPosition = originalPosition + shakeOffsetPosition;
 
             objToShake.transform.DOMove(targetPosition, shakeSpeed);
 
-            yield return new WaitWhile(() => objToShake.transform.position != targetPosition);
+            yield return new WaitForSeconds(shakeSpeed);
 
             shakeOffsetPosition = -shakeOffsetPosition;
             targetPosition = originalPosition + shakeOffsetPosition;
@@ -122,7 +122,7 @@ public class PlayerHealth : MonoBehaviour
         //Return to original position
         objToShake.transform.DOMove(originalPosition, shakeSpeed);
 
-        yield return new WaitWhile(() => objToShake.transform.position != originalPosition);
+        yield return new WaitForSeconds(shakeSpeed);
 
         //Re-enable horizontal layout group
         if (hlg != null)

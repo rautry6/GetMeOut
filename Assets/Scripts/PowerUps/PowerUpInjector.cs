@@ -13,6 +13,8 @@ public class PowerUpInjector : MonoBehaviour
     {
         WallInteractor,
         DoubleJump,
+        Grapple,
+        Dash
     }
 
     public string PowerUp { get { return powerUp; } }

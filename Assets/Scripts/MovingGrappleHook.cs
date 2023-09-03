@@ -10,6 +10,7 @@ public class MovingGrappleHook : MonoBehaviour
 
 
     [SerializeField] private float moveTime = 0;
+    public bool moving { private set; get; } = false;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +43,11 @@ public class MovingGrappleHook : MonoBehaviour
         //Calculate move time
         var time = remainingDistance / velocity;
 
-        transform.DOMove(endPosition.position, time).SetEase(Ease.Linear);
+        moving = true;
+        transform.DOMove(endPosition.position, time).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            moving = false;
+        });
     }
 
     /// <summary>
@@ -64,6 +69,10 @@ public class MovingGrappleHook : MonoBehaviour
         //Calculate move time
         var time = remainingDistance / velocity;
 
-        transform.DOMove(startingPoint.position, time).SetEase(Ease.Linear);
+        moving = true;
+        transform.DOMove(startingPoint.position, time).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            moving = false;
+        }); ;
     }
 }

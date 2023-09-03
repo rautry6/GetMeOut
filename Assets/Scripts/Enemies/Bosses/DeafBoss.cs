@@ -96,7 +96,7 @@ public class DeafBoss : MonoBehaviour
     private void Update()
     {
         var directionToPlayer = (transform.position - player.transform.position).x;
-        bossDebug.text = currentBossState.ToString();
+        //bossDebug.text = currentBossState.ToString();
         if (currentBossState != BossStates.Charge && currentBossState != BossStates.Chase)
         {
             gameObject.transform.localScale = directionToPlayer < 0 ? new Vector3(-1, 1, 1) : new Vector3(1, 1, 1);
