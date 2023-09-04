@@ -1,4 +1,4 @@
-position 55.39094,2.886832,0
-health 3
+position 55.51931,0.668981,0
+health 2
 keycard 
-powerups Grapple,
+powerups 
