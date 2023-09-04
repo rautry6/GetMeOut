@@ -42,7 +42,7 @@ namespace GetMeOut.Checks
                 ContactNormal = collision2D.GetContact(i).normal;
                 //Debug.Log($"Contact Normal: {collision2D.GetContact(0).normal}");
                 // Bitwise OR assignment
-                //OnGround |= Mathf.Abs(ContactNormal.y) >= 0.9f;
+                OnGround |= (Mathf.Abs(ContactNormal.y) >= 0.9f & collision2D.GetContact(i).point.y < transform.position.y);
                 OnWall = Mathf.Abs(ContactNormal.x) >= 0.9f && !collision2D.gameObject.CompareTag("Slippery");
             }
         }
@@ -64,7 +64,7 @@ namespace GetMeOut.Checks
         {
             if (other.CompareTag("Ground"))
             {
-                OnGround = true;
+               // OnGround = true;
             }
         }
 
@@ -72,7 +72,7 @@ namespace GetMeOut.Checks
         {
             if (other.CompareTag("Ground"))
             {
-                OnGround = false;
+                //OnGround = false;
             }
         }
     }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 792095245602281426}
   m_Layer: 6
   m_Name: fragile platform_0
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,8 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 796c8e25808881640acc1735c362ab80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 3
-  respawnTime: 2
   shouldFall: 1
   timeForSideCheck: 1.5
   isSlow: 0

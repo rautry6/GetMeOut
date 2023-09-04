@@ -1,5 +1,69 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &788371338893352136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1511072322046502631}
+  - component: {fileID: 6134231386911284354}
+  m_Layer: 0
+  m_Name: PowerUpRoutine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1511072322046502631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788371338893352136}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3442580457153007842}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6134231386911284354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788371338893352136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5bfec6428d7dc448b534ffb73010695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  playerMove: {fileID: 0}
+  playerJump: {fileID: 0}
+  positionToMoveTo: {fileID: 3442580457350550570}
+  powerUpDelay: 2
+  movementTime: 3
+  powerUpMachineSR: {fileID: 3442580457153007845}
+  powerUpAnimator: {fileID: 3442580457153007844}
+  injector: {fileID: 3442580457846550072}
+  powerUpParticles: {fileID: 3442580456646851612}
+  playerAnimations: {fileID: 0}
+  powerUpCollider: {fileID: 3442580457153007840}
+  light: {fileID: 3442580457693539577}
+  PowerUpUI: {fileID: 3442580457509345752}
+  cinemachineBlendListCamera: {fileID: 0}
+  acidManager: {fileID: 0}
+  doorBlock: {fileID: 0}
+  doorEndPosition: {fileID: 0}
+  power: 2
+  graphicActiveTime: 5
 --- !u!1 &3442580456646851601
 GameObject:
   m_ObjectHideFlags: 0
@@ -4991,6 +5055,7 @@ Transform:
   - {fileID: 3442580457693539576}
   - {fileID: 3442580456646851614}
   - {fileID: 3442580457509345753}
+  - {fileID: 1511072322046502631}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5081,6 +5146,7 @@ MonoBehaviour:
   interactIcon: {fileID: 0}
   gmoEventType: 5
   doorManager: {fileID: 0}
+  _powerUpRoutine: {fileID: 6134231386911284354}
 --- !u!61 &3442580457153007840
 BoxCollider2D:
   m_ObjectHideFlags: 0

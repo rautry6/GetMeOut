@@ -16,6 +16,8 @@ public class HandleInteractionPressed : MonoBehaviour
     
     private GMOEventType _gmoEventType = GMOEventType.Empty;
 
+    private PowerUpRoutine _currentRoutine; 
+
     public void SetGMOEventType(GMOEventType eventType)
     {
         _gmoEventType = eventType;
@@ -66,7 +68,11 @@ public class HandleInteractionPressed : MonoBehaviour
             }
             case GMOEventType.PowerUp:
             {
-                powerUpEvent.TriggerEvent();
+                if(_currentRoutine != null)
+                    {
+                        _currentRoutine.PowerUpRoutineStarted();
+                    }
+
                 break;
             }
             case GMOEventType.PCInteract:
@@ -86,5 +92,10 @@ public class HandleInteractionPressed : MonoBehaviour
             }
             default: throw new NotImplementedException();
         }
+    }
+
+    public void SetPowerUpRoutine(PowerUpRoutine pur)
+    {
+        _currentRoutine = pur;
     }
 }

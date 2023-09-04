@@ -15,6 +15,8 @@ public class InteractiveCheck : MonoBehaviour
 
     private VentManager _ventManager;
 
+    [SerializeField] private PowerUpRoutine _powerUpRoutine;
+
     private void Start()
     {
         _ventManager = GetComponentInParent<VentManager>();
@@ -40,8 +42,14 @@ public class InteractiveCheck : MonoBehaviour
                 ScreenTransition.UpdateCurrentDoorManager(doorManager);
             }
 
-
             var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
+
+            if (_powerUpRoutine != null)
+            {
+                interactivePressedHandler.SetPowerUpRoutine(_powerUpRoutine);
+            }
+
+
             if (interactivePressedHandler != null)
             {
                 interactivePressedHandler.SetGMOEventType(gmoEventType);
@@ -84,6 +92,13 @@ public class InteractiveCheck : MonoBehaviour
 
             interactIcon.SetActive(false);
             var interactivePressedHandler = other.gameObject.GetComponentInChildren<HandleInteractionPressed>();
+
+            if (_powerUpRoutine != null)
+            {
+                interactivePressedHandler.SetPowerUpRoutine(null);
+            }
+
+
             if (interactivePressedHandler != null)
             {
                 interactivePressedHandler.SetCanInteractFalse();

@@ -1,4 +1,4 @@
-position 53.90926,0.6688834,0
+position 55.39094,2.886832,0
 health 3
-keycard KeyCard_White,
-powerups 
+keycard 
+powerups Grapple,

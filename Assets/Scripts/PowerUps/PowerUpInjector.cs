@@ -9,14 +9,6 @@ public class PowerUpInjector : MonoBehaviour
 
     private string powerUp;
 
-    public enum PowerUpTypes
-    {
-        WallInteractor,
-        DoubleJump,
-        Grapple,
-        Dash
-    }
-
     public string PowerUp { get { return powerUp; } }
 
     private void Awake()

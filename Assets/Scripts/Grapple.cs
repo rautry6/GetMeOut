@@ -13,7 +13,7 @@ public class Grapple : MonoBehaviour
 
     private Vector3 targetPosition;
 
-    private DistanceJoint2D springJoint;
+    [SerializeField] private DistanceJoint2D distanceJoint;
 
 
     [SerializeField] private bool shooting = false;
@@ -61,13 +61,12 @@ public class Grapple : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        springJoint = GetComponent<DistanceJoint2D>();
+        distanceJoint = GetComponent<DistanceJoint2D>();
 
         lineRenderer.positionCount = numberOfPoints;
 
         lineRenderer.enabled = false;
-        springJoint.enabled = false;
+        distanceJoint.enabled = false;
 
         cam = Camera.main;
 
@@ -108,7 +107,7 @@ public class Grapple : MonoBehaviour
         if (!grappling)
         {
             lineRenderer.enabled = false;
-            springJoint.enabled = false;
+            distanceJoint.enabled = false;
 
             return;
         }
@@ -117,7 +116,7 @@ public class Grapple : MonoBehaviour
 
         if (returning)
         {
-            springJoint.enabled = false;
+            distanceJoint.enabled = false;
 
             return;
 
@@ -157,17 +156,17 @@ public class Grapple : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W))
             {
-                if (springJoint.enabled && springJoint.distance > minRopeLength)
+                if (distanceJoint.enabled && distanceJoint.distance > minRopeLength)
                 {
-                    springJoint.distance -= ropeChangeAmount * Time.deltaTime;
+                    distanceJoint.distance -= ropeChangeAmount * Time.deltaTime;
                 }
             }
 
             if (Input.GetKey(KeyCode.S))
             {
-                if (springJoint.enabled && springJoint.distance < maxRopeLength)
+                if (distanceJoint.enabled && distanceJoint.distance < maxRopeLength)
                 {
-                    springJoint.distance += ropeChangeAmount * Time.deltaTime;
+                    distanceJoint.distance += ropeChangeAmount * Time.deltaTime;
                 }
             }
         }
@@ -265,7 +264,7 @@ public class Grapple : MonoBehaviour
         }
 
         lineRenderer.enabled = false;
-        springJoint.enabled = false;
+        distanceJoint.enabled = false;
         finishedShooting = false;
 
         grappling = false;
@@ -295,16 +294,16 @@ public class Grapple : MonoBehaviour
             //If the distance is less than the maxRopeLength use the shorter distance 
             if (distance < maxRopeLength)
             {
-                springJoint.distance = distance;
+                distanceJoint.distance = distance;
             }
             else
             {
-                springJoint.distance = maxRopeLength;
+                distanceJoint.distance = maxRopeLength;
             }
 
             //Enable spring joint and set connectedBody
-            springJoint.enabled = true;
-            springJoint.connectedBody = hit.collider.GetComponent<Rigidbody2D>();
+            distanceJoint.enabled = true;
+            distanceJoint.connectedBody = hit.collider.GetComponent<Rigidbody2D>();
         }
         else
         {
