@@ -128,6 +128,17 @@ BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 8907946462010727975, guid: 670e9888732153e44b7409af599f81a1, type: 3}
   m_PrefabInstance: {fileID: 1067796200}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &229781402 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5324078609210199767, guid: 670e9888732153e44b7409af599f81a1, type: 3}
+  m_PrefabInstance: {fileID: 1067796200}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 839450501676c034bb1e31d8c663f18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &418063490
 GameObject:
   m_ObjectHideFlags: 0
@@ -66609,6 +66620,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1481871919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916418299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4b044336a5ee14a84a7bc3873d77d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimations: {fileID: 229781402}
+  _dashForce: 40
+  _dashCooldown: 2
 --- !u!1001 &1745745768
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -32,6 +32,7 @@ public class Move : MonoBehaviour
     private float timeUntilNextFootstep;
 
     private Vector2 _direction;
+    public Vector2 Direction { get { return _direction; } }
     private Vector2 _desiredVelocity;
     private Vector2 _currentVelocity;
     private Rigidbody2D _playerRigidbody;
