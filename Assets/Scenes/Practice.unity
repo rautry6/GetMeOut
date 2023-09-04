@@ -747,6 +747,10 @@ PrefabInstance:
       propertyPath: lineRenderer
       value: 
       objectReference: {fileID: 1481871916}
+    - target: {fileID: 4792556365804051686, guid: 670e9888732153e44b7409af599f81a1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5324078609400582458, guid: 670e9888732153e44b7409af599f81a1, type: 3}
       propertyPath: m_RootOrder
       value: 2
