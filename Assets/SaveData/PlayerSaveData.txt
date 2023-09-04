@@ -1,4 +1,4 @@
-position 148.3555,1.944258,0
+position 53.86246,0.6689538,0
 health 3
 keycard 
 powerups 

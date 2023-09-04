@@ -36,6 +36,10 @@ public class PowerUpChecker : MonoBehaviour
         {
             GetComponent<Grapple>().enabled = true;
         }
+        else if(powerUp == "Dash")
+        {
+            GetComponent<Dash>().enabled = true;
+        }
         
     }
 }
