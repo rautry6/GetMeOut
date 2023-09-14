@@ -13,8 +13,13 @@ public class ElectricityTrap : MonoBehaviour
 
     [SerializeField] private float offSpeed = 2f;
     [SerializeField] private float onSpeed = 4f;
+
+    public float OffSpeed => offSpeed;
+
+
     private float timer = 0f;
     private bool on = false;
+    public bool On => on;
 
     // Start is called before the first frame update
     void Start()
@@ -59,14 +64,12 @@ public class ElectricityTrap : MonoBehaviour
         if(on)
         {
             lineRenderer.enabled = true;
-            edgeCollider.enabled = true;
-            edgeCollider2.enabled=true;
 
             lineRenderer.SetPosition(0, point1.transform.position);
             lineRenderer.SetPosition(1, point2.transform.position);
 
-            edgeCollider.SetPoints(new List<Vector2> { point1.transform.localPosition, point2.transform.localPosition });
-            edgeCollider2.SetPoints(new List<Vector2> { point2.transform.localPosition, point1.transform.localPosition });
+            StartCoroutine(DelayedColliderOn());
+            
         }
         else
         {
@@ -84,5 +87,16 @@ public class ElectricityTrap : MonoBehaviour
         {
             collision.GetComponent<PlayerHealth>().TakeDamage();
         }
+    }
+
+    IEnumerator DelayedColliderOn()
+    {
+        yield return new WaitForSeconds(offSpeed / 2);
+
+        edgeCollider.enabled = true;
+        edgeCollider2.enabled = true;
+
+        edgeCollider.SetPoints(new List<Vector2> { point1.transform.localPosition, point2.transform.localPosition });
+        edgeCollider2.SetPoints(new List<Vector2> { point2.transform.localPosition, point1.transform.localPosition });
     }
 }

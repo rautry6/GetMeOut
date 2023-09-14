@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9028536766305290270}
   - component: {fileID: 9028536766305290240}
   - component: {fileID: 9028536766305290242}
+  - component: {fileID: 3090996881290056170}
   - component: {fileID: 9028536766305290241}
   m_Layer: 0
   m_Name: ElectricityTrap
@@ -199,6 +200,40 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &3090996881290056170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9028536766305290268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ec1dac0b2724b4897fbe16d3a0372c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 2800000, guid: 3f575d8d84c3d0641b13b837e201176e, type: 3}
+  - {fileID: 2800000, guid: 2f0babad9916de3468576aded1e14009, type: 3}
+  - {fileID: 2800000, guid: 7f91d87dcc6608f4c8cad9a9cee3e60a, type: 3}
+  - {fileID: 2800000, guid: 4596535d2dce04f45ba0d1f65d15524f, type: 3}
+  - {fileID: 2800000, guid: dc83072a0df47184ba2442b20e0830cc, type: 3}
+  - {fileID: 2800000, guid: 97a317ddb23f6ab4abd1dfa60a3a32f5, type: 3}
+  - {fileID: 2800000, guid: aa79b219a87988b44a838d4afaa2e3c1, type: 3}
+  - {fileID: 2800000, guid: 2cb34af5269a4da4d9c205d3eab0abb5, type: 3}
+  - {fileID: 2800000, guid: 83f41b0a813b44b4ea38d6098fc3891c, type: 3}
+  - {fileID: 2800000, guid: 7805a199f6eae5a4db2d58506466ed8e, type: 3}
+  - {fileID: 2800000, guid: 454a48c22cf35b544af94e949c2373e2, type: 3}
+  - {fileID: 2800000, guid: 56944923ef569984b9a64284aeca43d0, type: 3}
+  - {fileID: 2800000, guid: 2a0584531107d844daaeb7e5876abf85, type: 3}
+  - {fileID: 2800000, guid: 2b31b063dc04e744d9af9bab7a339cd4, type: 3}
+  - {fileID: 2800000, guid: 05ccb6a40e72167479e88ae6c0bfd853, type: 3}
+  - {fileID: 2800000, guid: cea545eb6e0d2e245938f7d90abcba8b, type: 3}
+  - {fileID: 2800000, guid: 9cffb3cc71006eb42bdc6ff6b9c17859, type: 3}
+  - {fileID: 2800000, guid: 261ddaf12ad459f4d85599022d399b0d, type: 3}
+  - {fileID: 2800000, guid: e7df26645e045fa4c93723367f89dc42, type: 3}
+  lineRenderer: {fileID: 9028536766305290270}
+  eTrap: {fileID: 9028536766305290271}
 --- !u!50 &9028536766305290241
 Rigidbody2D:
   serializedVersion: 4
