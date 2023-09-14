@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,11 @@ public class Grapple : MonoBehaviour
 {
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private Camera cam;
+
+    [SerializeField] private CinemachineVirtualCamera normalCam;
+    [SerializeField] private CinemachineVirtualCamera grappleCam;
+
+
 
     [SerializeField] LayerMask grappleLayer;
     [SerializeField] LayerMask groundLayer;
@@ -57,6 +63,8 @@ public class Grapple : MonoBehaviour
     private Transform currentGrapple;
 
     private MovingGrappleHook currentMovingHook;
+
+    private Transform snapPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -152,7 +160,11 @@ public class Grapple : MonoBehaviour
         else
         {
 
-            SnapRope(hit);
+            if (snapPosition != null)
+            {
+                
+                SnapRope(snapPosition);
+            }
 
             if (Input.GetKey(KeyCode.W))
             {
@@ -213,7 +225,20 @@ public class Grapple : MonoBehaviour
                     //Needs to be equal to the number of the grapple layer
                     if (hit.collider.gameObject.layer == 11)
                     {
-                        SnapRope(hit);
+                        snapPosition = hit.collider.gameObject.transform;
+
+                        //If the player is hooked to a moving hook, move hook start moving hook
+                        if (hit.transform.name.Contains("Moving"))
+                        {
+                            currentMovingHook = hit.transform.GetComponent<MovingGrappleHook>();
+
+                            if (currentMovingHook.moving != true)
+                            {
+                                currentMovingHook?.PlayerSnapped();
+                            }
+                        }
+
+                        SnapRope(snapPosition);
                         snap = true;
                     }
                 }
@@ -226,30 +251,19 @@ public class Grapple : MonoBehaviour
 
     }
 
-    public void SnapRope(RaycastHit2D hit)
+    public void SnapRope(Transform hit)
     {
-        if (hit == true)
+        lineRenderer.positionCount = 2;
+
+        if (grappleCam.Priority < 11)
         {
-            lineRenderer.positionCount = 2;
-
-            snapPoint = hit.collider.transform;
-
-            //If the player is hooked to a moving hook, move hook start moving hook
-            if (hit.transform.name.Contains("Moving"))
-            {
-                currentMovingHook = hit.transform.GetComponent<MovingGrappleHook>();
-
-                if (currentMovingHook.moving != true)
-                {
-                    currentMovingHook?.PlayerSnapped();
-                }
-            }
+            grappleCam.Priority = 11;
         }
 
-        if (snapPoint != null)
+        if (snapPosition != null)
         {
             lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, snapPoint.position);
+            lineRenderer.SetPosition(1, hit.position);
         }
 
     }
@@ -272,6 +286,7 @@ public class Grapple : MonoBehaviour
         moveTime = 0;
         lineRenderer.positionCount = numberOfPoints;
         snap = false;
+        grappleCam.Priority = 8;
     }
 
     private IEnumerator CheckIfHit(RaycastHit2D hit)
