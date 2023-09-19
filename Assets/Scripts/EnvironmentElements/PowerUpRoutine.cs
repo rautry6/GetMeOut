@@ -152,6 +152,16 @@ public class PowerUpRoutine : MonoBehaviour
             playerAnimations.PlayerAnimator.Play("Player_Idle");
         }
 
+        if (power == PowerUpTypes.Grapple)
+        {
+            player.GetComponent<Grapple>().enabled = true;
+        }
+
+        if (power == PowerUpTypes.Dash)
+        {
+            player.GetComponent<Dash>();
+        }
+        
         playerMove.RegainMovement();
         playerJump.EnableJumping();
         yield return new WaitForSeconds(graphicActiveTime);
