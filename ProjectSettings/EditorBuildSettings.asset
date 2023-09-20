@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScreen.unity
     guid: 16e939fa65e4a064786698960e6bae0f
   - enabled: 1
-    path: Assets/Scenes/StartingLevel.unity
+    path: Assets/Scenes/TestingStartingLevel.unity
     guid: 5ffbea3651076b9488a2612aff5ba6ee
   - enabled: 1
     path: Assets/Scenes/DeafBoss.unity

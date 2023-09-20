@@ -26,27 +26,50 @@ public class PowerUpRoutine : MonoBehaviour
     [SerializeField] private AcidManager acidManager;
     [SerializeField] private Transform doorBlock;
     [SerializeField] private Transform doorEndPosition;
+    [SerializeField] private PowerUpTypes power;
 
     private static readonly int Empty = Animator.StringToHash("Empty");
     private static readonly int Finished = Animator.StringToHash("Finished");
     [SerializeField] private float graphicActiveTime;
     private static readonly int Full = Animator.StringToHash("Full");
 
-    public void StartWallPowerUpRoutine()
+    public void PowerUpRoutineStarted()
     {
         playerMove.StopMovement();
         playerJump.DisableJumping();
-        PowerUpSequence();
+
+        switch (power)
+        {
+
+            case PowerUpTypes.WallInteractor:
+                {
+                    StartWallPowerUpRoutine();
+                    break;
+                }
+            case PowerUpTypes.DoubleJump:
+                {
+                    StartPowerUpRoutine("DoubleJump"); 
+                    break;
+                }
+            case PowerUpTypes.Grapple:
+                {
+                    StartPowerUpRoutine("Grapple");
+                    break;
+                }
+            case PowerUpTypes.Dash:
+                {
+                    StartPowerUpRoutine("Dash");
+                    break;
+                }
+        }
     }
 
-    public void StartJumpPowerUpRoutine()
+    public void StartWallPowerUpRoutine()
     {
-        playerMove.StopMovement();
-        playerJump.DisableJumping();
         WallPowerUpSequence();
     }
 
-    private void WallPowerUpSequence()
+    public void StartPowerUpRoutine(string powerUpName)
     {
         var rigidBody = player.GetComponent<Rigidbody2D>();
         powerUpMachineSR.sortingOrder = 6;
@@ -54,24 +77,23 @@ public class PowerUpRoutine : MonoBehaviour
         {
             powerUpCollider.enabled = false;
             injector.SetActive(true);
-            //playerAnimations.ChangeAnimationState(AnimationState.PowerUp, "Player_PowerUp");
             playerAnimations.PlayerAnimator.Play("Player_PowerUp");
         }).OnComplete(() =>
         {
             powerUpAnimator.SetTrigger(Full);
             powerUpParticles.Play();
             PowerUpUI.SetActive(true);
-            PowerUpManager.Instance.PowerUpList.Add("DoubleJump");
+            PowerUpManager.Instance.PowerUpList.Add(powerUpName);
             player.transform.position = positionToMoveTo.position;
             if (rigidBody != null)
             {
                 rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
-                StartCoroutine(JumpPlayerReachedSpot(rigidBody));
+                StartCoroutine(PlayerReachedSpot(rigidBody));
             }
         });
     }
 
-    private void PowerUpSequence()
+    private void WallPowerUpSequence()
     {
         var rigidBody = player.GetComponent<Rigidbody2D>();
         powerUpMachineSR.sortingOrder = 6;
@@ -90,12 +112,12 @@ public class PowerUpRoutine : MonoBehaviour
             if (rigidBody != null)
             {
                 rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
-                StartCoroutine(PlayerReachedSpot(rigidBody));
+                StartCoroutine(WallPowerUpPlayerReachedSpot(rigidBody));
             }
         });
     }
 
-    private IEnumerator PlayerReachedSpot(Rigidbody2D rigidBody)
+    private IEnumerator WallPowerUpPlayerReachedSpot(Rigidbody2D rigidBody)
     {
         yield return new WaitForSeconds(3f);
         powerUpParticles.Stop();
@@ -115,15 +137,21 @@ public class PowerUpRoutine : MonoBehaviour
         PowerUpUI.SetActive(false);
     }
 
-    private IEnumerator JumpPlayerReachedSpot(Rigidbody2D rigidBody)
+    private IEnumerator PlayerReachedSpot(Rigidbody2D rigidBody)
     {
         yield return new WaitForSeconds(2f);
         powerUpParticles.Stop();
         light.intensity = 0;
         powerUpMachineSR.sortingOrder = 1;
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        doorBlock.DOMoveY(doorEndPosition.position.y, 2f);
-        playerAnimations.PlayerAnimator.Play("Player_Idle");
+
+        //Used for boss door lowering
+        if (doorBlock != null)
+        {
+            doorBlock.DOMoveY(doorEndPosition.position.y, 2f);
+            playerAnimations.PlayerAnimator.Play("Player_Idle");
+        }
+
         playerMove.RegainMovement();
         playerJump.EnableJumping();
         yield return new WaitForSeconds(graphicActiveTime);

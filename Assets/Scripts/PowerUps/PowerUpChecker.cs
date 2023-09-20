@@ -32,6 +32,14 @@ public class PowerUpChecker : MonoBehaviour
         {
             GetComponent<Jump>().MaxAirJumps = 1;
         }
+        else if(powerUp == "Grapple")
+        {
+            GetComponent<Grapple>().enabled = true;
+        }
+        else if(powerUp == "Dash")
+        {
+            GetComponent<Dash>().enabled = true;
+        }
         
     }
 }
