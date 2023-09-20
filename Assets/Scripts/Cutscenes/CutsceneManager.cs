@@ -28,8 +28,19 @@ public class CutsceneManager : MonoBehaviour
     private int _listIndex = 0;
     private int _currentCutscene;
 
+    [Header("Skip Cutscene")]
+    [SerializeField] private bool skipCutscene = false;
+
+
+
     void Start()
     {
+
+        if (skipCutscene == true)
+        {
+            return;
+        }
+
         cutsceneCanvasGroup.alpha = 1f;
         innerGroup.alpha = 0f;
         _currentCutscene = 0;
