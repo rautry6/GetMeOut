@@ -106,21 +106,11 @@ public class PatrollingEnemy : MonoBehaviour
 
     public void Attack(GameObject player)
     {
-        if (!attacking)
+        if (!attacking && CheckIfCanAttack(player.transform))
         {
             attacking = true;
-            DOTween.Kill(transform, false);
 
             animator.SetTrigger("Attack");
-
-            if(player.transform.position.x > transform.position.x)
-            {
-                spriteRenderer.flipX = true;
-            }
-            else
-            {
-                spriteRenderer.flipX = false;
-            }
            
             StartCoroutine(Resume());
         }
@@ -135,19 +125,6 @@ public class PatrollingEnemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         hitBox.size = new Vector2(2.2f, hitBox.size.y);
-
-        if (currentAnimation == CurrentAnimation.WalkLeft || currentAnimation == CurrentAnimation.TurnLeft)
-        {
-            _currentMoveDirection = MoveDirection.Left;
-            endPosition = leftWaypoint;
-            MoveLeft();
-        }
-        else
-        {
-            _currentMoveDirection = MoveDirection.Right;
-            endPosition = rightWaypoint;
-            MoveRight();
-        }
 
         attacking = false;
     }
@@ -167,6 +144,22 @@ public class PatrollingEnemy : MonoBehaviour
         var time = remainingDistance / velocity;
 
         return time;
+    }
+
+    public bool CheckIfCanAttack(Transform player)
+    {
+        if(player.position.x < transform.position.x && _currentMoveDirection == MoveDirection.Left)
+        {
+            return true;
+        }
+        else if(player.position.x > transform.position.x && _currentMoveDirection == MoveDirection.Right)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
