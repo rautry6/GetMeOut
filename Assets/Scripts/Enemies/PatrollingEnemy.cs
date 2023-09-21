@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PatrollingEnemy : MonoBehaviour
@@ -12,6 +13,19 @@ public class PatrollingEnemy : MonoBehaviour
     [SerializeField] private float idleTime;
     [SerializeField] private MoveDirection _currentMoveDirection;
     [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private CapsuleCollider2D hitBox;
+
+    private CurrentAnimation currentAnimation;
+    private Transform endPosition;
+    private bool attacking = false;
+    private enum CurrentAnimation
+    {
+        WalkRight,
+        WalkLeft,
+        TurnRight,
+        TurnLeft,
+    }
 
     private enum MoveDirection
     {
@@ -24,24 +38,30 @@ public class PatrollingEnemy : MonoBehaviour
     {
         if (_currentMoveDirection == MoveDirection.Left)
         {
+            endPosition = leftWaypoint;
             MoveLeft();
         }
         else
         {
+            endPosition = rightWaypoint;
             MoveRight();
         }
     }
 
     public void MoveRight()
     {
+        spriteRenderer.flipX = true;
         if (transform != null)
         {
-            transform.DOMoveX(rightWaypoint.position.x, moveDuration).SetEase(easeType).OnPlay(() =>
+            transform.DOMoveX(rightWaypoint.position.x, CalculateMoveTime()).SetEase(easeType).OnPlay(() =>
             {
-                animator.SetTrigger("WalkRight");
+                animator.SetTrigger("WalkLeft");
+                currentAnimation = CurrentAnimation.WalkRight;
             }).OnComplete(() =>
             {
+                spriteRenderer.flipX = false;
                 animator.SetTrigger("TurnLeft");
+                currentAnimation = CurrentAnimation.TurnLeft;
                 StartCoroutine(Idle());
             });
         }
@@ -49,14 +69,18 @@ public class PatrollingEnemy : MonoBehaviour
 
     public void MoveLeft()
     {
+        spriteRenderer.flipX = false;
         if (transform != null)
         {
-            transform.DOMoveX(leftWaypoint.position.x, moveDuration).SetEase(easeType).OnPlay(() =>
+            transform.DOMoveX(leftWaypoint.position.x, CalculateMoveTime()).SetEase(easeType).OnPlay(() =>
             {
                 animator.SetTrigger("WalkLeft");
+                currentAnimation = CurrentAnimation.WalkLeft;
             }).OnComplete(() =>
             {
-                animator.SetTrigger("TurnRight");
+                animator.SetTrigger("TurnLeft");
+                currentAnimation = CurrentAnimation.TurnRight;
+                spriteRenderer.flipX = true;
                 StartCoroutine(Idle());
             });
         }
@@ -69,13 +93,80 @@ public class PatrollingEnemy : MonoBehaviour
         if (_currentMoveDirection == MoveDirection.Left)
         {
             _currentMoveDirection = MoveDirection.Right;
+            endPosition = rightWaypoint;
             MoveRight();
         }
         else
         {
             _currentMoveDirection = MoveDirection.Left;
+            endPosition = leftWaypoint;
             MoveLeft();
         }
+    }
+
+    public void Attack(GameObject player)
+    {
+        if (!attacking)
+        {
+            attacking = true;
+            DOTween.Kill(transform, false);
+
+            animator.SetTrigger("Attack");
+
+            if(player.transform.position.x > transform.position.x)
+            {
+                spriteRenderer.flipX = true;
+            }
+            else
+            {
+                spriteRenderer.flipX = false;
+            }
+           
+            StartCoroutine(Resume());
+        }
+    }
+
+    IEnumerator Resume()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        hitBox.size = new Vector2(3.5f, hitBox.size.y);
+
+        yield return new WaitForSeconds(0.5f);
+
+        hitBox.size = new Vector2(2.2f, hitBox.size.y);
+
+        if (currentAnimation == CurrentAnimation.WalkLeft || currentAnimation == CurrentAnimation.TurnLeft)
+        {
+            _currentMoveDirection = MoveDirection.Left;
+            endPosition = leftWaypoint;
+            MoveLeft();
+        }
+        else
+        {
+            _currentMoveDirection = MoveDirection.Right;
+            endPosition = rightWaypoint;
+            MoveRight();
+        }
+
+        attacking = false;
+    }
+
+    public float CalculateMoveTime()
+    {
+        //Calculates total distance from starting to end position
+        var fullDistance = Vector2.Distance(leftWaypoint.position, rightWaypoint.position);
+
+        //Calculate velocity of object given the full distance and move time
+        var velocity = fullDistance / moveDuration;
+
+        //Calculates how much further the object needs to move
+        var remainingDistance = Vector2.Distance(transform.position, endPosition.position);
+
+        //Calculate move time
+        var time = remainingDistance / velocity;
+
+        return time;
     }
 
 }
