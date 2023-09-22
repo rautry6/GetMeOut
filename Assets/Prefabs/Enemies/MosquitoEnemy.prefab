@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 3900238462188116102, guid: 56d332c68bf211a438d7c444c1f9e4f7, type: 3}
   firingPoint: {fileID: 3799342403758406032}
-  drainFlySpeed: 7
+  drainFlySpeed: 150
   numberOfShots: 2
   activationDistance: 10
   deactivationDistance: 12
@@ -89,9 +89,9 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!1 &3799342403758406033
 GameObject:

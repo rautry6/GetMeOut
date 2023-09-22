@@ -26,6 +26,9 @@ public class MosquitoEnemy : MonoBehaviour
     private bool _isActive;
     private float _currentBloodSuckTimer;
 
+    private Vector3 direction;
+    private bool directionGot = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,7 +58,10 @@ public class MosquitoEnemy : MonoBehaviour
 
         if (!_isActive)
         {
-            transform.DOMove(_startingPosition, 2f);
+            transform.DOMove(_startingPosition, 2f).OnComplete(() =>
+            {
+                directionGot = false;
+            });
             return;
         }
         
@@ -63,6 +69,7 @@ public class MosquitoEnemy : MonoBehaviour
         {
             transform.DOMove(_startingPosition, 2f).OnComplete(() =>
             {
+                directionGot = false; 
                 _isReturning = false;
             });
         }
@@ -86,10 +93,17 @@ public class MosquitoEnemy : MonoBehaviour
         {
             _currentBloodSuckTimer -= Time.deltaTime;
             _shouldBloodSuck = _currentBloodSuckTimer <= 0f;
+
             if (_shouldBloodSuck)
             {
                 // Go drain blood from player
-                var direction = _player.transform.position - transform.position;
+
+                if (!directionGot)
+                {
+                    directionGot = true;
+                    direction = _player.transform.position - transform.position;
+                }
+
                 var directionNormalized = direction.normalized;
                 var movementVector = directionNormalized * drainFlySpeed * Time.deltaTime;
                 _rigidbody2D.MovePosition(transform.position + movementVector);    
