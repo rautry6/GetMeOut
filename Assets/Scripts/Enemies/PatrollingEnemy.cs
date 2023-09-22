@@ -122,6 +122,7 @@ public class PatrollingEnemy : MonoBehaviour
 
         attacking = false;
 
+        animator.SetTrigger("WalkLeft");
     }
 
     public float CalculateMoveTime()
