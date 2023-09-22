@@ -118,15 +118,10 @@ public class PatrollingEnemy : MonoBehaviour
 
     IEnumerator Resume()
     {
-        yield return new WaitForSeconds(0.5f);
-
-        hitBox.size = new Vector2(3.5f, hitBox.size.y);
-
-        yield return new WaitForSeconds(0.5f);
-
-        hitBox.size = new Vector2(2.2f, hitBox.size.y);
+        yield return new WaitForSeconds(0.7f);
 
         attacking = false;
+
     }
 
     public float CalculateMoveTime()
