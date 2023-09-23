@@ -118,7 +118,7 @@ public class PatrollingEnemy : MonoBehaviour
 
     IEnumerator Resume()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1.2f);
 
         attacking = false;
 
