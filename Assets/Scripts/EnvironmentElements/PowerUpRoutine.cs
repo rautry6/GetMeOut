@@ -154,6 +154,17 @@ public class PowerUpRoutine : MonoBehaviour
 
         playerMove.RegainMovement();
         playerJump.EnableJumping();
+
+        if (power == PowerUpTypes.Grapple)
+        {
+            player.GetComponent<Grapple>().enabled = true;    
+        }
+
+        if (power == PowerUpTypes.Dash)
+        {
+            player.GetComponent<Dash>().enabled = true;
+        }
+
         yield return new WaitForSeconds(graphicActiveTime);
         PowerUpUI.SetActive(false);
     }
