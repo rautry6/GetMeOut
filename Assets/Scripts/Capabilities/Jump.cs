@@ -124,8 +124,9 @@ public class Jump : MonoBehaviour
         _playerRigidbody.velocity = _velocity;
     }
 
-    void JumpAction()
+    public void JumpAction()
     {
+      
         if (_coyoteCounter > 0f || (_jumpPhase < maxAirJumps && _isJumping))
         {
             if (_isJumping)
@@ -151,6 +152,15 @@ public class Jump : MonoBehaviour
         }
     }
 
+    public void GrappleJump()
+    {
+        _playerRigidbody.gravityScale = upwardMovementMultiplier;
+        _jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * (jumpHeight * 2));
+        _velocity.y += _jumpSpeed;
+        _playerRigidbody.velocity = _velocity;
+        playerAnimations.TriggerJump();
+        playerSfxManager?.PlayJumpSFX();
+    }
     public void EnableJumping()
     {
         canJump = true;

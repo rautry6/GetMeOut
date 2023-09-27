@@ -9,7 +9,6 @@ public class Grapple : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private Camera cam;
 
-    [SerializeField] private CinemachineVirtualCamera normalCam;
     [SerializeField] private CinemachineVirtualCamera grappleCam;
 
 
@@ -66,6 +65,8 @@ public class Grapple : MonoBehaviour
 
     private Transform snapPosition;
 
+    private Jump _jump;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +80,7 @@ public class Grapple : MonoBehaviour
         cam = Camera.main;
 
         grapples = GameObject.FindGameObjectsWithTag("Grapple");
+        _jump = GetComponent<Jump>();
     }
 
     // Update is called once per frame
@@ -276,11 +278,16 @@ public class Grapple : MonoBehaviour
             currentMovingHook.PlayerUnSnapped();
             currentMovingHook = null;
         }
-
+        
         lineRenderer.enabled = false;
         distanceJoint.enabled = false;
         finishedShooting = false;
+        if (snapPosition != null)
+        {
+            _jump.GrappleJump();    
+        }
 
+        snapPosition = null;
         grappling = false;
         shooting = false;
         moveTime = 0;

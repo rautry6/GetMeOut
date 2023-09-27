@@ -43,10 +43,10 @@ public class PlayerHealth : MonoBehaviour
         {
             healthUI[healthPoints-1].sprite = depletedSprite;
             StartCoroutine(HealthShake(healthUI[healthPoints - 1].gameObject));
-            
+            playerSFXManager.PlayHurtSFX();
         }
 
-        playerSFXManager.PlayHurtSFX();
+
         healthPoints--;
 
         if (healthPoints <= 0)
