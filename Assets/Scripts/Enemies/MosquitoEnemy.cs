@@ -16,7 +16,6 @@ public class MosquitoEnemy : MonoBehaviour
     [SerializeField] private float durationBetweenShots;
 
     private float _currentDurationBetweenShots;
-
     private int _currentNumberOfShotsRemaining;
     private Vector3 _startingPosition;
     private bool _isReturning;
@@ -25,7 +24,6 @@ public class MosquitoEnemy : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private bool _isActive;
     private float _currentBloodSuckTimer;
-
     private Vector3 direction;
     private bool directionGot = false;
 
