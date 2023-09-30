@@ -137,7 +137,6 @@ public class PlayerHealth : MonoBehaviour
     {
         if(collision.CompareTag("Enemy") || collision.CompareTag("Trap"))
         {
-            Debug.Log("Hit by Enemy");
             Vector3 direction;
 
             if(collision.gameObject.transform.position.x < gameObject.transform.position.x)

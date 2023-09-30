@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Enemies
@@ -17,8 +18,7 @@ namespace Enemies
 
         [Header("Buzz Around Variables")] [SerializeField]
         private float _buzzingRadius;
-
-        [SerializeField] private float _buzzingSpeed;
+        [SerializeField] private float buzzingSpeed;
         [SerializeField] private float activationDistance;
         [SerializeField] private int startingShotCount;
 
@@ -27,12 +27,16 @@ namespace Enemies
         [SerializeField] private float timeBetweenDashes;
         [SerializeField] private float dashSpeed;
         [SerializeField] private float dashDuration;
-        [SerializeField] private float returnSpeed;
+        
+        [Header("BuzzAroundTwo")]
+        [SerializeField] private float moveRadius;
+        [SerializeField] private float moveSpeed;
 
-        private Behaviors _currentBehavior;
+        private Behaviors _currentBehavior = Behaviors.Inactive;
         private GameObject _player;
         private float _angle;
         private Vector3 _startingPosition;
+        private Vector3 _globalStartingPosition;
         private int _currentShotCount;
         private float _currentShotTimer;
         private bool _enteringSuckingBlood;
@@ -41,7 +45,9 @@ namespace Enemies
         private float _currentDashCooldown;
         private bool _tweenStarted;
         private float _currentInactiveCheckInterval;
-        
+        private Coroutine _buzzAroundRoutine;
+        private bool _buzzing;
+
 
         private enum Behaviors
         {
@@ -55,6 +61,7 @@ namespace Enemies
         private void Awake()
         {
             _startingPosition = transform.localPosition;
+            _globalStartingPosition = transform.position;
             Debug.Log($"StartingPosition: {_startingPosition.x}, {_startingPosition.y}, {_startingPosition.z}");
         }
 
@@ -66,7 +73,6 @@ namespace Enemies
             _currentShotTimer = timeBeforeShooting;
             _currentTimeBetweenTransitionToSuckBlood = transitionTimeToSuckBlood;
             _rigidbody = GetComponent<Rigidbody2D>();
-            _currentBehavior = Behaviors.Inactive;
         }
 
         // Update is called once per frame
@@ -95,14 +101,14 @@ namespace Enemies
                     {
                         UpdateCurrentBehavior(Behaviors.Inactive);
                     }
-                    BuzzAround();
+                    BuzzAroundTwo();
                     if (IsPlayerWithinShootingDistance()) UpdateCurrentBehavior(Behaviors.Shooting);
                     
                     break;
                 }
                 case Behaviors.Shooting:
                 {
-                    BuzzAround();
+                    BuzzAroundTwo();
                     _currentShotTimer -= Time.deltaTime;
                     if (_currentShotCount > 0 && _currentShotTimer <= 0)
                     {
@@ -148,6 +154,7 @@ namespace Enemies
                             Debug.LogWarning("Started!");
                         }).OnComplete(() =>
                         {
+                            Debug.LogWarning("Finished!");
                             UpdateCurrentBehavior(Behaviors.BuzzingAround);
                             _tweenStarted = false;
                         });    
@@ -198,12 +205,14 @@ namespace Enemies
 
         private void BuzzAround()
         {
-            _angle += (_buzzingSpeed + Random.Range(-0.05f, 0.05f)) * Time.deltaTime;
-            var x = transform.position.x + _buzzingRadius * Mathf.Cos(_angle);
-            var y = transform.position.y + _buzzingRadius * Mathf.Sin(_angle);
+            _angle += (buzzingSpeed + Random.Range(-0.05f, 0.05f)) * Time.deltaTime;
+            var position = transform.position;
+            var x = position.x + _buzzingRadius * Mathf.Cos(_angle);
+            var y = position.y + _buzzingRadius * Mathf.Sin(_angle);
             x += Random.Range(-0.05f, 0.05f);
             y += Random.Range(-0.05f, 0.05f);
-            transform.position = new Vector3(x, y, 0);
+            position = new Vector3(x, y, 0);
+            transform.position = position;
         }
 
         private bool IsPlayerWithinActivationDistance()
@@ -235,13 +244,42 @@ namespace Enemies
             _currentDashCooldown = timeBetweenDashes;
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
                 _currentShotCount = startingShotCount;
+                StopCoroutine(_buzzAroundRoutine);
                 UpdateCurrentBehavior(Behaviors.Returning);
             }
+        }
+
+        private void BuzzAroundTwo()
+        {
+            var randomDirection = Random.insideUnitCircle.normalized;
+            var targetPosition = _globalStartingPosition + new Vector3(randomDirection.x, randomDirection.y, 0) * moveRadius;
+            if (!_buzzing)
+            {
+                _buzzing = true;
+                _buzzAroundRoutine = StartCoroutine(Buzz(targetPosition));    
+            }
+            
+        }
+
+        private IEnumerator Buzz(Vector3 targetPosition)
+        {
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                var position = transform.position;
+                var moveDirection = (targetPosition - position).normalized;
+                var nextPosition = position + moveDirection * moveSpeed;
+                _rigidbody.MovePosition(nextPosition);
+                yield return null;
+            }
+            _rigidbody.MovePosition(targetPosition);
+            yield return new WaitForSeconds(0.5f);
+            _buzzing = false;
+            
         }
     }
 }
