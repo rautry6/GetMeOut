@@ -20,14 +20,16 @@ public class TriggerBossDoorShut : MonoBehaviour
     {
         var playerMove = player.GetComponent<Move>();
         var playerJump = player.GetComponent<Jump>();
+        var playerRigidBody = player.GetComponent<Rigidbody2D>();
         
         player.GetComponentInChildren<PlayerAnimations>().PlayerAnimator.Play("Player_Idle");
         playerMove.StopMovement();
         playerJump.DisableJumping();
+        playerRigidBody.gravityScale = 1f;
 
         door.transform.DOMoveY(resetDoorPosition.position.y, 1.5f).OnComplete(() =>
         {
-            boss.UpdateToWander();
+            //boss.UpdateToWander();
             boss.EnableUI();
         });
 

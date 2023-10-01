@@ -10,6 +10,8 @@ public class BlindBoss : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
 
+    private BossStates currentState;
+
     [Header("Patrolling")]
     [SerializeField, Tooltip("Left point goes at front of list")]
     private GameObject[] patrolPoints;
@@ -21,11 +23,40 @@ public class BlindBoss : MonoBehaviour
     private bool moving = false;
 
     private bool canMove = false;
-
+    
     private float totalDistanceToTravel;
 
     private float bossVelocity;
 
+
+    [Header("Dashing")]
+
+    [SerializeField, Tooltip("Range the player needs to be in before the boss will charge")]
+    private float chargeRange = 2f;
+
+    [SerializeField]
+    private float maxYDifferentialForCharge = 10f;
+
+    [SerializeField]
+    private LayerMask wallLayer;
+
+    private Vector2 chargeDirection;
+
+    private float wallDetectionRange = 2f;
+
+
+    [Header("Hit Debris")]
+
+    private float health = 100f;
+
+
+    private enum BossStates
+    {
+        Patroling,
+        Dashing,
+        DebrisLand, 
+        Stunned,
+    }
 
 
     // Start is called before the first frame update
@@ -41,6 +72,7 @@ public class BlindBoss : MonoBehaviour
 
         //Test code
         canMove = true;
+        currentState = BossStates.Patroling;
     }
 
     // Update is called once per frame
@@ -48,11 +80,15 @@ public class BlindBoss : MonoBehaviour
     {
         if(!canMove) return;
 
-        if (!moving)
+        if (!moving && currentState == BossStates.Patroling)
         {
             moving = true;
             StartMovement();
+            return;
         }
+
+
+
     }
 
     void StartMovement()
