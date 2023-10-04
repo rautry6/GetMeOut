@@ -52,12 +52,10 @@ public class BlindBoss : MonoBehaviour
     [SerializeField]
     private LayerMask wallLayer;
 
+    [SerializeField]
     private float wallDetectionRange = 2f;
 
     private bool charging = false;
-
-    private int numOfCharges = 3;
-    private int currentCharge = 1;
 
     private Vector2 currentChargePoint;
 
@@ -136,6 +134,38 @@ public class BlindBoss : MonoBehaviour
                 bossRigidBody.velocity = Vector2.left * moveSpeed;
             }
         }
+        Debug.DrawRay(transform.position, Vector2.right * wallDetectionRange, Color.yellow);
+        if (currentState == BossStates.Charging)
+        {
+            if(moveRight)
+            {
+                //Checks if the boss hits a wall while charging
+                var hit = Physics2D.Raycast(transform.position, Vector2.right, wallDetectionRange, wallLayer);
+                Debug.DrawRay(transform.position, Vector2.right * wallDetectionRange, Color.yellow);
+                if (hit.collider != null)
+
+                {
+                    StopAllCoroutines();
+                    DOTween.Kill(transform, false);
+                    currentState = BossStates.Stunned;
+                    //StartCoroutine(CoolDown());
+                }
+            }
+            else
+            {
+                //Checks if the boss hits a wall while charging
+                var hit = Physics2D.Raycast(transform.position, Vector2.left, wallDetectionRange, wallLayer);
+                Debug.DrawRay(transform.position, Vector2.left * wallDetectionRange, Color.yellow);
+                if (hit.collider != null)
+                    
+                {
+                    StopAllCoroutines();
+                    DOTween.Kill(transform, false);
+                    currentState = BossStates.Stunned;
+                    //StartCoroutine(CoolDown());
+                }
+            }
+        }
 
     }
 
@@ -175,7 +205,7 @@ public class BlindBoss : MonoBehaviour
         float remainingDistance = Mathf.Abs(transform.position.x - currentChargePoint.x);
         float moveTime = remainingDistance / velocity;
 
-        bool dashRight = moveRight;
+        CheckSpriteFlip();
 
         transform.DOMoveX(currentChargePoint.x, moveTime).SetEase(Ease.Linear).OnComplete(() => finished = true);
 
@@ -183,23 +213,24 @@ public class BlindBoss : MonoBehaviour
 
         finished = false;
 
-        dashRight = !dashRight;
+        moveRight = !moveRight;
 
-        if (dashRight && player.position.x < transform.position.x)
+        if (moveRight && player.position.x < transform.position.x)
         {
-            dashRight = false;
+            moveRight = false;
         }
-        else if (!dashRight && player.position.x > transform.position.x)
+        else if (!moveRight && player.position.x > transform.position.x)
         {
-            dashRight = true;
+            moveRight = true;
         }
 
-        currentChargePoint = new Vector2(dashRight == false ? player.position.x - offset :
+        currentChargePoint = new Vector2(moveRight == false ? player.position.x - offset :
                player.position.x + offset, 0f);
 
          remainingDistance = Mathf.Abs(transform.position.x - currentChargePoint.x);
          moveTime = remainingDistance / velocity;
 
+        CheckSpriteFlip();
 
         transform.DOMoveX(currentChargePoint.x, moveTime).SetEase(Ease.Linear).OnComplete(() => finished = true);
 
@@ -207,22 +238,23 @@ public class BlindBoss : MonoBehaviour
 
         finished = false;
 
-        if(dashRight && player.position.x < transform.position.x)
+        if(moveRight && player.position.x < transform.position.x)
         {
-            dashRight = false;
+            moveRight = false;
         }
-        else if(!dashRight && player.position.x > transform.position.x)
+        else if(!moveRight && player.position.x > transform.position.x)
         {
-            dashRight = true;
+            moveRight = true;
         }
 
 
-        currentChargePoint = new Vector2(dashRight == false ? player.position.x - offset :
+        currentChargePoint = new Vector2(moveRight == false ? player.position.x - offset :
                   player.position.x + offset, 0f);
 
          remainingDistance = Mathf.Abs(transform.position.x - currentChargePoint.x);
          moveTime = remainingDistance / velocity;
 
+        CheckSpriteFlip();
 
         transform.DOMoveX(currentChargePoint.x, moveTime).SetEase(Ease.Linear).OnComplete(() => finished = true);
 
