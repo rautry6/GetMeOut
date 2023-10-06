@@ -26,16 +26,13 @@ public class BlindBoss : MonoBehaviour
     private GameObject[] patrolPoints;
 
     [SerializeField]
-    private float moveSpeed = 100f;
+    private float moveSpeed = 90f;
 
     private bool moveRight = true;
     private bool moving = false;
 
     private bool canMove = false;
     
-    private float totalDistanceToTravel;
-
-    private float bossVelocity;
 
 
     [Header("Dashing")]
@@ -48,6 +45,10 @@ public class BlindBoss : MonoBehaviour
 
     [SerializeField]
     private float chargePower = 5f;
+
+    [SerializeField]
+    private float dashCooldown = 3f;
+    private float dashTimer = 0f;
 
     [SerializeField]
     private LayerMask wallLayer;
@@ -67,6 +68,11 @@ public class BlindBoss : MonoBehaviour
     private bool coolingDown = false;
     private float idleTime = 3f;
 
+    [SerializeField] float vel;
+    [SerializeField] float totalDist;
+    [SerializeField] float remainginDist;
+    [SerializeField] float time;
+
     private enum BossStates
     {
         Patrolling,
@@ -79,8 +85,6 @@ public class BlindBoss : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {   
-        totalDistanceToTravel = Mathf.Abs(patrolPoints[0].transform.position.x - patrolPoints[1].transform.position.x);
-
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.flipX = true;
 
@@ -145,10 +149,7 @@ public class BlindBoss : MonoBehaviour
                 if (hit.collider != null)
 
                 {
-                    StopAllCoroutines();
-                    DOTween.Kill(transform, false);
-                    currentState = BossStates.Stunned;
-                    //StartCoroutine(CoolDown());
+                    Stun();
                 }
             }
             else
@@ -159,19 +160,12 @@ public class BlindBoss : MonoBehaviour
                 if (hit.collider != null)
                     
                 {
-                    StopAllCoroutines();
-                    DOTween.Kill(transform, false);
-                    currentState = BossStates.Stunned;
-                    //StartCoroutine(CoolDown());
+                    Stun();
                 }
             }
         }
 
-    }
-
-    private void FixedUpdate()
-    {
-        if (!charging && Mathf.Abs(transform.position.x - player.position.x) < chargeRange && Mathf.Abs(transform.position.y - player.position.y) < maxYDifferentialForCharge)
+        if (!charging && dashTimer <= 0 && Mathf.Abs(transform.position.x - player.position.x) < chargeRange && Mathf.Abs(transform.position.y - player.position.y) < maxYDifferentialForCharge)
         {
             charging = true;
             currentState = BossStates.Charging;
@@ -179,18 +173,21 @@ public class BlindBoss : MonoBehaviour
             moving = false;
             DOTween.Kill(transform);
 
-            float offset = 5f;
+            float offset = 7f;
 
             currentChargePoint = new Vector2(moveRight == false ? player.position.x - offset :
-                player.position.x  + offset, 0f) ;
+                player.position.x + offset, 0f);
 
             StartCoroutine(MidStageDashAttack(offset));
-
-            //Charge();
         }
 
-        
+        if (!charging && dashTimer > 0)
+        {
+            dashTimer -= Time.deltaTime;
+        }
+
     }
+
 
     IEnumerator MidStageDashAttack(float offset)
     {
@@ -199,11 +196,17 @@ public class BlindBoss : MonoBehaviour
         float chargeSpeed = 1f;
         bool finished = false;
 
-        float totalDisance = Mathf.Abs(transform.position.x - currentChargePoint.x);
-        float velocity = totalDisance / chargeSpeed;
+        float totalDisance = Vector2.Distance(currentChargePoint, transform.position);
+        float velocity = 15f;
 
-        float remainingDistance = Mathf.Abs(transform.position.x - currentChargePoint.x);
+        totalDist = totalDisance;
+        vel = velocity;
+
+        float remainingDistance = Vector2.Distance(currentChargePoint, transform.position);
         float moveTime = remainingDistance / velocity;
+
+        remainginDist = remainingDistance;
+        time = moveTime;
 
         CheckSpriteFlip();
 
@@ -230,6 +233,9 @@ public class BlindBoss : MonoBehaviour
          remainingDistance = Mathf.Abs(transform.position.x - currentChargePoint.x);
          moveTime = remainingDistance / velocity;
 
+        remainginDist = remainingDistance;
+        time = moveTime;
+
         CheckSpriteFlip();
 
         transform.DOMoveX(currentChargePoint.x, moveTime).SetEase(Ease.Linear).OnComplete(() => finished = true);
@@ -254,6 +260,9 @@ public class BlindBoss : MonoBehaviour
          remainingDistance = Mathf.Abs(transform.position.x - currentChargePoint.x);
          moveTime = remainingDistance / velocity;
 
+        remainginDist = remainingDistance;
+        time = moveTime;
+
         CheckSpriteFlip();
 
         transform.DOMoveX(currentChargePoint.x, moveTime).SetEase(Ease.Linear).OnComplete(() => finished = true);
@@ -261,25 +270,6 @@ public class BlindBoss : MonoBehaviour
         yield return new WaitWhile(() => !finished);
 
         StartCoroutine(Idle());
-    }
-
-    void StartMovement()
-    {
-        animator.SetBool("isWalking", true);
-
-
-
-        /*transform.DOMoveX(moveRight == false ? patrolPoints[0].transform.position.x : patrolPoints[1].transform.position.x, timeToMove)
-            .SetEase(Ease.Linear)
-            .OnComplete(() =>
-            {
-                moveRight = !moveRight;
-
-                CheckSpriteFlip();
-
-                moving = false;
-            }); */
-
     }
 
     /// <summary>
@@ -302,37 +292,45 @@ public class BlindBoss : MonoBehaviour
         canMove = true;
     }
 
-    void Charge()
-    {
-        Debug.Log("Charging");
-        Vector2 force;
-
-        if(player.position.x < transform.position.x)
-        {
-            force = Vector2.left;
-        }
-        else
-        {
-            force = Vector2.right;
-        } 
-
-
-
-        bossRigidBody.AddForce(force * chargePower, ForceMode2D.Impulse);
-
-
-
-        StartCoroutine(Idle());
-    }
-
     IEnumerator Idle()
     {
-
+        dashTimer = dashCooldown;
+        animator.SetBool("isCoolingDown", true);
         animator.SetBool("isWalking", false);
         yield return new WaitForSeconds(idleTime);
 
+        animator.SetBool("isCoolingDown", false);
         charging = false;
 
         currentState = BossStates.Patrolling;
+    }
+
+    public void Stun()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(transform, false);
+        currentState = BossStates.Stunned;
+        StartCoroutine(Stunned());
+    }
+
+    IEnumerator Stunned()
+    {
+        dashTimer = dashCooldown;
+        animator.SetBool("isCoolingDown", true);
+        animator.SetBool("isWalking", false);
+        yield return new WaitForSeconds(idleTime);
+
+        animator.SetBool("isCoolingDown", false);
+        charging = false;
+
+        currentState = BossStates.Patrolling;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Debris"))
+        {
+            Stun();
+        }
     }
 }
