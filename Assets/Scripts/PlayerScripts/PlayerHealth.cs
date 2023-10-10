@@ -29,6 +29,7 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] private PlayerSFXManager playerSFXManager;
     private int healthPoints = 3;
+    public int GetHealthPoints => healthPoints;
 
     public void TakeDamage()
     {

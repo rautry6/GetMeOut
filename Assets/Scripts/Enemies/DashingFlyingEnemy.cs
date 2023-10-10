@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DDA;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class DashingFlyingEnemy : MonoBehaviour
 {
@@ -10,13 +14,22 @@ public class DashingFlyingEnemy : MonoBehaviour
     [SerializeField, Tooltip("How high or low the sinusoid wave goes")] private float wanderMagnitude;
     [SerializeField] private float wanderTimer;
     [SerializeField] private LayerMask wallLayer;
-    [SerializeField] private float detectionRadius;
-    [SerializeField] private float attackDashSpeed;
+    [SerializeField] private float easyDetectionRadius;
+    [SerializeField] private float mediumDetectionRadius;
+    [SerializeField] private float hardDetectionRadius;
+    [SerializeField] private float easyAttackDashSpeed;
+    [SerializeField] private float mediumAttackDashSpeed;
+    [SerializeField] private float hardAttackDashSpeed;
     [SerializeField] private float returnSpeed;
-    [SerializeField] private float attackTimer;
+    [SerializeField] private float easyAttackTimer;
+    [SerializeField] private float mediumAttackTimer;
+    [SerializeField] private float hardAttackTimer;
 
+    private float _detectionRadius;
+    private float _attackDashSpeed;
     private float _currentAttackTimer;
     private float _currentWanderTimer;
+    private float _difficultyBasedAttackTimer;
     private float _currentIdleTimer;
     private float _sinWaveTimer;
     private Vector3 _startingPosition;
@@ -30,7 +43,53 @@ public class DashingFlyingEnemy : MonoBehaviour
         Wander,
         Attack
     }
-    
+
+    private void OnEnable()
+    {
+        DDA.DDA.EmitDifficultyUpdate += OnDifficultyUpdateEmitted;
+    }
+
+    private void OnDisable()
+    {
+        DDA.DDA.EmitDifficultyUpdate -= OnDifficultyUpdateEmitted;
+    }
+
+    private void OnDifficultyUpdateEmitted(Difficulties obj)
+    {
+        switch (obj)
+        {
+            case Difficulties.Easy:
+                HandleDifficultyAdjustment(Difficulties.Easy); break;
+            case Difficulties.Medium: break;
+            case Difficulties.Hard: break;
+        }
+    }
+
+    private void HandleDifficultyAdjustment(Difficulties easy)
+    {
+        switch (easy)
+        {
+            case Difficulties.Easy:
+                _attackDashSpeed = easyAttackDashSpeed;
+                _difficultyBasedAttackTimer = easyAttackTimer;
+                _currentAttackTimer = _difficultyBasedAttackTimer;
+                _detectionRadius = easyDetectionRadius;
+                break;
+            case Difficulties.Medium:
+                _attackDashSpeed = mediumAttackTimer;
+                _difficultyBasedAttackTimer = mediumAttackTimer;
+                _detectionRadius = mediumDetectionRadius;
+                _currentAttackTimer = _difficultyBasedAttackTimer;
+                break;
+            case Difficulties.Hard:
+                _attackDashSpeed = hardAttackDashSpeed;
+                _difficultyBasedAttackTimer = hardAttackTimer;
+                _detectionRadius = hardDetectionRadius;
+                _currentAttackTimer = _difficultyBasedAttackTimer;
+                break;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +99,10 @@ public class DashingFlyingEnemy : MonoBehaviour
         _currentWanderTimer = wanderTimer;
         _moveDirection = Random.Range(0, 2) == 0 ? Vector3.left : Vector3.right;
         _player = GameObject.FindGameObjectWithTag("Player");
-        _currentAttackTimer = attackTimer;
+        _attackDashSpeed = mediumAttackDashSpeed;
+        _difficultyBasedAttackTimer = mediumAttackTimer;
+        _currentAttackTimer = _difficultyBasedAttackTimer;
+        _detectionRadius = mediumDetectionRadius;
     }
 
     // Update is called once per frame
@@ -81,7 +143,7 @@ public class DashingFlyingEnemy : MonoBehaviour
                     _currentWanderTimer = wanderTimer;
                 }
 
-                var hit2DColliders = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+                var hit2DColliders = Physics2D.OverlapCircleAll(transform.position, _detectionRadius);
                 foreach (var hit2DCollider in hit2DColliders)
                 {
                     if (hit2DCollider.CompareTag("Player"))
@@ -108,11 +170,11 @@ public class DashingFlyingEnemy : MonoBehaviour
                 else
                 {
                     var directionToPlayer = (_player.transform.position - transform.position).normalized;
-                    transform.position += directionToPlayer * (attackDashSpeed * Time.deltaTime);
+                    transform.position += directionToPlayer * (_attackDashSpeed * Time.deltaTime);
                     _currentAttackTimer -= Time.deltaTime;
                     if (_currentAttackTimer <= 0)
                     {
-                        _currentAttackTimer = attackTimer;
+                        _currentAttackTimer = _difficultyBasedAttackTimer;
                         _returningToStartPosition = true;
                     }
                 }

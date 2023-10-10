@@ -137,7 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d989faf67ba0dc445a52b44056f4505b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileFlySpeed: 8
+  easyProjectileFlySpeed: 7.5
+  mediumProjectileFlySpeed: 9
+  hardProjectileFlySpeed: 10.5
 --- !u!95 &6149829837078073200
 Animator:
   serializedVersion: 4
