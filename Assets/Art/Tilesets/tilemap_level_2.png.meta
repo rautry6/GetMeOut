@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -69,7 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -809,10 +809,10 @@ TextureImporter:
     nameFileIdTable:
       tilemap_level_2_11: -544992986
       tilemap_level_2_9: -544842266
-      tilemap_level_2_12: 1963139769
-      tilemap_level_2_23: -1978537914
-      tilemap_level_2_15: 1055888902
       tilemap_level_2_26: -1729937730
+      tilemap_level_2_5: 247311812
+      tilemap_level_2_12: 1963139769
+      tilemap_level_2_15: 1055888902
       tilemap_level_2_16: -724879780
       tilemap_level_2_29: -1006705166
       tilemap_level_2_31: 431526484
@@ -838,7 +838,7 @@ TextureImporter:
       tilemap_level_2_0: -1829649097
       tilemap_level_2_8: -918757810
       tilemap_level_2_25: 1153831698
-      tilemap_level_2_5: 247311812
+      tilemap_level_2_23: -1978537914
       tilemap_level_2_1: -23604761
   spritePackingTag: 
   pSDRemoveMatte: 0
