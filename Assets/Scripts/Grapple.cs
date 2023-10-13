@@ -100,9 +100,6 @@ public class Grapple : MonoBehaviour
         {
             targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
 
-
-
-
             if (!returning && !latched && !shooting)
             {
                 grappling = true;

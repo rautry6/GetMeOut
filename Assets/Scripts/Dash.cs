@@ -12,7 +12,7 @@ public class Dash : MonoBehaviour
     [SerializeField]float _dashForce = 10f;
     [SerializeField] float _dashCooldown = 4f;
     float timer = 0f;
-    bool canDash = false;
+    bool canDash = true;
 
     // Start is called before the first frame update
     void Start()
