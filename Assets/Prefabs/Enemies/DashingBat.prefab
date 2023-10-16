@@ -71,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -749941997
-  m_SortingLayer: -1
+  m_SortingLayerID: -1293327517
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 557402114, guid: adc3a7a6794af054889406b44994b310, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -130,7 +130,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3119875286646589417}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 372.6, y: -22.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -160,9 +160,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 576
   detectionRadius: 5
-  attackDashSpeed: 6.33
+  attackDashSpeed: 6.5
   returnSpeed: 5
-  attackTimer: 2
+  attackTimer: 5
 --- !u!70 &3119875286646589416
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
