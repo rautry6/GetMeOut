@@ -131,6 +131,7 @@ public class Jump : MonoBehaviour
         {
             if (_isJumping)
             {
+           
                 _jumpPhase++;
             }
             _jumpBufferCounter = 0f;
@@ -147,7 +148,14 @@ public class Jump : MonoBehaviour
             }
 
             _velocity.y += _jumpSpeed;
-            playerAnimations.TriggerJump();
+            if (_jumpPhase > 0)
+            {
+                playerAnimations.TriggerDoubleJump();
+            }
+            else
+            {
+                playerAnimations.TriggerJump();    
+            }
             playerSfxManager?.PlayJumpSFX();
         }
     }
