@@ -1,4 +1,4 @@
-position 55.48451,0.6689881,0
+position 53.77423,0.6689607,0.04752159
 health 3
 keycard 
-powerups 
+powerups DoubleJump,

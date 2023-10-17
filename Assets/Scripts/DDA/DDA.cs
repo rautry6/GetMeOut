@@ -12,7 +12,6 @@ namespace DDA
         
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private float intervalCheck;
-        [SerializeField] private TMP_Text difficultyText;
         
         private float _currentIntervalCheck;
 
@@ -26,7 +25,6 @@ namespace DDA
         {
             _currentIntervalCheck -= Time.deltaTime;
             if (_currentIntervalCheck <= 0) UpdateDifficulty();
-            difficultyText.SetText($"Difficulty: {CurrentDifficulty}");
         }
 
         private void UpdateDifficulty()

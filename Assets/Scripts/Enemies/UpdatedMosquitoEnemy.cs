@@ -39,7 +39,9 @@ namespace Enemies
         [SerializeField] private float mediumDashSpeed;
         [SerializeField] private float hardDashSpeed;
         [SerializeField] private float dashDuration;
-        [SerializeField] private int maxDashes;
+        [SerializeField] private int easyMaxDashes;
+        [SerializeField] private int mediumMaxDashes;
+        [SerializeField] private int hardMaxDashes;
 
         private Behaviors _currentBehavior = Behaviors.Inactive;
         private GameObject _player;
@@ -59,6 +61,7 @@ namespace Enemies
         private int _currentDashCounter;
         private bool _canDash = true;
         private float _dashSpeed;
+        private int _currentMaxDashes;
          
 
 
@@ -102,7 +105,7 @@ namespace Enemies
         private void Update()
         {
             CheckForCorrectFacingOrientation();
-            if (_currentDashCounter >= maxDashes)
+            if (_currentDashCounter >= _currentMaxDashes)
             {
                 UpdateCurrentBehavior(Behaviors.Returning);
             }
@@ -345,12 +348,24 @@ namespace Enemies
         {
             switch (difficulty)
             {
-                case Difficulties.Easy: _dashSpeed = easyDashSpeed;
+                case Difficulties.Easy:
+                {
+                    _currentMaxDashes = easyMaxDashes;
+                    _dashSpeed = easyDashSpeed;
                     break;
-                case Difficulties.Medium: _dashSpeed = mediumDashSpeed;
+                }
+                case Difficulties.Medium:
+                {
+                    _currentMaxDashes = mediumMaxDashes;
+                    _dashSpeed = mediumDashSpeed;
                     break;
-                case Difficulties.Hard: _dashSpeed = hardDashSpeed;
+                }
+                case Difficulties.Hard:
+                {
+                    _currentMaxDashes = hardMaxDashes;
+                    _dashSpeed = hardDashSpeed;
                     break;
+                }
                 default: Debug.LogWarning("Default case hit in UpdatedMosquitoEnemy.UpdateDashSpeed");
                     break;
             }
