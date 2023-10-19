@@ -73,12 +73,25 @@ public class BlindBoss : MonoBehaviour
     [SerializeField] float remainginDist;
     [SerializeField] float time;
 
+    public float totalDistanceToTravel;
+
+    private bool _debrisToRight;
+    [SerializeField] private float _debrisChargeSpeed = 150f;
+
+    [Header("UI")][SerializeField] private GameObject BossHealthBar;
+    [SerializeField] private GameObject bossHolderUI;
+
     private enum BossStates
     {
         Patrolling,
         Charging,
         DebrisLand, 
         Stunned,
+    }
+
+    private void Awake()
+    {
+        totalDistanceToTravel = Mathf.Abs(patrolPoints[0].transform.position.x) + (Mathf.Abs(patrolPoints[1].transform.position.x));
     }
 
 
@@ -93,8 +106,9 @@ public class BlindBoss : MonoBehaviour
         bossRigidBody = GetComponent<Rigidbody2D>();
 
         //Test code
-        canMove = true;
         currentState = BossStates.Patrolling;
+
+       
     }
 
     // Update is called once per frame
@@ -186,6 +200,22 @@ public class BlindBoss : MonoBehaviour
             dashTimer -= Time.deltaTime;
         }
 
+        if(currentState == BossStates.DebrisLand)
+        {
+            if(moveRight)
+            {
+                bossRigidBody.velocity = Vector2.right * _debrisChargeSpeed;
+            }
+            else
+            {
+                bossRigidBody.velocity = Vector2.left * _debrisChargeSpeed;
+            }
+        }
+
+        if(currentState == BossStates.Stunned)
+        {
+            bossRigidBody.velocity = Vector2.zero;
+        }
     }
 
 
@@ -315,9 +345,12 @@ public class BlindBoss : MonoBehaviour
 
     IEnumerator Stunned()
     {
+        bossRigidBody.velocity = Vector2.zero;
         dashTimer = dashCooldown;
         animator.SetBool("isCoolingDown", true);
         animator.SetBool("isWalking", false);
+        moving = false;
+
         yield return new WaitForSeconds(idleTime);
 
         animator.SetBool("isCoolingDown", false);
@@ -332,5 +365,44 @@ public class BlindBoss : MonoBehaviour
         {
             Stun();
         }
+    }
+
+    public void ChargeDebris(GameObject debris)
+    {
+        currentState = BossStates.DebrisLand;
+        DOTween.Kill(transform, false);
+        StopAllCoroutines();
+
+        if(debris.transform.position.x < transform.position.x)
+        {
+            moveRight = false;
+        }
+        else
+        {
+            moveRight = true;
+        }
+        CheckSpriteFlip();
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+            //Makes sure health is not negative before updating the UI
+            health = 0;
+
+        UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        BossHealthBar.transform.localScale = new Vector3(health / 100f, BossHealthBar.transform.localScale.y);
+    }
+
+    public void EnableUI()
+    {
+        bossHolderUI.SetActive(true);
+        canMove = true;
     }
 }

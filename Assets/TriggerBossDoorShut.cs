@@ -6,7 +6,7 @@ public class TriggerBossDoorShut : MonoBehaviour
 {
     [SerializeField] private Transform resetDoorPosition;
     [SerializeField] private GameObject door;
-    [SerializeField] private DeafBoss boss;
+    [SerializeField] private BlindBoss boss;
     [SerializeField] private BossPlatformSpawning platforms;
     private void OnTriggerEnter2D(Collider2D other)
     {

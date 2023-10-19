@@ -377,22 +377,6 @@ public class DeafBoss : MonoBehaviour
         bossHolderUI.SetActive(true);
     }
 
-
-    public IEnumerator UITest()
-    {
-        yield return new WaitForSeconds(2f);
-
-        TakeDamage(33.5f);
-
-        yield return new WaitForSeconds(2f);
-
-        TakeDamage(33.5f);
-
-        yield return new WaitForSeconds(2f);
-
-        TakeDamage(33.5f);
-    }
-
     public void SetCooldown()
     {
         currentBossState = BossStates.Cooldown;

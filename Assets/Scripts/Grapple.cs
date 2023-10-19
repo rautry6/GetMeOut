@@ -222,7 +222,7 @@ public class Grapple : MonoBehaviour
             //Once the line is finished moving, set finishedShooting to true || if the distance is greater or equal to max travel distance
             if (currentPosition == (Vector2)targetPosition || Vector2.Distance(transform.position, currentPosition) >= maxTravelDistance)
             {
-                if (hit == true)
+                if (hit.collider != null)
                 {
                     //Needs to be equal to the number of the grapple layer
                     if (hit.collider.gameObject.layer == 11)
@@ -302,10 +302,10 @@ public class Grapple : MonoBehaviour
         yield return new WaitWhile(() => !finishedShooting);
 
         //If something was hit
-        if(hit != false) {
+        if(hit.collider != null) {
             Debug.Log(hit.transform.tag);
         }
-        if (hit != false && hit.transform.CompareTag("Grapple"))
+        if (hit.collider != null && hit.transform.CompareTag("Grapple"))
 
         {
             Debug.Log(hit.collider);
@@ -332,11 +332,6 @@ public class Grapple : MonoBehaviour
             //Otherwise stop grappling
             StopGrappling();
         }
-    }
-
-    public void BreakHook()
-    {
-        StopGrappling();
     }
 
     public void CheckForNearestGrappleHook()
