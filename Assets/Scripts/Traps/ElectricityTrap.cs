@@ -81,8 +81,6 @@ public class ElectricityTrap : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision);
-
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<PlayerHealth>().TakeDamage();

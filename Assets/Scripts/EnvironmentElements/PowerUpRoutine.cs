@@ -32,6 +32,7 @@ public class PowerUpRoutine : MonoBehaviour
     private static readonly int Finished = Animator.StringToHash("Finished");
     [SerializeField] private float graphicActiveTime;
     private static readonly int Full = Animator.StringToHash("Full");
+    private static readonly int FinishedPowerUp = Animator.StringToHash("FinishedPowerUp");
 
     public void PowerUpRoutineStarted()
     {
@@ -154,7 +155,6 @@ public class PowerUpRoutine : MonoBehaviour
 
         playerMove.RegainMovement();
         playerJump.EnableJumping();
-
         if (power == PowerUpTypes.Grapple)
         {
             player.GetComponent<Grapple>().enabled = true;    
@@ -164,7 +164,6 @@ public class PowerUpRoutine : MonoBehaviour
         {
             player.GetComponent<Dash>().enabled = true;
         }
-
         yield return new WaitForSeconds(graphicActiveTime);
         PowerUpUI.SetActive(false);
     }

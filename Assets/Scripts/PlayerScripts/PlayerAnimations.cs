@@ -14,6 +14,7 @@ public class PlayerAnimations : MonoBehaviour
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
     private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int DoubleJump = Animator.StringToHash("DoubleJump");
 
     /*private void Start()
     {
@@ -49,5 +50,10 @@ public class PlayerAnimations : MonoBehaviour
     public void TriggerJump()
     {
         playerAnimator.SetTrigger(Jump);    
+    }
+
+    public void TriggerDoubleJump()
+    {
+        playerAnimator.SetTrigger(DoubleJump);
     }
 }
