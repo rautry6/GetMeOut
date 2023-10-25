@@ -10,8 +10,13 @@ public class DashingFlyingEnemy : MonoBehaviour
 {
     [SerializeField] private float idleTimer;
     [SerializeField] private float wanderSpeed;
-    [SerializeField, Tooltip("Frequency of the sinusoidal wave")] private float wanderFrequency;
-    [SerializeField, Tooltip("How high or low the sinusoid wave goes")] private float wanderMagnitude;
+
+    [SerializeField] [Tooltip("Frequency of the sinusoidal wave")]
+    private float wanderFrequency;
+
+    [SerializeField] [Tooltip("How high or low the sinusoid wave goes")]
+    private float wanderMagnitude;
+
     [SerializeField] private float wanderTimer;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private float easyDetectionRadius;
@@ -37,6 +42,7 @@ public class DashingFlyingEnemy : MonoBehaviour
     private DashingFlyingEnemyStates _currentState;
     private GameObject _player;
     private bool _returningToStartPosition;
+
     private enum DashingFlyingEnemyStates
     {
         Idle,
@@ -59,9 +65,14 @@ public class DashingFlyingEnemy : MonoBehaviour
         switch (obj)
         {
             case Difficulties.Easy:
-                HandleDifficultyAdjustment(Difficulties.Easy); break;
-            case Difficulties.Medium: break;
-            case Difficulties.Hard: break;
+                HandleDifficultyAdjustment(Difficulties.Easy);
+                break;
+            case Difficulties.Medium:
+                HandleDifficultyAdjustment(Difficulties.Medium);
+                break;
+            case Difficulties.Hard:
+                HandleDifficultyAdjustment(Difficulties.Hard);
+                break;
         }
     }
 
@@ -72,26 +83,23 @@ public class DashingFlyingEnemy : MonoBehaviour
             case Difficulties.Easy:
                 _attackDashSpeed = easyAttackDashSpeed;
                 _difficultyBasedAttackTimer = easyAttackTimer;
-                _currentAttackTimer = _difficultyBasedAttackTimer;
                 _detectionRadius = easyDetectionRadius;
                 break;
             case Difficulties.Medium:
                 _attackDashSpeed = mediumAttackTimer;
                 _difficultyBasedAttackTimer = mediumAttackTimer;
                 _detectionRadius = mediumDetectionRadius;
-                _currentAttackTimer = _difficultyBasedAttackTimer;
                 break;
             case Difficulties.Hard:
                 _attackDashSpeed = hardAttackDashSpeed;
                 _difficultyBasedAttackTimer = hardAttackTimer;
                 _detectionRadius = hardDetectionRadius;
-                _currentAttackTimer = _difficultyBasedAttackTimer;
                 break;
         }
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _startingPosition = transform.position;
         _currentState = DashingFlyingEnemyStates.Idle;
@@ -106,9 +114,8 @@ public class DashingFlyingEnemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
         switch (_currentState)
         {
             case DashingFlyingEnemyStates.Idle:
@@ -119,6 +126,7 @@ public class DashingFlyingEnemy : MonoBehaviour
                     UpdateCurrentState(DashingFlyingEnemyStates.Wander);
                     _currentIdleTimer = idleTimer;
                 }
+
                 break;
             }
             case DashingFlyingEnemyStates.Wander:
@@ -129,10 +137,7 @@ public class DashingFlyingEnemy : MonoBehaviour
                 transform.position += movementVector * Time.deltaTime;
 
                 var raycastHit2D = Physics2D.Raycast(transform.position, _moveDirection, 1.0f, wallLayer);
-                if (raycastHit2D.collider != null)
-                {
-                    _moveDirection = -_moveDirection;
-                }
+                if (raycastHit2D.collider != null) _moveDirection = -_moveDirection;
 
                 _currentWanderTimer -= Time.deltaTime;
 
@@ -145,13 +150,12 @@ public class DashingFlyingEnemy : MonoBehaviour
 
                 var hit2DColliders = Physics2D.OverlapCircleAll(transform.position, _detectionRadius);
                 foreach (var hit2DCollider in hit2DColliders)
-                {
                     if (hit2DCollider.CompareTag("Player"))
                     {
                         UpdateCurrentState(DashingFlyingEnemyStates.Attack);
                         break;
                     }
-                }
+
                 break;
             }
 
