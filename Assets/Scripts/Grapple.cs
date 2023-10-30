@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Android;
 
+[RequireComponent(typeof(LineRenderer), typeof(DistanceJoint2D))]
 public class Grapple : MonoBehaviour
 {
     [SerializeField] LineRenderer lineRenderer;
@@ -99,9 +100,6 @@ public class Grapple : MonoBehaviour
         {
             targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
 
-
-
-
             if (!returning && !latched && !shooting)
             {
                 grappling = true;
@@ -195,6 +193,8 @@ public class Grapple : MonoBehaviour
 
     public void DrawRope(RaycastHit2D hit)
     {
+        //Debug.Log(hit.transform);
+
         if (hit.collider != null && (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("Wall")))
         {
             targetPosition = hit.point;
@@ -222,7 +222,7 @@ public class Grapple : MonoBehaviour
             //Once the line is finished moving, set finishedShooting to true || if the distance is greater or equal to max travel distance
             if (currentPosition == (Vector2)targetPosition || Vector2.Distance(transform.position, currentPosition) >= maxTravelDistance)
             {
-                if (hit == true)
+                if (hit.collider != null)
                 {
                     //Needs to be equal to the number of the grapple layer
                     if (hit.collider.gameObject.layer == 11)
@@ -302,10 +302,10 @@ public class Grapple : MonoBehaviour
         yield return new WaitWhile(() => !finishedShooting);
 
         //If something was hit
-        if(hit != false) {
+        if(hit.collider != null) {
             Debug.Log(hit.transform.tag);
         }
-        if (hit != false && hit.transform.CompareTag("Grapple"))
+        if (hit.collider != null && hit.transform.CompareTag("Grapple"))
 
         {
             Debug.Log(hit.collider);
@@ -334,14 +334,15 @@ public class Grapple : MonoBehaviour
         }
     }
 
-    public void BreakHook()
-    {
-        StopGrappling();
-    }
-
     public void CheckForNearestGrappleHook()
     {
         float distance = maxTravelDistance + 0.1f;
+
+        if(grapples.Length == 0)
+        {
+            return;
+        }
+
         foreach (var grapple in grapples)
         {
             float currentDistance = Vector2.Distance(grapple.transform.position, transform.position);
