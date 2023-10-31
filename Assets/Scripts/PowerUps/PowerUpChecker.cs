@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class PowerUpChecker : MonoBehaviour
 {
+    [SerializeField] private GameObject dbljump_icon;
+    [SerializeField] private GameObject walljump_icon;
+    [SerializeField] private GameObject dash_icon;
+    [SerializeField] private GameObject grapple_icon;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("PowerUp"))
@@ -26,18 +31,22 @@ public class PowerUpChecker : MonoBehaviour
         
         if(powerUp == "WallInteractor")
         {
+            walljump_icon.SetActive(true);
             GetComponent<WallInteractor>().HasWallInteractor = true;
         }
         else if(powerUp == "DoubleJump")
         {
+            dbljump_icon.SetActive(true);
             GetComponent<Jump>().MaxAirJumps = 1;
         }
         else if(powerUp == "Grapple")
         {
+            grapple_icon.SetActive(true);
             GetComponent<Grapple>().enabled = true;
         }
         else if(powerUp == "Dash")
         {
+            dash_icon.SetActive(true);
             GetComponent<Dash>().enabled = true;
         }
         
