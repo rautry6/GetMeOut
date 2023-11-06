@@ -33,6 +33,7 @@ public class TriggerBossDoorShut : MonoBehaviour
             //boss.UpdateToWander();
             cutscene.StartCutscene();
         });
+        yield return new WaitForSeconds(2.5f);
 
         yield return new WaitWhile(() => cutscene._inCutscene);
         //playerMove.RegainMovement();
