@@ -16,6 +16,7 @@ public class PowerUpManager : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
 }

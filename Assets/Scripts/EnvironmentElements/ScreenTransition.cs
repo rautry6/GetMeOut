@@ -170,7 +170,7 @@ public class ScreenTransition : MonoBehaviour
             LoadWinScene();
         }
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "StartingLevel")
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainGame")
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("DeafBoss");
         }
