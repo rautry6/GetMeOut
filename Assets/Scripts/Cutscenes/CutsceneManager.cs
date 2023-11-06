@@ -4,6 +4,7 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -25,8 +26,12 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private Jump playerJump;
 
+    [SerializeField] private BlindBoss boss;
+
+
     private int _listIndex = 0;
     private int _currentCutscene;
+    public bool _inCutscene = false;
 
     [Header("Skip Cutscene")]
     [SerializeField] private bool skipCutscene = false;
@@ -35,15 +40,14 @@ public class CutsceneManager : MonoBehaviour
 
     void Start()
     {
-
-        if (skipCutscene == true)
+        if (skipCutscene == true || UnityEngine.SceneManagement.SceneManager.GetSceneByName("DeafBoss").isLoaded)
         {
+            _currentCutscene++;
             return;
         }
 
         cutsceneCanvasGroup.alpha = 1f;
         innerGroup.alpha = 0f;
-        _currentCutscene = 0;
 
         StartCutscene();
     }
@@ -120,6 +124,10 @@ public class CutsceneManager : MonoBehaviour
         playerJump.DisableJumping();
         playerHealth.UpdateInvulnerable(true);
 
+        _inCutscene = true;
+
+        Debug.Log("Starting cutscene");
+
         if (_currentCutscene == 0)
         {
             slideshow.sprite = introCutscene[_listIndex];
@@ -156,7 +164,14 @@ public class CutsceneManager : MonoBehaviour
         playerMove.RegainMovement();
         playerJump.EnableJumping();
         playerHealth.UpdateInvulnerable(false);
+
+        if(_currentCutscene == 1)
+        {
+            boss.EnableUI();
+        }
+
         _currentCutscene++;
+        _inCutscene = false;
     }
 
     private IEnumerator FadeInGroup()

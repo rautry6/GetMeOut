@@ -8,6 +8,7 @@ public class TriggerBossDoorShut : MonoBehaviour
     [SerializeField] private GameObject door;
     [SerializeField] private BlindBoss boss;
     [SerializeField] private BossPlatformSpawning platforms;
+    [SerializeField] private CutsceneManager cutscene;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -30,12 +31,12 @@ public class TriggerBossDoorShut : MonoBehaviour
         door.transform.DOMoveY(resetDoorPosition.position.y, 1.5f).OnComplete(() =>
         {
             //boss.UpdateToWander();
-            boss.EnableUI();
+            cutscene.StartCutscene();
         });
 
-        yield return new WaitForSeconds(2.5f);
-        playerMove.RegainMovement();
-        playerJump.EnableJumping();
+        yield return new WaitWhile(() => cutscene._inCutscene);
+        //playerMove.RegainMovement();
+        //playerJump.EnableJumping();
         platforms.EnableSpawning();
         Destroy(gameObject);
     }
