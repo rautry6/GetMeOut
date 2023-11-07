@@ -56,7 +56,6 @@ public class CutsceneManager : MonoBehaviour
     {
         if (Input.GetKeyDown("space") && innerGroup.alpha == 1f)
         {
-            Debug.Log("space pressed");
             NextSlide();
         }
     }
@@ -104,13 +103,21 @@ public class CutsceneManager : MonoBehaviour
         }
         else if (_currentCutscene == 1)
         {
-            slideshow.sprite = finalBossCutscene[_listIndex];
-            typewriterText.text = bossWriting[_listIndex];
+            innerGroup.DOFade(0f, 1f).OnComplete(() =>
+            {
+                slideshow.sprite = finalBossCutscene[_listIndex];
+                typewriterText.text = bossWriting[_listIndex];
+                innerGroup.DOFade(1f, 1f);
+            });
         }
         else
         {
-            slideshow.sprite = endingCutscene[_listIndex];
-            typewriterText.text = endWriting[_listIndex];
+            innerGroup.DOFade(0f, 1f).OnComplete(() =>
+            {
+                slideshow.sprite = endingCutscene[_listIndex];
+                typewriterText.text = endWriting[_listIndex];
+                innerGroup.DOFade(1f, 1f);
+            });
         }
 
     }
@@ -179,7 +186,7 @@ public class CutsceneManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         innerGroup.DOFade(1.001f, 2f).OnComplete(() =>
         {
-            Debug.Log("yeet");
+            Debug.Log("Faded in");
         });
     }
 
