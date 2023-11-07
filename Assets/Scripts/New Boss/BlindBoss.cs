@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
@@ -78,8 +79,14 @@ public class BlindBoss : MonoBehaviour
     private bool _debrisToRight;
     [SerializeField] private float _debrisChargeSpeed = 150f;
 
-    [Header("UI")][SerializeField] private GameObject BossHealthBar;
+    [Header("UI")]
+    //[SerializeField] private GameObject BossHealthBar;
+    [SerializeField] private GameObject bossHeart1;
+    [SerializeField] private GameObject bossHeart2;
+    [SerializeField] private GameObject bossHeart3;
     [SerializeField] private GameObject bossHolderUI;
+
+    [SerializeField] private Sprite bossEmptyHeart;
 
     private enum BossStates
     {
@@ -397,7 +404,16 @@ public class BlindBoss : MonoBehaviour
 
     public void UpdateUI()
     {
-        BossHealthBar.transform.localScale = new Vector3(health / 100f, BossHealthBar.transform.localScale.y);
+        if (health > 60)
+        {
+            bossHeart3.gameObject.GetComponent<Image>().sprite = bossEmptyHeart;
+        } else if (health > 30)
+        {
+            bossHeart2.gameObject.GetComponent<Image>().sprite = bossEmptyHeart;
+        } else
+        {
+            bossHeart1.gameObject.GetComponent<Image>().sprite = bossEmptyHeart;
+        }
     }
 
     public void EnableUI()
