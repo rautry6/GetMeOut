@@ -65,6 +65,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal()
     {
+        playerSFXManager.PlayHeartPickUpSFX();
         //Keeps index in bound for UI
         if (healthPoints < healthUI.Length)
         {

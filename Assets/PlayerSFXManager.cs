@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerSFXManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerSFXManager : MonoBehaviour
     [SerializeField] private AudioSource playerHurtSFX;
     [SerializeField] private float walkClipDelay = .5f;
     [SerializeField] private AudioSource playerDeathSFX;
+    [FormerlySerializedAs("playerHeartPickUp")] [SerializeField] private AudioSource playerHeartPickUpSFX;
     
     private bool _coroutinePlaying;
 
@@ -42,6 +44,11 @@ public class PlayerSFXManager : MonoBehaviour
     public void PlayDeathSFX()
     {
         playerDeathSFX.PlayOneShot(playerDeathSFX.clip);
+    }
+
+    public void PlayHeartPickUpSFX()
+    {
+        playerHeartPickUpSFX.PlayOneShot(playerHeartPickUpSFX.clip);
     }
 
 }
