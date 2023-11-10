@@ -16,7 +16,7 @@ public class HeartPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             var playerHealth = other.gameObject.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
+            if (playerHealth != null && playerHealth.healthPoints < 3)
             {
                 playerHealth.Heal();
                 gameObject.SetActive(false);
