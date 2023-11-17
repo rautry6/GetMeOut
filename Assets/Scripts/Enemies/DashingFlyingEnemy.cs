@@ -163,13 +163,7 @@ public class DashingFlyingEnemy : MonoBehaviour
             {
                 if (_returningToStartPosition)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, _startingPosition,
-                        returnSpeed * Time.deltaTime);
-                    if (Vector3.Distance(transform.position, _startingPosition) < Mathf.Epsilon)
-                    {
-                        _returningToStartPosition = false;
-                        UpdateCurrentState(DashingFlyingEnemyStates.Idle);
-                    }
+                    ReturnToStart();
                 }
                 else
                 {
@@ -188,8 +182,27 @@ public class DashingFlyingEnemy : MonoBehaviour
         }
     }
 
+    private void ReturnToStart()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, _startingPosition,
+            returnSpeed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, _startingPosition) < Mathf.Epsilon)
+        {
+            _returningToStartPosition = false;
+            UpdateCurrentState(DashingFlyingEnemyStates.Idle);
+        }
+    }
+
     private void UpdateCurrentState(DashingFlyingEnemyStates newState)
     {
         _currentState = newState;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _returningToStartPosition = true;
+        }
     }
 }
