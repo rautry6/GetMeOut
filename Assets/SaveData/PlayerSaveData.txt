@@ -1,4 +1,0 @@
-position 148.3237,0.6688834,0
-health 3
-keycard 
-powerups 
