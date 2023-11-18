@@ -28,7 +28,11 @@ public class PowerUpChecker : MonoBehaviour
     
     public void AddPowerUp(string powerUp)
     {
-        
+        var powerUpHolder = GameObject.Find("Powerup Icons");
+        dbljump_icon = powerUpHolder.transform.GetChild(0).gameObject;
+        walljump_icon = powerUpHolder.transform.GetChild(1).gameObject;
+        grapple_icon = powerUpHolder.transform.GetChild(2).gameObject;
+        dash_icon = powerUpHolder.transform.GetChild(3).gameObject;
         if(powerUp == "WallInteractor")
         {
             walljump_icon.SetActive(true);
