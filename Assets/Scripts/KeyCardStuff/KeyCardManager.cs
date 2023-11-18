@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class KeyCardManager : MonoBehaviour
 {
-    private List<KeyCard> keyCardsCollected;
+    private HashSet<KeyCard> keyCardsCollected;
     [SerializeField] private KeyCardUI keyCardUI;
     [SerializeField] private KeyCard redCard;
     [SerializeField] private KeyCard whiteCard;
@@ -14,24 +17,38 @@ public class KeyCardManager : MonoBehaviour
 
     private void Awake()
     {
-        keyCardsCollected = new List<KeyCard>();
+        keyCardsCollected = new HashSet<KeyCard>();
+    }
+
+    private void Start()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        LoadKeyCards();
     }
 
     public void OnKeyCardCollected(KeyCard keyCard)
     {
-        keyCardsCollected.Add(keyCard);
-        AutoSave.Instance.AddKeyCard(keyCard.name);
+        if (!keyCardsCollected.Contains(keyCard))
+        {
+            keyCardsCollected.Add(keyCard);
+            AutoSave.Instance.AddKeyCard(keyCard.name);    
+        }
     }
 
     public bool CheckIfManagerHasCorrectCard(KeyCardColors keyCard)
     {
-        return keyCardsCollected.Find(x => x.CardColor == keyCard);
+        return keyCardsCollected.First(x => x.CardColor == keyCard);
     }
 
     public void LoadKeyCards()
     {
         foreach (var keyCard in AutoSave.Instance.KeyCards)
         {
+            keyCardUI = GameObject.Find("KeyCardUIHolder").GetComponent<KeyCardUI>();
             switch (keyCard)
             {
                 case "KeyCard_White":
