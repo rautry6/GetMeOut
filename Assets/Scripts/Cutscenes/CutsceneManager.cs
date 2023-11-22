@@ -48,8 +48,7 @@ public class CutsceneManager : MonoBehaviour
             return;
         }
 
-        cutsceneCanvasGroup.alpha = 1f;
-        innerGroup.alpha = 0f;
+
 
         //StartCutscene();
     }
@@ -137,33 +136,53 @@ public class CutsceneManager : MonoBehaviour
     /// <summary>
     /// Begins a cutscene
     /// </summary>
-    public void StartCutscene()
+    public void StartCutscene(int cutsceneIndex)
     {
-        playerMove.StopMovement();
-        playerJump.DisableJumping();
-        playerHealth.UpdateInvulnerable(true);
-
-        _inCutscene = true;
-
-        Debug.Log("Starting cutscene");
-
-        if (_currentCutscene == 0)
+        if ( cutsceneIndex == 0)
         {
+            _currentCutscene = 0;
+            cutsceneCanvasGroup.alpha = 1f;
+            innerGroup.alpha = 0f;
+            playerMove.StopMovement();
+            playerJump.DisableJumping();
+            playerHealth.UpdateInvulnerable(true);
+            _inCutscene = true;
             slideshow.sprite = introCutscene[_listIndex];
             typewriterText.text = introWriting[_listIndex];
         }
-        else if (_currentCutscene == 1)
+        else if (cutsceneIndex == 1 )
         {
+            _currentCutscene = 1;
+            cutsceneCanvasGroup.alpha = 1f;
+            innerGroup.alpha = 0f;
+            playerMove.StopMovement();
+            playerJump.DisableJumping();
+            playerHealth.UpdateInvulnerable(true);
+            _inCutscene = true;
             slideshow.sprite = doorCutscene[_listIndex];
             typewriterText.text = doorWriting[_listIndex];
         }
-        else if (_currentCutscene == 2)
+        else if (cutsceneIndex == 2 )
         {
+            _currentCutscene = 2;
+            cutsceneCanvasGroup.alpha = 1f;
+            innerGroup.alpha = 0f;
+            playerMove.StopMovement();
+            playerJump.DisableJumping();
+            playerHealth.UpdateInvulnerable(true);
+            _inCutscene = true;
             slideshow.sprite = finalBossCutscene[_listIndex];
             typewriterText.text = bossWriting[_listIndex];
         }
-        else if (_currentCutscene == 3)
+        else if (cutsceneIndex == 3)
         {
+            _currentCutscene = 3;
+            cutsceneCanvasGroup.alpha = 1f;
+            innerGroup.alpha = 0f;
+            playerMove.StopMovement();
+            playerJump.DisableJumping();
+            playerHealth.UpdateInvulnerable(true);
+            _inCutscene = true;
             slideshow.sprite = endingCutscene[_listIndex];
             typewriterText.text = endWriting[_listIndex];
         }
@@ -193,7 +212,7 @@ public class CutsceneManager : MonoBehaviour
         {
             boss.EnableUI();
         }
-
+        CutsceneData.Instance.CutsceneIndexList.Add(_currentCutscene);
         _currentCutscene++;
         _listIndex = 0;
         _inCutscene = false;

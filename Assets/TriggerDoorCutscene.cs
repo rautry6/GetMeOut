@@ -5,21 +5,12 @@ using UnityEngine;
 public class TriggerDoorCutscene : MonoBehaviour
 {
     [SerializeField] private CutsceneManager cutscene;
-
+    [SerializeField] private int cutsceneIndex;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !CutsceneData.Instance.CutsceneIndexList.Contains(cutsceneIndex))
         {
-            StartCoroutine(DoorCutsceneRoutine(other.gameObject));
-        }
-
-        IEnumerator DoorCutsceneRoutine(GameObject player)
-        {
-            cutscene.StartCutscene();
-            yield return new WaitForSeconds(2.5f);
-
-            yield return new WaitWhile(() => cutscene._inCutscene);
-            Destroy(gameObject);
+            cutscene.StartCutscene(cutsceneIndex);
         }
     }
 }
