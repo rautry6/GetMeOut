@@ -1,0 +1,4 @@
+position 179.5368,0.6689881,0.2854
+health 3
+keycard KeyCard_White,
+powerups DoubleJump,

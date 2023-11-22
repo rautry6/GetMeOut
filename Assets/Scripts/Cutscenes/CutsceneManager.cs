@@ -15,10 +15,12 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private Image slideshow;
 
     [SerializeField] private List<Sprite> introCutscene;
+    [SerializeField] private List<Sprite> doorCutscene;
     [SerializeField] private List<Sprite> finalBossCutscene;
     [SerializeField] private List<Sprite> endingCutscene;
 
     [SerializeField] private List<string> introWriting;
+    [SerializeField] private List<string> doorWriting;
     [SerializeField] private List<string> bossWriting;
     [SerializeField] private List<string> endWriting;
 
@@ -49,7 +51,7 @@ public class CutsceneManager : MonoBehaviour
         cutsceneCanvasGroup.alpha = 1f;
         innerGroup.alpha = 0f;
 
-        StartCutscene();
+        //StartCutscene();
     }
 
     void Update()
@@ -75,8 +77,9 @@ public class CutsceneManager : MonoBehaviour
     {
         // If already on last slide, close cutscene
         if ((_currentCutscene == 0 && _listIndex == introCutscene.Count - 1) ||
-        (_currentCutscene == 1 && _listIndex == finalBossCutscene.Count - 1) ||
-        (_currentCutscene == 2 && _listIndex == endingCutscene.Count - 1))
+        (_currentCutscene == 1 && _listIndex == doorCutscene.Count - 1) ||
+        (_currentCutscene == 2 && _listIndex == finalBossCutscene.Count - 1) ||
+        (_currentCutscene == 3 && _listIndex == endingCutscene.Count - 1))
         {
             innerGroup.DOFade(0f, 2f).OnComplete(() =>
             {
@@ -102,6 +105,15 @@ public class CutsceneManager : MonoBehaviour
 
         }
         else if (_currentCutscene == 1)
+        {
+            innerGroup.DOFade(0f, 1f).OnComplete(() =>
+            {
+                slideshow.sprite = doorCutscene[_listIndex];
+                typewriterText.text = doorWriting[_listIndex];
+                innerGroup.DOFade(1f, 1f);
+            });
+        }
+        else if (_currentCutscene == 2)
         {
             innerGroup.DOFade(0f, 1f).OnComplete(() =>
             {
@@ -142,10 +154,15 @@ public class CutsceneManager : MonoBehaviour
         }
         else if (_currentCutscene == 1)
         {
+            slideshow.sprite = doorCutscene[_listIndex];
+            typewriterText.text = doorWriting[_listIndex];
+        }
+        else if (_currentCutscene == 2)
+        {
             slideshow.sprite = finalBossCutscene[_listIndex];
             typewriterText.text = bossWriting[_listIndex];
         }
-        else if (_currentCutscene == 2)
+        else if (_currentCutscene == 3)
         {
             slideshow.sprite = endingCutscene[_listIndex];
             typewriterText.text = endWriting[_listIndex];
@@ -172,12 +189,13 @@ public class CutsceneManager : MonoBehaviour
         playerJump.EnableJumping();
         playerHealth.UpdateInvulnerable(false);
 
-        if(_currentCutscene == 1)
+        if(_currentCutscene == 2)
         {
             boss.EnableUI();
         }
 
         _currentCutscene++;
+        _listIndex = 0;
         _inCutscene = false;
     }
 
