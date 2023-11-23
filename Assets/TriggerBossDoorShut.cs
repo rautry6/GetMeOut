@@ -31,7 +31,7 @@ public class TriggerBossDoorShut : MonoBehaviour
         door.transform.DOMoveY(resetDoorPosition.position.y, 1.5f).OnComplete(() =>
         {
             //boss.UpdateToWander();
-            cutscene.StartCutscene();
+            cutscene.StartCutscene(2);
         });
         yield return new WaitForSeconds(2.5f);
 
