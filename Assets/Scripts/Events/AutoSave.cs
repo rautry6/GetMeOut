@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -71,7 +72,7 @@ public class AutoSave : MonoBehaviour
             player.GetComponent<Move>().ReportPosition();
             player.GetComponent<PlayerHealth>().ReportHealth();
             Powerups.Clear();
-            foreach (var powerUp in PowerUpManager.Instance.PowerUpList)
+            foreach (var powerUp in PowerUpManager.Instance.PowerUpList.Distinct())
             {
                 Powerups.Add(powerUp);
             }
@@ -139,18 +140,24 @@ public class AutoSave : MonoBehaviour
                 }
                 case "keycard":
                 {
-                    var keyCards = line[1].Split(",");
+                    KeyCards.Clear();
+                    var keyCards = line[1].Split(",").Distinct();
                     foreach (var keyCard in keyCards)
                     {
-                        if (keyCard != "")
+                        /*if (keyCard != "")
+                            KeyCards.Add(keyCard);*/
+
+                        if (!string.IsNullOrEmpty(keyCard))
+                        {
                             KeyCards.Add(keyCard);
+                        }
                     }
 
                     break;
                 }
                 case "powerups":
                 {
-                    var powerUps = line[1].Split(",");
+                    var powerUps = line[1].Split(",").Distinct();
                     foreach (var powerUp in powerUps)
                     {
                         if (powerUp != "")
@@ -193,7 +200,7 @@ public class AutoSave : MonoBehaviour
         finalText += healthText;
 
         var keyCardNames = "keycard ";
-        foreach (var keyCard in KeyCards)
+        foreach (var keyCard in KeyCards.Distinct())
         {
             keyCardNames += keyCard + ",";
         }
@@ -226,7 +233,8 @@ public class AutoSave : MonoBehaviour
     
     public void AddKeyCard(string keyCardName)
     {
-        KeyCards.Add(keyCardName);
+        if(!KeyCards.Contains(keyCardName))
+            KeyCards.Add(keyCardName);
     }
 
     public void CheckForFile()

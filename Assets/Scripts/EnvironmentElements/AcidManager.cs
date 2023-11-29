@@ -38,7 +38,7 @@ public class AcidManager : MonoBehaviour
     public void DrainAcid()
     {
         CurrentAcidState = AcidState.IsDrained;
-        transform.DOMoveY(_startPosition.y, 10f).OnComplete(() =>
+        transform.DOMoveY(_startPosition.y, 2f).OnComplete(() =>
         {
             /*gameObject.SetActive(false);*/
             _startTween.Kill();

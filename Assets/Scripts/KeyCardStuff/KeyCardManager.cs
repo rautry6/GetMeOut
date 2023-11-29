@@ -30,65 +30,67 @@ public class KeyCardManager : MonoBehaviour
         LoadKeyCards();
     }
 
-    public void OnKeyCardCollected(KeyCard keyCard)
+    public void OnKeyCardCollected(KeyCard keyCard, GameObject keyCardHolder)
     {
         if (!keyCardsCollected.Contains(keyCard))
         {
             keyCardsCollected.Add(keyCard);
             AutoSave.Instance.AddKeyCard(keyCard.name);    
+            keyCardHolder.GetComponent<KeyCardHolder>().AddKeyCardUI();
         }
     }
 
     public bool CheckIfManagerHasCorrectCard(KeyCardColors keyCard)
     {
-        return keyCardsCollected.First(x => x.CardColor == keyCard);
+        var collectedKeyCard = keyCardsCollected.FirstOrDefault(x => x.CardColor == keyCard);
+        return collectedKeyCard != null;
     }
 
     public void LoadKeyCards()
     {
-        foreach (var keyCard in AutoSave.Instance.KeyCards)
+        foreach (var keyCard in AutoSave.Instance.KeyCards.Distinct())
         {
             keyCardUI = GameObject.Find("KeyCardUIHolder").GetComponent<KeyCardUI>();
             switch (keyCard)
             {
                 case "KeyCard_White":
                 {
-                    if (keyCardsCollected.Contains(whiteCard)) continue;
+                    //if (keyCardsCollected.Contains(whiteCard)) continue;
                     keyCardsCollected.Add(whiteCard);
                     keyCardUI.AddKeyCardUI(whiteCard);
                     break;
                 }
                 case "KeyCard_Red":
                 {
-                    if (keyCardsCollected.Contains(redCard)) continue;
+                    //if (keyCardsCollected.Contains(redCard)) continue;
                     keyCardsCollected.Add(redCard);
                     keyCardUI.AddKeyCardUI(redCard);
                     break;
                 }
                 case "KeyCard_Green":
                 {
-                    if (keyCardsCollected.Contains(greenCard)) continue;
+                    //if (keyCardsCollected.Contains(greenCard)) continue;
                     keyCardsCollected.Add(greenCard);
                     keyCardUI.AddKeyCardUI(greenCard);
                     break;
                 }
                 case "KeyCard_Purple":
                 {
-                    if (keyCardsCollected.Contains(purpleCard)) continue;
+                    //if (keyCardsCollected.Contains(purpleCard)) continue;
                     keyCardsCollected.Add(purpleCard);
                     keyCardUI.AddKeyCardUI(purpleCard);
                     break;
                 }
                 case "KeyCard_Blue":
                 {
-                    if (keyCardsCollected.Contains(blueCard)) continue;
+                    //if (keyCardsCollected.Contains(blueCard)) continue;
                     keyCardsCollected.Add(blueCard);
                     keyCardUI.AddKeyCardUI(blueCard);
                     break;
                 }
                 case "KeyCard_Yellow":
                 {
-                    if (keyCardsCollected.Contains(yellowCard)) continue;
+                    //if (keyCardsCollected.Contains(yellowCard)) continue;
                     keyCardsCollected.Add(yellowCard);
                     keyCardUI.AddKeyCardUI(yellowCard);
                     break;

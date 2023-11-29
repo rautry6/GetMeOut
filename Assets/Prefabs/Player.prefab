@@ -1780,6 +1780,7 @@ MonoBehaviour:
   pmove: {fileID: 5324078609400582457}
   PlayerDeath: {fileID: 11400000, guid: 3ac10a88b73cd324db656356a31e8e22, type: 2}
   playerSFXManager: {fileID: 0}
+  healthPoints: 3
 --- !u!114 &5324078609400582455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1792,6 +1793,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07e52e442672984ba9edca1c3ff1796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dbljump_icon: {fileID: 0}
+  walljump_icon: {fileID: 0}
+  dash_icon: {fileID: 0}
+  grapple_icon: {fileID: 0}
 --- !u!114 &5324078609400582454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1958,7 +1963,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 5324078608530185267}
         m_TargetAssemblyTypeName: KeyCardManager, Assembly-CSharp
-        m_MethodName: LoadKeyCards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2174,6 +2179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 4538570840054568551}
   cam: {fileID: 0}
+  grappleCam: {fileID: 0}
   grappleLayer:
     serializedVersion: 2
     m_Bits: 2048
