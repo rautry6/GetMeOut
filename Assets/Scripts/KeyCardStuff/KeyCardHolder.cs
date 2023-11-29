@@ -24,9 +24,14 @@ public class KeyCardHolder : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            keyCardManager.OnKeyCardCollected(keyCard);     
-            keyCardUI.AddKeyCardUI(keyCard);
+            keyCardManager.OnKeyCardCollected(keyCard, gameObject);
+       
             gameObject.SetActive(false);
         }
+    }
+
+    public void AddKeyCardUI()
+    {
+        keyCardUI.AddKeyCardUI(keyCard);    
     }
 }

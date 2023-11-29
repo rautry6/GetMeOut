@@ -11,6 +11,7 @@ public class TriggerDoorCutscene : MonoBehaviour
         if (other.CompareTag("Player") && !CutsceneData.Instance.CutsceneIndexList.Contains(cutsceneIndex))
         {
             cutscene.StartCutscene(cutsceneIndex);
+            Destroy(gameObject);
         }
     }
 }
