@@ -48,6 +48,7 @@ public class KeyCardManager : MonoBehaviour
 
     public void LoadKeyCards()
     {
+        foreach (var keyCard in AutoSave.Instance.KeyCards.Distinct())
         {
             keyCardUI = GameObject.Find("KeyCardUIHolder").GetComponent<KeyCardUI>();
             switch (keyCard)
